@@ -1,2 +1,2 @@
-# 2spp
-2D Rectangular Strip Packing Problem
+# 2dspu
+Two-dimensional Rectangular Strip Packing Problem With Unloading Constraints

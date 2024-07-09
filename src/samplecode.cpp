@@ -6,16 +6,19 @@
 #include <iostream>
 #include <limits>
 #include <sstream>
+#include <array>
 
 #include "BRKGA.h"
 #include "MTRand.h"
 #include "SampleDecoder.h"
 
+using namespace std;
+
 int main(int argc, char *argv[])
 {
   auto start = std::chrono::high_resolution_clock::now();
-  unsigned n;        // size of chromosomes
-  unsigned p = 50;   // size of population
+  unsigned num_items;        // size of chromosomes
+  unsigned p = 500;   // size of population
   double pe = 0.20;  // fraction of population to be the elite-set
   double pm = 0.1;   // fraction of population to be replaced by mutants
   double rhoe =
@@ -23,11 +26,9 @@ int main(int argc, char *argv[])
   unsigned K = 3;     // number of independent populations
   unsigned MAXT = 1;  // number of threads for parallel decoding
 
-  int best = std::numeric_limits<int>::max();
+  int best = numeric_limits<int>::max();
   int opt;
-  int num_pieces;
-  int width, height;
-  std::string input_filename;
+  string input_filename;
 
   while ((opt = getopt(argc, argv, "p:e:m:o:k:t:f:")) != -1) {
     switch (opt) {
@@ -61,19 +62,33 @@ int main(int argc, char *argv[])
     }
   }
 
-  std::ifstream input_file(input_filename);
+  ifstream input_file(input_filename);
 
-  input_file >> n;
+  int num_clients, max_width, num_items_client, client, width,
+      height;
 
-  std::vector<std::pair<int, int>> pieces;
+  input_file >> num_clients >> num_items >> max_width;
 
-  for (int i = 0; i < n; i++) {
-    input_file >> height >> width;
+  vector<item> items(num_items);
 
-    pieces.push_back({height, width});
+  int index = num_items - 1;
 
-    // std::cout << height << " " << width << std::endl;
+  for (int i = 0; i < num_clients; i++) {
+    input_file >> client;
+    input_file >> num_items_client;
+
+    for (int j = 0; j < num_items_client; j++) {
+      input_file >> height >> width;
+      items[index].height = height;
+			items[index].width = width;
+			items[index].client = client;
+      index--;
+    }
   }
+
+	for(int i = 0; i < items.size(); i++){
+		cout << items[i].height << items[i].width << items[i].client << endl;
+	}
 
   const std::string logs_folder = "logs";
 
@@ -87,7 +102,7 @@ int main(int argc, char *argv[])
                        std::ios::app);
 
   std::stringstream params;
-  params << "Número de cromossomos: " << n << "\n"
+  params << "Número de cromossomos: " << num_items << "\n"
          << "Tamanho da população: " << p << "\n"
          << "Fração elite: " << pe << "\n"
          << "Fração mutante: " << pm << "\n"
@@ -97,13 +112,13 @@ int main(int argc, char *argv[])
 
   logfile << params.str();
 
-  SampleDecoder decoder(pieces);  // initialize the decoder
+  SampleDecoder decoder(items, max_width);  // initialize the decoder
 
   const long unsigned rngSeed = 0;  // seed to the random number generator
   MTRand rng(rngSeed);              // initialize the random number generator
 
   // initialize the BRKGA-based heuristic
-  BRKGA<SampleDecoder, MTRand> algorithm(n, p, pe, pm, rhoe, decoder, rng, K,
+  BRKGA<SampleDecoder, MTRand> algorithm(num_items, p, pe, pm, rhoe, decoder, rng, K,
                                          MAXT);
 
   unsigned generation = 0;  // current generation
