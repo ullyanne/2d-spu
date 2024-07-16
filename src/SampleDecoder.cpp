@@ -30,7 +30,10 @@ struct bottom_left_cmp {
   bool operator()(ems a, ems b) const
   {
     if (a.bottom_point.second == b.bottom_point.second) {
-      return a.bottom_point.first < b.bottom_point.first;
+      if(a.bottom_point.first != b.bottom_point.first){
+        return a.bottom_point.first < b.bottom_point.first;
+      }
+      return a.top_point.first > b.top_point.first;
     }
     return a.bottom_point.second < b.bottom_point.second;
   }
@@ -78,10 +81,7 @@ bool is_contained(ems a, ems b)
 bool is_maximal(ems new_space, set<ems, bottom_left_cmp> &layer)
 {
   for (const auto &space : layer) {
-    if (is_contained(new_space, space)) {
-      return false;
-    }
-    if (is_contained(space, new_space)) {
+    if (is_contained(new_space, space) || is_contained(space, new_space)) {
       return false;
     }
   }
@@ -98,21 +98,29 @@ bool is_ems_valid(ems space, set<ems, bottom_left_cmp> &layer)
     return false;
   }
 
+  if(space.bottom_point.second > space.top_point.second){
+    return false;
+  }
+
   return true;
 }
 
-void fit_item(item item, ems space,
-              set<ems, bottom_left_cmp> &layer)
+bool does_intersect(int x3, int y3, int x4, int y4, ems space)
+{
+  return (x3 < space.top_point.first && x4 > space.bottom_point.first &&
+          y3 < space.top_point.second && y4 > space.bottom_point.second);
+}
+
+void calc_diff_process(set<ems, bottom_left_cmp> &layer, ems space, int x3,
+                       int y3, int x4, int y4)
 {
   int x1 = space.bottom_point.first;
   int y1 = space.bottom_point.second;
   int x2 = space.top_point.first;
   int y2 = space.top_point.second;
-  int x4 = x1 + item.width;
-  int y4 = y1 + item.height;
 
-  vector<int> diff_proc = {x1, y1, x1, y2, x4, y1, x2, y2,
-                           x1, y1, x2, y1, x1, y4, x2, y2};
+  vector<int> diff_proc = {x1, y1, x3, y2, x4, y1, x2, y2,
+                           x1, y1, x2, y3, x1, y4, x2, y2};
 
   for (int i = 0; i <= 12; i += 4) {
     space.bottom_point = make_pair(diff_proc[i], diff_proc[i + 1]);
@@ -124,9 +132,31 @@ void fit_item(item item, ems space,
   }
 }
 
-void open_new_layer(vector<set<ems, bottom_left_cmp>> &layers,
-                    int &num_layers, int &strip_height, int max_width,
-                    int item_height)
+void fit_item(item item, ems space, set<ems, bottom_left_cmp> &layer)
+{
+  layer.erase(space);
+
+  int x3 = space.bottom_point.first;
+  int y3 = space.bottom_point.second;
+  int x4 = x3 + item.width;
+  int y4 = y3 + item.height;
+
+  calc_diff_process(layer, space, x3, y3, x4, y4);
+
+  for (auto ems = layer.begin(); ems != layer.end();) {
+    if (does_intersect(x3, y3, x4, y4, *ems)) {
+      auto ems_tmp = *ems;
+      ems = layer.erase(ems);
+      calc_diff_process(layer, ems_tmp, x3, y3, x4, y4);
+    }
+    else {
+      ems++;
+    }
+  }
+}
+
+void open_new_layer(vector<set<ems, bottom_left_cmp>> &layers, int &num_layers,
+                    int &strip_height, int max_width, int item_height)
 {
   layers.push_back(set<ems, bottom_left_cmp>());
   num_layers++;
@@ -149,37 +179,8 @@ double SampleDecoder::decode(const std::vector<double> &chromosome) const
     rank[i].index = i;
     rank[i].client = items[i].client;
   }
-  // rank[0].client = 2;
-  // rank[0].index = 5;
-  // rank[1].client = 2;
-  // rank[1].index = 4;
-  // rank[2].client = 2;
-  // rank[2].index = 3;
-  // rank[3].client = 2;
-  // rank[3].index = 2;
-  // rank[4].client = 2;
-  // rank[4].index = 1;
-  // rank[5].client = 2;
-  // rank[5].index = 0;
-  // rank[6].client = 1;
-  // rank[6].index = 8;
-  // rank[7].client = 1;
-  // rank[7].index = 7;
-  // rank[8].client = 1;
-  // rank[8].index = 9;
-  // rank[9].client = 1;
-  // rank[9].index = 6;
 
-  // // Here we sort 'permutation', which will then produce a permutation of [n]
-  // in
-  // // pair::second:
   std::sort(rank.begin(), rank.end(), sort_rank);
-
-  // for (unsigned i = 0; i < chromosome.size(); ++i) {
-  //   cout << rank[i].client << " " << rank[i].chromosome << " " <<
-  //   rank[i].index
-  //        << " " << endl;
-  // }
 
   vector<set<ems, bottom_left_cmp>> layers;
 
@@ -193,12 +194,6 @@ double SampleDecoder::decode(const std::vector<double> &chromosome) const
   bool fit;
 
   open_new_layer(layers, num_layers, strip_height, max_width, item.height);
-  // layers.push_back(set<ems, decltype(bottom_left_compare)>());
-  // ems space;
-  // space.bottom_point = make_pair(0, 0);
-  // space.top_point = make_pair(max_width, item.height);
-  // layers[0].insert(space);
-  /* aqui ainda não coloquei a peça; só criei o espaço!*/
 
   while (items_placed < items.size()) {
     item_index = rank[items_placed].index;
@@ -211,14 +206,15 @@ double SampleDecoder::decode(const std::vector<double> &chromosome) const
 
     for (int i = current_layer; i < num_layers && !fit; i++) {
       if (!layers[i].empty()) {
-        for (auto ems = layers[i].begin(); ems != layers[i].end(); ems++) {
+        for (auto ems = layers[i].begin(); ems != layers[i].end();) {
           if (item_can_fit(item, *ems)) {
-            auto space = *ems;
-            ems = layers[i].erase(ems);
-            fit_item(item, space, layers[i]);
+            fit_item(item, *ems, layers[i]);
             fit = true;
             items_placed++;
             break;
+          }
+          else {
+            ems++;
           }
         }
       }
@@ -227,7 +223,6 @@ double SampleDecoder::decode(const std::vector<double> &chromosome) const
         open_new_layer(layers, num_layers, strip_height, max_width,
                        item.height);
         auto new_space = *layers[num_layers - 1].begin();
-        layers[num_layers - 1].erase(new_space);
         fit_item(item, new_space, layers[num_layers - 1]);
         fit = true;
         items_placed++;
@@ -239,20 +234,4 @@ double SampleDecoder::decode(const std::vector<double> &chromosome) const
 
   cout << strip_height << endl;
   return strip_height;
-
-  // std::pair<int, int> piece;
-  // std::vector<std::pair<int, int>> spaces;
-  // unsigned index;
-
-  // for(unsigned i = 0; i < chromosome.size(); i++){
-  //     index = ranking[i].second;
-  //     piece = pieces[index];
-
-  // }
-
-  // std::cout << pieces[0].first << " " << pieces[0].second << std::endl;
-  /* Primeira peça a ser inserida*/
-  // piece = pieces[ranking[pieceIndex].second];
-
-  // return strip_height;
 }

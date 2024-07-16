@@ -6,7 +6,6 @@
 #include <iostream>
 #include <limits>
 #include <sstream>
-#include <array>
 
 #include "BRKGA.h"
 #include "MTRand.h"
@@ -16,11 +15,10 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-  auto start = std::chrono::high_resolution_clock::now();
-  unsigned num_items;        // size of chromosomes
-  unsigned p = 500;   // size of population
-  double pe = 0.20;  // fraction of population to be the elite-set
-  double pm = 0.1;   // fraction of population to be replaced by mutants
+  unsigned num_items;  // size of chromosomes
+  unsigned p = 500;    // size of population
+  double pe = 0.20;    // fraction of population to be the elite-set
+  double pm = 0.1;     // fraction of population to be replaced by mutants
   double rhoe =
       0.70;  // probability that offspring inherit an allele from elite parent
   unsigned K = 3;     // number of independent populations
@@ -64,8 +62,7 @@ int main(int argc, char *argv[])
 
   ifstream input_file(input_filename);
 
-  int num_clients, max_width, num_items_client, client, width,
-      height;
+  int num_clients, max_width, num_items_client, client, width, height;
 
   input_file >> num_clients >> num_items >> max_width;
 
@@ -80,15 +77,11 @@ int main(int argc, char *argv[])
     for (int j = 0; j < num_items_client; j++) {
       input_file >> height >> width;
       items[index].height = height;
-			items[index].width = width;
-			items[index].client = client;
+      items[index].width = width;
+      items[index].client = client;
       index--;
     }
   }
-
-	for(int i = 0; i < items.size(); i++){
-		cout << items[i].height << items[i].width << items[i].client << endl;
-	}
 
   const std::string logs_folder = "logs";
 
@@ -97,9 +90,19 @@ int main(int argc, char *argv[])
   }
 
   std::filesystem::path filePath(input_filename);
-  std::string logfile_name = filePath.stem().string();
-  std::fstream logfile(logs_folder + "/" + logfile_name + ".log",
-                       std::ios::app);
+  std::string parentPathStr = filePath.parent_path().string();
+  std::size_t pos = parentPathStr.find("instances/");
+  std::string relativePath =
+      parentPathStr.substr(pos + std::string("instances/").length());
+  std::filesystem::path logFilePath = std::filesystem::path(logs_folder) /
+                                      relativePath /
+                                      (filePath.stem().string() + ".log");
+
+  if (!std::filesystem::exists(logFilePath.parent_path())) {
+    std::filesystem::create_directories(logFilePath.parent_path());
+  }
+
+  std::fstream logfile(logFilePath, std::ios::app);
 
   std::stringstream params;
   params << "Número de cromossomos: " << num_items << "\n"
@@ -118,14 +121,17 @@ int main(int argc, char *argv[])
   MTRand rng(rngSeed);              // initialize the random number generator
 
   // initialize the BRKGA-based heuristic
-  BRKGA<SampleDecoder, MTRand> algorithm(num_items, p, pe, pm, rhoe, decoder, rng, K,
-                                         MAXT);
+  BRKGA<SampleDecoder, MTRand> algorithm(num_items, p, pe, pm, rhoe, decoder,
+                                         rng, K, MAXT);
 
   unsigned generation = 0;  // current generation
   const unsigned X_INTVL =
       10;  // exchange best individuals at every 100 generations
   const unsigned X_NUMBER = 2;    // exchange top 2 best
   const unsigned MAX_GENS = 100;  // run for 1000 gens
+
+  auto start = std::chrono::high_resolution_clock::now();
+  
   do {
     algorithm.evolve();  // evolve the population for one generation
     int cost = algorithm.getBestFitness();
