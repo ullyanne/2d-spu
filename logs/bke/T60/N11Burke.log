@@ -1,54 +1,54 @@
-Número de cromossomos: 60
+Número de cromossomos: 300
 Tamanho da população: 500
 Fração elite: 0.2
 Fração mutante: 0.1
 Probabilidade herdar alelo elite: 0.7
 Número de populações independentes: 3
 Número de threads: 1
-Melhor até agora: 453 Geração: 0
-Largura da faixa = 50
-Melhor altura = 453
+Melhor até agora: 1329 Geração: 0
+Largura da faixa = 70
+Melhor altura = 1329
 
-Lower Bound 1 = 100
-Lower Bound 2 = 91
-Avaliação = 4.53
-Tempo de execução: 9253ms
+Lower Bound 1 = 150
+Lower Bound 2 = 123
+Avaliação = 8.86
+Tempo de execução: 45567ms
 
 ---------------------------
 
-Número de cromossomos: 60
+Número de cromossomos: 300
 Tamanho da população: 1000
 Fração elite: 0.2
 Fração mutante: 0.1
 Probabilidade herdar alelo elite: 0.7
 Número de populações independentes: 5
 Número de threads: 2
-Melhor até agora: 453 Geração: 0
-Largura da faixa = 50
-Melhor altura = 453
+Melhor até agora: 1329 Geração: 0
+Largura da faixa = 70
+Melhor altura = 1329
 
-Lower Bound 1 = 100
-Lower Bound 2 = 91
-Avaliação = 4.53
-Tempo de execução: 17585ms
+Lower Bound 1 = 150
+Lower Bound 2 = 123
+Avaliação = 8.86
+Tempo de execução: 73052ms
 
 ---------------------------
 
-Número de cromossomos: 60
+Número de cromossomos: 300
 Tamanho da população: 1000
 Fração elite: 0.3
 Fração mutante: 0.4
 Probabilidade herdar alelo elite: 0.8
 Número de populações independentes: 3
 Número de threads: 2
-Melhor até agora: 453 Geração: 0
-Largura da faixa = 50
-Melhor altura = 453
+Melhor até agora: 1329 Geração: 0
+Largura da faixa = 70
+Melhor altura = 1329
 
-Lower Bound 1 = 100
-Lower Bound 2 = 91
-Avaliação = 4.53
-Tempo de execução: 8911ms
+Lower Bound 1 = 150
+Lower Bound 2 = 123
+Avaliação = 8.86
+Tempo de execução: 41161ms
 
 ---------------------------
 

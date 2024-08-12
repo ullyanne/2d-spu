@@ -6,9 +6,49 @@ Probabilidade herdar alelo elite: 0.7
 Número de populações independentes: 3
 Número de threads: 1
 Melhor até agora: 354 Geração: 0
+Largura da faixa = 74
 Melhor altura = 354
 
-Tempo de execução: 8846ms
+Lower Bound 1 = 135
+Lower Bound 2 = 104
+Avaliação = 2.62222
+Tempo de execução: 8914ms
+
+---------------------------
+
+Número de cromossomos: 50
+Tamanho da população: 1000
+Fração elite: 0.2
+Fração mutante: 0.1
+Probabilidade herdar alelo elite: 0.7
+Número de populações independentes: 5
+Número de threads: 2
+Melhor até agora: 354 Geração: 0
+Largura da faixa = 74
+Melhor altura = 354
+
+Lower Bound 1 = 135
+Lower Bound 2 = 104
+Avaliação = 2.62222
+Tempo de execução: 15541ms
+
+---------------------------
+
+Número de cromossomos: 50
+Tamanho da população: 1000
+Fração elite: 0.3
+Fração mutante: 0.4
+Probabilidade herdar alelo elite: 0.8
+Número de populações independentes: 3
+Número de threads: 2
+Melhor até agora: 354 Geração: 0
+Largura da faixa = 74
+Melhor altura = 354
+
+Lower Bound 1 = 135
+Lower Bound 2 = 104
+Avaliação = 2.62222
+Tempo de execução: 7657ms
 
 ---------------------------
 

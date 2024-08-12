@@ -189,9 +189,9 @@ const Population& BRKGA< Decoder, RNG >::getPopulation(unsigned k) const {
 
 template< class Decoder, class RNG >
 double BRKGA< Decoder, RNG >::getBestFitness() const {
-	double best = current[0]->fitness[0].first; 
+	double best = current[0]->fitness[0].first;
 	for(unsigned i = 1; i < K; ++i) {
-		if(current[i]->fitness[0].first < best) { 
+		if(current[i]->fitness[0].first < best) {
 			best = current[i]->fitness[0].first;
 		}
 	}

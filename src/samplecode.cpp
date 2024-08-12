@@ -16,13 +16,13 @@ using namespace std;
 int main(int argc, char *argv[])
 {
   unsigned num_items;  // size of chromosomes
-  unsigned p = 500;    // size of population
-  double pe = 0.20;    // fraction of population to be the elite-set
-  double pm = 0.1;     // fraction of population to be replaced by mutants
+  unsigned p = 1000;    // size of population
+  double pe = 0.30;    // fraction of population to be the elite-set
+  double pm = 0.4;     // fraction of population to be replaced by mutants
   double rhoe =
-      0.70;  // probability that offspring inherit an allele from elite parent
+      0.80;  // probability that offspring inherit an allele from elite parent
   unsigned K = 3;     // number of independent populations
-  unsigned MAXT = 1;  // number of threads for parallel decoding
+  unsigned MAXT = 2;  // number of threads for parallel decoding
 
   int best = numeric_limits<int>::max();
   int opt;
@@ -83,6 +83,27 @@ int main(int argc, char *argv[])
     }
   }
 
+  int val[num_items] = {0};
+  int area = 0;
+  int lb2 = 0;
+  int lb1, lb;
+
+  for (unsigned i = 0; i < num_items; i++) {
+    area += items[i].width * items[i].height;
+    val[i] += items[i].height;
+    lb2 = max(lb2, val[i]);
+
+    for (unsigned j = i + 1; j < num_items; j++) {
+      if (items[j].client != items[i].client &&
+          items[i].width + items[j].width > max_width && val[i] > val[j]) {
+        val[j] = val[i];
+      }
+    }
+  }
+
+  lb1 = area / max_width;
+  lb = max(lb1, lb2);
+
   const std::string logs_folder = "logs";
 
   if (!std::filesystem::exists(logs_folder)) {
@@ -131,7 +152,7 @@ int main(int argc, char *argv[])
   const unsigned MAX_GENS = 100;  // run for 1000 gens
 
   auto start = std::chrono::high_resolution_clock::now();
-  
+
   do {
     algorithm.evolve();  // evolve the population for one generation
     int cost = algorithm.getBestFitness();
@@ -142,6 +163,7 @@ int main(int argc, char *argv[])
       logfile << "Melhor até agora: " << best << " "
               << "Geração: " << generation << "\n";
     }
+
     if ((++generation) % X_INTVL == 0) {
       algorithm.exchangeElite(X_NUMBER);  // exchange top individuals
     }
@@ -156,7 +178,11 @@ int main(int argc, char *argv[])
 
   std::cout << "Melhor altura = " << best << "\n";
 
+  logfile << "Largura da faixa = " << max_width << "\n";
   logfile << "Melhor altura = " << best << "\n\n";
+  logfile << "Lower Bound 1 = " << lb1 << "\n";
+  logfile << "Lower Bound 2 = " << lb2 << "\n";
+  logfile << "Avaliação = " << (double)best / lb << "\n";
 
   logfile << "Tempo de execução: " << duration << "ms" << "\n\n"
           << "---------------------------" << "\n\n";

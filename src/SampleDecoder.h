@@ -24,6 +24,7 @@
 #include <list>
 #include <vector>
 #include "Item.h"
+#include <limits>
 
 using namespace std;
 

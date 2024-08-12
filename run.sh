@@ -1,7 +1,7 @@
 #!/bin/bash
 
-dir="instances/bke/T20"
+dir="instances/bke"
 
-find "$dir" -type f -name "*.txt" | while read file; do
+find "$dir" -type f -iname "*.txt" | while read file; do
     src/samplecode -f "$file"
 done
