@@ -1,54 +1,18 @@
 Número de cromossomos: 50
-Tamanho da população: 500
-Fração elite: 0.2
-Fração mutante: 0.1
-Probabilidade herdar alelo elite: 0.7
-Número de populações independentes: 3
-Número de threads: 1
-Melhor até agora: 431 Geração: 0
-Largura da faixa = 74
-Melhor altura = 431
-
-Lower Bound 1 = 135
-Lower Bound 2 = 112
-Avaliação = 3.19259
-Tempo de execução: 7181ms
-
----------------------------
-
-Número de cromossomos: 50
-Tamanho da população: 1000
-Fração elite: 0.2
-Fração mutante: 0.1
-Probabilidade herdar alelo elite: 0.7
-Número de populações independentes: 5
-Número de threads: 2
-Melhor até agora: 431 Geração: 0
-Largura da faixa = 74
-Melhor altura = 431
-
-Lower Bound 1 = 135
-Lower Bound 2 = 112
-Avaliação = 3.19259
-Tempo de execução: 13270ms
-
----------------------------
-
-Número de cromossomos: 50
 Tamanho da população: 1000
 Fração elite: 0.3
 Fração mutante: 0.4
 Probabilidade herdar alelo elite: 0.8
 Número de populações independentes: 3
 Número de threads: 2
-Melhor até agora: 431 Geração: 0
+Melhor até agora: 205 Geração: 0
 Largura da faixa = 74
-Melhor altura = 431
+Melhor altura = 205
 
 Lower Bound 1 = 135
 Lower Bound 2 = 112
-Avaliação = 3.19259
-Tempo de execução: 8091ms
+Avaliação = 1.51852
+Tempo de execução: 9373ms
 
 ---------------------------
 

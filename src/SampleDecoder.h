@@ -21,22 +21,35 @@
 #define SAMPLEDECODER_H
 
 #include <algorithm>
+#include <limits>
 #include <list>
 #include <vector>
+
 #include "Item.h"
-#include <limits>
 
 using namespace std;
 
 class SampleDecoder {
-public:
-  SampleDecoder(const vector<item>& items, int max_width) : items(items), max_width(max_width) {}
+ public:
+  SampleDecoder(const vector<item>& items, const int max_width, const int ub)
+      : items(items), max_width(max_width), ub(ub)
+  {
+  }
   ~SampleDecoder();
   double decode(const vector<double>& chromosome) const;
 
-private:
+ private:
   const vector<item>& items;
   const int max_width;
+  const int ub;
 };
+
+typedef struct {
+  double chromosome;
+  unsigned index;
+  unsigned client;
+} ranking;
+
+bool sort_rank(const ranking& a, const ranking& b);
 
 #endif

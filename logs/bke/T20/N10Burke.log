@@ -1,54 +1,438 @@
 Número de cromossomos: 200
-Tamanho da população: 500
-Fração elite: 0.2
-Fração mutante: 0.1
-Probabilidade herdar alelo elite: 0.7
-Número de populações independentes: 3
-Número de threads: 1
-Melhor até agora: 905 Geração: 0
-Largura da faixa = 62
-Melhor altura = 905
-
-Lower Bound 1 = 169
-Lower Bound 2 = 185
-Avaliação = 4.89189
-Tempo de execução: 27544ms
-
----------------------------
-
-Número de cromossomos: 200
-Tamanho da população: 1000
-Fração elite: 0.2
-Fração mutante: 0.1
-Probabilidade herdar alelo elite: 0.7
-Número de populações independentes: 5
-Número de threads: 2
-Melhor até agora: 905 Geração: 0
-Largura da faixa = 62
-Melhor altura = 905
-
-Lower Bound 1 = 169
-Lower Bound 2 = 185
-Avaliação = 4.89189
-Tempo de execução: 51439ms
-
----------------------------
-
-Número de cromossomos: 200
 Tamanho da população: 1000
 Fração elite: 0.3
 Fração mutante: 0.4
 Probabilidade herdar alelo elite: 0.8
 Número de populações independentes: 3
 Número de threads: 2
-Melhor até agora: 905 Geração: 0
+Melhor até agora: 332 Geração: 0
+Melhor até agora: 331 Geração: 4
+Melhor até agora: 329 Geração: 6
 Largura da faixa = 62
-Melhor altura = 905
+Melhor altura = 329
 
 Lower Bound 1 = 169
 Lower Bound 2 = 185
-Avaliação = 4.89189
-Tempo de execução: 25797ms
+Avaliação = 1.77838
+Tempo de execução: 61590ms
+
+---------------------------
+
+Número de cromossomos: 200
+Tamanho da população: 2500
+Fração elite: 0.2
+Fração mutante: 0.6
+Probabilidade herdar alelo elite: 0.5
+Número de populações independentes: 3
+Número de threads: 3
+Melhor até agora: 245 Geração: 0
+Melhor até agora: 243 Geração: 4
+Melhor até agora: 242 Geração: 12
+Melhor até agora: 240 Geração: 34
+Largura da faixa = 62
+Melhor altura = 240
+
+Lower Bound 1 = 169
+Lower Bound 2 = 185
+Avaliação = 1.2973
+Tempo de execução: 184304ms
+
+---------------------------
+
+Número de cromossomos: 200
+Tamanho da população: 2500
+Fração elite: 0.2
+Fração mutante: 0.6
+Probabilidade herdar alelo elite: 0.5
+Número de populações independentes: 3
+Número de threads: 3
+Melhor até agora: 212 Geração: 0
+Melhor até agora: 208 Geração: 2
+Melhor até agora: 206 Geração: 5
+Melhor até agora: 201 Geração: 14
+Melhor até agora: 200 Geração: 28
+Melhor até agora: 199 Geração: 31
+Melhor até agora: 196 Geração: 53
+Largura da faixa = 62
+Melhor altura = 196
+
+Lower Bound 1 = 169
+Lower Bound 2 = 185
+Avaliação = 1.05946
+Tempo de execução: 200507ms
+
+---------------------------
+
+Número de cromossomos: 200
+Tamanho da população: 1500
+Fração elite: 0.1
+Fração mutante: 0.6
+Probabilidade herdar alelo elite: 0.5
+Número de populações independentes: 8
+Número de threads: 3
+Melhor até agora: 209 Geração: 0
+Melhor até agora: 207 Geração: 2
+Melhor até agora: 199 Geração: 8
+Melhor até agora: 197 Geração: 11
+Melhor até agora: 196 Geração: 14
+Melhor até agora: 192 Geração: 20
+Melhor até agora: 188 Geração: 49
+Largura da faixa = 62
+Melhor altura = 188
+
+Lower Bound 1 = 169
+Lower Bound 2 = 185
+Avaliação = 1.01622
+Tempo de execução: 380123ms
+
+---------------------------
+
+Número de cromossomos: 200
+Tamanho da população: 2000
+Fração elite: 0.1
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 5
+Número de threads: 14
+Melhor até agora: 209 Geração: 0
+Melhor até agora: 208 Geração: 1
+Melhor até agora: 201 Geração: 5
+Melhor até agora: 197 Geração: 15
+Melhor até agora: 196 Geração: 22
+Melhor até agora: 195 Geração: 26
+Melhor até agora: 193 Geração: 31
+Melhor até agora: 192 Geração: 35
+Melhor até agora: 191 Geração: 36
+Melhor até agora: 190 Geração: 48
+Melhor até agora: 188 Geração: 55
+Largura da faixa = 62
+Melhor altura = 188
+
+Lower Bound 1 = 169
+Lower Bound 2 = 185
+Avaliação = 1.01622
+Tempo de execução: 179987ms
+
+---------------------------
+
+Número de cromossomos: 200
+Tamanho da população: 2000
+Fração elite: 0.4
+Fração mutante: 0.4
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 5
+Número de threads: 14
+Melhor até agora: 209 Geração: 0
+Melhor até agora: 207 Geração: 4
+Melhor até agora: 206 Geração: 5
+Melhor até agora: 202 Geração: 18
+Melhor até agora: 198 Geração: 22
+Melhor até agora: 191 Geração: 39
+Largura da faixa = 62
+Melhor altura = 191
+
+Lower Bound 1 = 169
+Lower Bound 2 = 185
+Avaliação = 1.03243
+Tempo de execução: 129824ms
+
+---------------------------
+
+Número de cromossomos: 200
+Tamanho da população: 2000
+Fração elite: 0.6
+Fração mutante: 0.4
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 5
+Número de threads: 14
+Melhor até agora: 203 Geração: 0
+Largura da faixa = 62
+Melhor altura = 203
+
+Lower Bound 1 = 169
+Lower Bound 2 = 185
+Avaliação = 1.0973
+Tempo de execução: 84828ms
+
+---------------------------
+
+Número de cromossomos: 200
+Tamanho da população: 2000
+Fração elite: 0.6
+Fração mutante: 0.4
+Probabilidade herdar alelo elite: 0.3
+Número de populações independentes: 5
+Número de threads: 14
+Melhor até agora: 203 Geração: 0
+Largura da faixa = 62
+Melhor altura = 203
+
+Lower Bound 1 = 169
+Lower Bound 2 = 185
+Avaliação = 1.0973
+Tempo de execução: 84953ms
+
+---------------------------
+
+Número de cromossomos: 200
+Tamanho da população: 2000
+Fração elite: 0.1
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 5
+Número de threads: 14
+Melhor até agora: 209 Geração: 0
+Melhor até agora: 208 Geração: 1
+Melhor até agora: 201 Geração: 5
+Melhor até agora: 197 Geração: 15
+Melhor até agora: 196 Geração: 22
+Melhor até agora: 195 Geração: 26
+Melhor até agora: 193 Geração: 31
+Melhor até agora: 192 Geração: 35
+Melhor até agora: 191 Geração: 36
+Melhor até agora: 190 Geração: 48
+Melhor até agora: 188 Geração: 55
+Largura da faixa = 62
+Melhor altura = 188
+
+Lower Bound 1 = 169
+Lower Bound 2 = 185
+Avaliação = 1.01622
+Tempo de execução: 187009ms
+
+---------------------------
+
+Número de cromossomos: 200
+Tamanho da população: 2000
+Fração elite: 0.1
+Fração mutante: 0.9
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 5
+Número de threads: 14
+Melhor até agora: 203 Geração: 0
+Largura da faixa = 62
+Melhor altura = 203
+
+Lower Bound 1 = 169
+Lower Bound 2 = 185
+Avaliação = 1.0973
+Tempo de execução: 172330ms
+
+---------------------------
+
+Número de cromossomos: 200
+Tamanho da população: 2000
+Fração elite: 0.1
+Fração mutante: 0.9
+Probabilidade herdar alelo elite: 0.9
+Número de populações independentes: 5
+Número de threads: 14
+Melhor até agora: 203 Geração: 0
+Largura da faixa = 62
+Melhor altura = 203
+
+Lower Bound 1 = 169
+Lower Bound 2 = 185
+Avaliação = 1.0973
+Tempo de execução: 170733ms
+
+---------------------------
+
+Número de cromossomos: 200
+Tamanho da população: 2000
+Fração elite: 0.1
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.4
+Número de populações independentes: 5
+Número de threads: 14
+Melhor até agora: 209 Geração: 0
+Melhor até agora: 207 Geração: 5
+Melhor até agora: 196 Geração: 12
+Melhor até agora: 191 Geração: 76
+Largura da faixa = 62
+Melhor altura = 191
+
+Lower Bound 1 = 169
+Lower Bound 2 = 185
+Avaliação = 1.03243
+Tempo de execução: 169411ms
+
+---------------------------
+
+Número de cromossomos: 200
+Tamanho da população: 2000
+Fração elite: 0.1
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.8
+Número de populações independentes: 5
+Número de threads: 14
+Melhor até agora: 209 Geração: 0
+Melhor até agora: 203 Geração: 2
+Melhor até agora: 201 Geração: 4
+Melhor até agora: 199 Geração: 6
+Melhor até agora: 193 Geração: 7
+Melhor até agora: 191 Geração: 19
+Melhor até agora: 190 Geração: 21
+Melhor até agora: 188 Geração: 31
+Melhor até agora: 186 Geração: 75
+Largura da faixa = 62
+Melhor altura = 186
+
+Lower Bound 1 = 169
+Lower Bound 2 = 185
+Avaliação = 1.00541
+Tempo de execução: 191369ms
+
+---------------------------
+
+Número de cromossomos: 200
+Tamanho da população: 2000
+Fração elite: 0.1
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.7
+Número de populações independentes: 5
+Número de threads: 14
+Melhor até agora: 209 Geração: 0
+Melhor até agora: 199 Geração: 3
+Melhor até agora: 198 Geração: 9
+Melhor até agora: 196 Geração: 10
+Melhor até agora: 194 Geração: 20
+Melhor até agora: 193 Geração: 27
+Melhor até agora: 191 Geração: 28
+Melhor até agora: 188 Geração: 29
+Melhor até agora: 186 Geração: 84
+Melhor até agora: 184 Geração: 85
+Largura da faixa = 62
+Melhor altura = 184
+
+Lower Bound 1 = 169
+Lower Bound 2 = 185
+Avaliação = 0.994595
+Tempo de execução: 179950ms
+
+---------------------------
+
+Número de cromossomos: 200
+Tamanho da população: 2000
+Fração elite: 0.1
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.7
+Número de populações independentes: 5
+Número de threads: 14
+Melhor até agora: 209 Geração: 0
+Melhor até agora: 199 Geração: 3
+Melhor até agora: 198 Geração: 9
+Melhor até agora: 196 Geração: 10
+Melhor até agora: 194 Geração: 20
+Melhor até agora: 193 Geração: 27
+Melhor até agora: 191 Geração: 28
+Melhor até agora: 188 Geração: 29
+Melhor até agora: 186 Geração: 84
+Melhor até agora: 184 Geração: 85
+Largura da faixa = 62
+Melhor altura = 184
+
+Lower Bound 1 = 169
+Lower Bound 2 = 185
+Avaliação = 0.994595
+Tempo de execução: 192677ms
+
+---------------------------
+
+Número de cromossomos: 200
+Tamanho da população: 2000
+Fração elite: 0.1
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 6
+Número de threads: 14
+Melhor até agora: 209 Geração: 0
+Melhor até agora: 206 Geração: 4
+Melhor até agora: 204 Geração: 5
+Melhor até agora: 203 Geração: 8
+Melhor até agora: 202 Geração: 10
+Melhor até agora: 196 Geração: 13
+Melhor até agora: 193 Geração: 25
+Melhor até agora: 189 Geração: 30
+Melhor até agora: 188 Geração: 67
+Largura da faixa = 62
+Melhor altura = 188
+
+Lower Bound 1 = 169
+Lower Bound 2 = 185
+Avaliação = 1.01622
+Tempo de execução: 220708ms
+
+---------------------------
+
+Número de cromossomos: 200
+Tamanho da população: 2000
+Fração elite: 0.1
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.65
+Número de populações independentes: 7
+Número de threads: 14
+Melhor até agora: 203 Geração: 0
+Melhor até agora: 199 Geração: 3
+Melhor até agora: 197 Geração: 4
+Melhor até agora: 195 Geração: 5
+Melhor até agora: 193 Geração: 16
+Melhor até agora: 190 Geração: 18
+Melhor até agora: 188 Geração: 42
+Largura da faixa = 62
+Melhor altura = 188
+
+Lower Bound 1 = 169
+Lower Bound 2 = 185
+Avaliação = 1.01622
+Tempo de execução: 258882ms
+
+---------------------------
+
+Número de cromossomos: 200
+Tamanho da população: 2000
+Fração elite: 0.1
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.7
+Número de populações independentes: 7
+Número de threads: 14
+Melhor até agora: 203 Geração: 0
+Melhor até agora: 199 Geração: 3
+Melhor até agora: 196 Geração: 6
+Melhor até agora: 195 Geração: 14
+Melhor até agora: 190 Geração: 16
+Melhor até agora: 188 Geração: 29
+Melhor até agora: 186 Geração: 63
+Largura da faixa = 62
+Melhor altura = 186
+
+Lower Bound 1 = 169
+Lower Bound 2 = 185
+Avaliação = 1.00541
+Tempo de execução: 263842ms
+
+---------------------------
+
+Número de cromossomos: 200
+Tamanho da população: 2500
+Fração elite: 0.1
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.7
+Número de populações independentes: 8
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Melhor até agora: 193 Geração: 0
+Melhor até agora: 191 Geração: 16
+Melhor até agora: 190 Geração: 19
+Melhor até agora: 188 Geração: 29
+Melhor até agora: 187 Geração: 45
+Largura da faixa = 62
+Melhor altura = 187
+
+Lower Bound 1 = 169
+Lower Bound 2 = 185
+Avaliação = 1.01081
+Tempo de execução: 477751ms
 
 ---------------------------
 

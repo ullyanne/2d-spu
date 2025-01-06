@@ -1,0 +1,90 @@
+Número de cromossomos: 10
+Tamanho da população: 1000
+Fração elite: 0.3
+Fração mutante: 0.4
+Probabilidade herdar alelo elite: 0.8
+Número de populações independentes: 3
+Número de threads: 2
+Melhor até agora: 1086 Geração: 0
+Largura da faixa = 184
+Melhor altura = 1086
+
+Lower Bound 1 = 888
+Lower Bound 2 = 334
+Avaliação = 1.22297
+Tempo de execução: 2770ms
+
+---------------------------
+
+Número de cromossomos: 10
+Tamanho da população: 1000
+Fração elite: 0.3
+Fração mutante: 0.4
+Probabilidade herdar alelo elite: 0.8
+Número de populações independentes: 3
+Número de threads: 2
+Melhor até agora: 1086 Geração: 0
+Largura da faixa = 184
+Melhor altura = 1086
+
+Lower Bound 1 = 888
+Lower Bound 2 = 334
+Avaliação = 1.22297
+Tempo de execução: 2361ms
+
+---------------------------
+
+Número de cromossomos: 10
+Tamanho da população: 1000
+Fração elite: 0.3
+Fração mutante: 0.4
+Probabilidade herdar alelo elite: 0.8
+Número de populações independentes: 3
+Número de threads: 2
+Melhor até agora: 0 Geração: 0
+Largura da faixa = 184
+Melhor altura = 0
+
+Lower Bound 1 = 888
+Lower Bound 2 = 334
+Avaliação = 0
+Tempo de execução: 2323ms
+
+---------------------------
+
+Número de cromossomos: 10
+Tamanho da população: 1000
+Fração elite: 0.3
+Fração mutante: 0.4
+Probabilidade herdar alelo elite: 0.8
+Número de populações independentes: 3
+Número de threads: 2
+Melhor até agora: 0 Geração: 0
+Largura da faixa = 184
+Melhor altura = 0
+
+Lower Bound 1 = 888
+Lower Bound 2 = 334
+Avaliação = 0
+Tempo de execução: 1923ms
+
+---------------------------
+
+Número de cromossomos: 10
+Tamanho da população: 1000
+Fração elite: 0.3
+Fração mutante: 0.4
+Probabilidade herdar alelo elite: 0.8
+Número de populações independentes: 3
+Número de threads: 2
+Melhor até agora: 0 Geração: 0
+Largura da faixa = 184
+Melhor altura = 0
+
+Lower Bound 1 = 888
+Lower Bound 2 = 334
+Avaliação = 0
+Tempo de execução: 1197ms
+
+---------------------------
+

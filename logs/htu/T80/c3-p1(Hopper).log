@@ -1,0 +1,18 @@
+Número de cromossomos: 28
+Tamanho da população: 1000
+Fração elite: 0.3
+Fração mutante: 0.4
+Probabilidade herdar alelo elite: 0.8
+Número de populações independentes: 3
+Número de threads: 2
+Melhor até agora: 133 Geração: 0
+Largura da faixa = 21
+Melhor altura = 133
+
+Lower Bound 1 = 85
+Lower Bound 2 = 63
+Avaliação = 1.56471
+Tempo de execução: 6171ms
+
+---------------------------
+

@@ -1,36 +1,18 @@
 Número de cromossomos: 40
-Tamanho da população: 500
-Fração elite: 0.2
-Fração mutante: 0.1
-Probabilidade herdar alelo elite: 0.7
-Número de populações independentes: 3
-Número de threads: 1
-Melhor até agora: 487 Geração: 0
-Largura da faixa = 72
-Melhor altura = 487
-
-Lower Bound 1 = 88
-Lower Bound 2 = 72
-Avaliação = 5.53409
-Tempo de execução: 6364ms
-
----------------------------
-
-Número de cromossomos: 40
 Tamanho da população: 1000
 Fração elite: 0.3
 Fração mutante: 0.4
 Probabilidade herdar alelo elite: 0.8
 Número de populações independentes: 3
 Número de threads: 2
-Melhor até agora: 487 Geração: 0
+Melhor até agora: 182 Geração: 0
 Largura da faixa = 72
-Melhor altura = 487
+Melhor altura = 182
 
 Lower Bound 1 = 88
 Lower Bound 2 = 72
-Avaliação = 5.53409
-Tempo de execução: 7175ms
+Avaliação = 2.06818
+Tempo de execução: 20744ms
 
 ---------------------------
 

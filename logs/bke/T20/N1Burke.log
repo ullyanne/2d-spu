@@ -1,40 +1,4 @@
 Número de cromossomos: 10
-Tamanho da população: 500
-Fração elite: 0.2
-Fração mutante: 0.1
-Probabilidade herdar alelo elite: 0.7
-Número de populações independentes: 3
-Número de threads: 1
-Melhor até agora: 60 Geração: 0
-Largura da faixa = 40
-Melhor altura = 60
-
-Lower Bound 1 = 40
-Lower Bound 2 = 36
-Avaliação = 1.5
-Tempo de execução: 2435ms
-
----------------------------
-
-Número de cromossomos: 10
-Tamanho da população: 1000
-Fração elite: 0.2
-Fração mutante: 0.1
-Probabilidade herdar alelo elite: 0.7
-Número de populações independentes: 5
-Número de threads: 2
-Melhor até agora: 60 Geração: 0
-Largura da faixa = 40
-Melhor altura = 60
-
-Lower Bound 1 = 40
-Lower Bound 2 = 36
-Avaliação = 1.5
-Tempo de execução: 4960ms
-
----------------------------
-
-Número de cromossomos: 10
 Tamanho da população: 1000
 Fração elite: 0.3
 Fração mutante: 0.4
@@ -48,7 +12,240 @@ Melhor altura = 60
 Lower Bound 1 = 40
 Lower Bound 2 = 36
 Avaliação = 1.5
-Tempo de execução: 2470ms
+Tempo de execução: 2926ms
 
 ---------------------------
 
+Número de cromossomos: 10
+Tamanho da população: 1000
+Fração elite: 0.3
+Fração mutante: 0.4
+Probabilidade herdar alelo elite: 0.8
+Número de populações independentes: 3
+Número de threads: 2
+Melhor até agora: 40 Geração: 0
+Largura da faixa = 40
+Melhor altura = 40
+
+Lower Bound 1 = 40
+Lower Bound 2 = 36
+Avaliação = 1
+Tempo de execução: 2937ms
+
+---------------------------
+
+Número de cromossomos: 10
+Tamanho da população: 3000
+Fração elite: 0.2
+Fração mutante: 0.6
+Probabilidade herdar alelo elite: 0.5
+Número de populações independentes: 6
+Número de threads: 3
+Melhor até agora: 40 Geração: 0
+Largura da faixa = 40
+Melhor altura = 40
+
+Lower Bound 1 = 40
+Lower Bound 2 = 36
+Avaliação = 1
+Tempo de execução: 15331ms
+
+---------------------------
+
+Número de cromossomos: 10
+Tamanho da população: 2500
+Fração elite: 0.2
+Fração mutante: 0.6
+Probabilidade herdar alelo elite: 0.5
+Número de populações independentes: 3
+Número de threads: 3
+Melhor até agora: 40 Geração: 0
+Largura da faixa = 40
+Melhor altura = 40
+
+Lower Bound 1 = 40
+Lower Bound 2 = 36
+Avaliação = 1
+Tempo de execução: 6009ms
+
+---------------------------
+
+Número de cromossomos: 10
+Tamanho da população: 2500
+Fração elite: 0.2
+Fração mutante: 0.6
+Probabilidade herdar alelo elite: 0.5
+Número de populações independentes: 3
+Número de threads: 3
+Melhor até agora: 40 Geração: 0
+Largura da faixa = 40
+Melhor altura = 40
+
+Lower Bound 1 = 40
+Lower Bound 2 = 36
+Avaliação = 1
+Tempo de execução: 6260ms
+
+---------------------------
+
+Número de cromossomos: 10
+Tamanho da população: 2500
+Fração elite: 0.2
+Fração mutante: 0.6
+Probabilidade herdar alelo elite: 0.5
+Número de populações independentes: 3
+Número de threads: 3
+Melhor até agora: 40 Geração: 0
+Largura da faixa = 40
+Melhor altura = 40
+
+Lower Bound 1 = 40
+Lower Bound 2 = 36
+Avaliação = 1
+Tempo de execução: 7247ms
+
+---------------------------
+
+Número de cromossomos: 10
+Tamanho da população: 1500
+Fração elite: 0.1
+Fração mutante: 0.6
+Probabilidade herdar alelo elite: 0.5
+Número de populações independentes: 8
+Número de threads: 3
+Melhor até agora: 40 Geração: 0
+Largura da faixa = 40
+Melhor altura = 40
+
+Lower Bound 1 = 40
+Lower Bound 2 = 36
+Avaliação = 1
+Tempo de execução: 11463ms
+
+---------------------------
+
+Número de cromossomos: 10
+Tamanho da população: 2000
+Fração elite: 0.1
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.7
+Número de populações independentes: 5
+Número de threads: 14
+Melhor até agora: 40 Geração: 0
+Largura da faixa = 40
+Melhor altura = 40
+
+Lower Bound 1 = 40
+Lower Bound 2 = 36
+Avaliação = 1
+Tempo de execução: 7208ms
+
+---------------------------
+
+Número de cromossomos: 10
+Tamanho da população: 2000
+Fração elite: 0.1
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 6
+Número de threads: 14
+Melhor até agora: 40 Geração: 0
+Largura da faixa = 40
+Melhor altura = 40
+
+Lower Bound 1 = 40
+Lower Bound 2 = 36
+Avaliação = 1
+Tempo de execução: 11113ms
+
+---------------------------
+
+Número de cromossomos: 10
+Tamanho da população: 2000
+Fração elite: 0.1
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.65
+Número de populações independentes: 7
+Número de threads: 14
+Melhor até agora: 40 Geração: 0
+Largura da faixa = 40
+Melhor altura = 40
+
+Lower Bound 1 = 40
+Lower Bound 2 = 36
+Avaliação = 1
+Tempo de execução: 11194ms
+
+---------------------------
+
+Número de cromossomos: 10
+Tamanho da população: 2000
+Fração elite: 0.1
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.7
+Número de populações independentes: 7
+Número de threads: 14
+Melhor até agora: 40 Geração: 0
+Largura da faixa = 40
+Melhor altura = 40
+
+Lower Bound 1 = 40
+Lower Bound 2 = 36
+Avaliação = 1
+Tempo de execução: 11251ms
+
+---------------------------
+
+Número de cromossomos: 10
+Tamanho da população: 2500
+Fração elite: 0.1
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.7
+Número de populações independentes: 8
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Melhor até agora: 40 Geração: 0
+Largura da faixa = 40
+Melhor altura = 40
+
+Lower Bound 1 = 40
+Lower Bound 2 = 36
+Avaliação = 1
+Tempo de execução: 19304ms
+
+---------------------------
+
+Número de cromossomos: 10
+Tamanho da população: 2500
+Fração elite: 0.1
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.7
+Número de populações independentes: 8
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 110
+
+Melhor até agora: 40 Geração: 0
+Largura da faixa = 40
+Melhor altura = 40
+
+Lower Bound 1 = 40
+Lower Bound 2 = 36
+Avaliação = 1
+
+Solução:
+Peça 1: Cliente:1 Altura: 24 Largura: 24
+Peça 2: Cliente:2 Altura: 20 Largura: 4
+Peça 3: Cliente:2 Altura: 4 Largura: 7
+Peça 4: Cliente:2 Altura: 6 Largura: 7
+Peça 5: Cliente:2 Altura: 4 Largura: 5
+Peça 6: Cliente:2 Altura: 8 Largura: 7
+Peça 7: Cliente:2 Altura: 20 Largura: 5
+Peça 8: Cliente:1 Altura: 6 Largura: 7
+Peça 9: Cliente:1 Altura: 4 Largura: 4
+Peça 10: Cliente:1 Altura: 16 Largura: 40
+
+
+Tempo de execução: 13992ms
+
+---------------------------

@@ -97,8 +97,10 @@ int main(int argc, char *argv[])
   int area = 0;
   int lb2 = 0;
   int lb1, lb;
+  int ub = 0;
 
   for (unsigned i = 0; i < num_items; i++) {
+    ub += items[i].height;
     area += items[i].width * items[i].height;
     val[i] += items[i].height;
     lb2 = max(lb2, val[i]);
@@ -149,7 +151,7 @@ int main(int argc, char *argv[])
 
   logfile << params.str();
 
-  SampleDecoder decoder(items, max_width);  // initialize the decoder
+  SampleDecoder decoder(items, max_width, ub);  // initialize the decoder
 
   const long unsigned rngSeed = 0;  // seed to the random number generator
   MTRand rng(rngSeed);              // initialize the random number generator
@@ -159,10 +161,8 @@ int main(int argc, char *argv[])
                                          rng, K, MAXT);
 
   unsigned generation = 0;  // current generation
-  const unsigned X_INTVL =
-      10;  // exchange best individuals at every 100 generations
-  const unsigned X_NUMBER = 2;    // exchange top 2 best
-  const unsigned MAX_GENS = 100;  // run for 1000 gens
+
+  const unsigned X_NUMBER = 2;  // exchange top 2 best
 
   auto start = std::chrono::high_resolution_clock::now();
 
@@ -183,11 +183,21 @@ int main(int argc, char *argv[])
   } while (generation < MAX_GENS);
 
   best = algorithm.getBestFitness();
+  const std::vector<double> best_chromossome = algorithm.getBestChromosome();
 
   auto end = std::chrono::high_resolution_clock::now();
   auto duration =
       std::chrono::duration_cast<std::chrono::milliseconds>(end - start)
           .count();
+
+  std::vector<ranking> solution(best_chromossome.size());
+
+  for (unsigned i = 0; i < best_chromossome.size(); ++i) {
+    solution[i].chromosome = best_chromossome[i];
+    solution[i].index = i;
+    solution[i].client = items[i].client;
+  }
+  std::sort(solution.begin(), solution.end(), sort_rank);
 
   std::cout << "Melhor altura = " << best << "\n";
 
@@ -196,6 +206,14 @@ int main(int argc, char *argv[])
   logfile << "Lower Bound 1 = " << lb1 << "\n";
   logfile << "Lower Bound 2 = " << lb2 << "\n";
   logfile << "Avaliação = " << (double)best / lb << "\n\n";
+
+  logfile << "Solução: \n";
+  for (unsigned i = 0; i < solution.size(); ++i) {
+    logfile << "Peça " << i + 1 << ": Cliente:" << solution[i].client
+            << " Altura: " << items[solution[i].index].height
+            << " Largura: " << items[solution[i].index].width << "\n";
+  }
+  logfile << "\n\n";
 
   logfile << "Tempo de execução: " << duration << "ms" << "\n\n"
           << "---------------------------" << "\n\n";

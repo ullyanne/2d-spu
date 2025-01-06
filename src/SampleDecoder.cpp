@@ -11,15 +11,16 @@
 
 #include <fstream>
 #include <iostream>
+#include <limits>
 #include <set>
 using namespace std;
 
 SampleDecoder::~SampleDecoder() {}
-typedef struct {
-  double chromosome;
-  unsigned index;
-  unsigned client;
-} ranking;
+
+bool sort_rank(const ranking &a, const ranking &b)
+{
+  return a.chromosome < b.chromosome;
+}
 
 typedef struct {
   pair<int, int> bottom_point;
@@ -30,7 +31,7 @@ struct bottom_left_cmp {
   bool operator()(ems a, ems b) const
   {
     if (a.bottom_point.second == b.bottom_point.second) {
-      if(a.bottom_point.first != b.bottom_point.first){
+      if (a.bottom_point.first != b.bottom_point.first) {
         return a.bottom_point.first < b.bottom_point.first;
       }
       return a.top_point.first > b.top_point.first;
@@ -38,14 +39,6 @@ struct bottom_left_cmp {
     return a.bottom_point.second < b.bottom_point.second;
   }
 };
-
-bool sort_rank(const ranking &a, const ranking &b)
-{
-  if (a.client != b.client) {
-    return a.client > b.client;
-  }
-  return a.chromosome < b.chromosome;
-}
 
 bool item_can_fit(item item, ems ems)
 {
@@ -98,7 +91,7 @@ bool is_ems_valid(ems space, set<ems, bottom_left_cmp> &layer)
     return false;
   }
 
-  if(space.bottom_point.second > space.top_point.second){
+  if (space.bottom_point.second > space.top_point.second) {
     return false;
   }
 
@@ -132,7 +125,8 @@ void calc_diff_process(set<ems, bottom_left_cmp> &layer, ems space, int x3,
   }
 }
 
-void fit_item(item item, ems space, set<ems, bottom_left_cmp> &layer)
+void fit_item(item item, ems space, set<ems, bottom_left_cmp> &layer,
+              int clients_verification[], int ub, int *penalty)
 {
   layer.erase(space);
 
@@ -140,6 +134,18 @@ void fit_item(item item, ems space, set<ems, bottom_left_cmp> &layer)
   int y3 = space.bottom_point.second;
   int x4 = x3 + item.width;
   int y4 = y3 + item.height;
+
+  for (int i = x3; i < x4; i++) {
+    if (clients_verification[i] != -1 &&
+        clients_verification[i] < item.client) {
+      *penalty += item.client - clients_verification[i];
+      break;
+    }
+  }
+
+  for (int i = x3; i < x4; i++) {
+    clients_verification[i] = item.client;
+  }
 
   calc_diff_process(layer, space, x3, y3, x4, y4);
 
@@ -186,12 +192,17 @@ double SampleDecoder::decode(const std::vector<double> &chromosome) const
 
   int item_index = rank[0].index;
   item item = items[item_index];
-  int prev_client = item.client;
   int strip_height = 0;
-  int current_layer = 0;
   int num_layers = 0;
   long unsigned int items_placed = 0;
   bool fit;
+  int penalty = 0;
+
+  int clients_verification[max_width];
+
+  for (int i = 0; i < max_width; i++) {
+    clients_verification[i] = -1;
+  }
 
   open_new_layer(layers, num_layers, strip_height, max_width, item.height);
 
@@ -200,38 +211,36 @@ double SampleDecoder::decode(const std::vector<double> &chromosome) const
     item = items[item_index];
     fit = false;
 
-    if (item.client != prev_client) {
-      current_layer = num_layers - 1;
-    }
-
-    for (int i = current_layer; i < num_layers && !fit; i++) {
-      if (!layers[i].empty()) {
-        for (auto ems = layers[i].begin(); ems != layers[i].end();) {
-          if (item_can_fit(item, *ems)) {
-            fit_item(item, *ems, layers[i]);
-            fit = true;
-            items_placed++;
-            break;
-          }
-          else {
-            ems++;
-          }
+    if (!layers[num_layers - 1].empty()) {
+      for (auto ems = layers[num_layers - 1].begin();
+           ems != layers[num_layers - 1].end();) {
+        if (item_can_fit(item, *ems)) {
+          fit_item(item, *ems, layers[num_layers - 1], clients_verification, ub,
+                   &penalty);
+          fit = true;
+          items_placed++;
+          break;
+        }
+        else {
+          ems++;
         }
       }
-
-      if (!fit && i == num_layers - 1) {
-        open_new_layer(layers, num_layers, strip_height, max_width,
-                       item.height);
-        auto new_space = *layers[num_layers - 1].begin();
-        fit_item(item, new_space, layers[num_layers - 1]);
-        fit = true;
-        items_placed++;
-      }
     }
 
-    prev_client = item.client;
+    if (!fit) {
+      open_new_layer(layers, num_layers, strip_height, max_width, item.height);
+      auto new_space = *layers[num_layers - 1].begin();
+      fit_item(item, new_space, layers[num_layers - 1], clients_verification,
+               ub, &penalty);
+      fit = true;
+      items_placed++;
+    }
   }
 
-  cout << strip_height << endl;
-  return strip_height;
+  if (penalty) {
+    penalty += ub;
+  }
+
+  std::cout << strip_height + penalty << std::endl;
+  return strip_height + penalty;
 }
