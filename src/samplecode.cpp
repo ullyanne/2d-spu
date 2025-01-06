@@ -16,19 +16,21 @@ using namespace std;
 int main(int argc, char *argv[])
 {
   unsigned num_items;  // size of chromosomes
-  unsigned p = 1000;    // size of population
+  unsigned p = 1000;   // size of population
   double pe = 0.30;    // fraction of population to be the elite-set
   double pm = 0.4;     // fraction of population to be replaced by mutants
   double rhoe =
       0.80;  // probability that offspring inherit an allele from elite parent
-  unsigned K = 3;     // number of independent populations
-  unsigned MAXT = 2;  // number of threads for parallel decoding
+  unsigned K = 3;          // number of independent populations
+  unsigned MAXT = 2;       // number of threads for parallel decoding
+  unsigned X_INTVL = 100;  // exchange best individuals at every 100 generations
+  unsigned MAX_GENS = 110;  // run for 1000 gens
 
   int best = numeric_limits<int>::max();
   int opt;
   string input_filename;
 
-  while ((opt = getopt(argc, argv, "p:e:m:o:k:t:f:")) != -1) {
+  while ((opt = getopt(argc, argv, "p:e:m:o:k:t:f:b:g:")) != -1) {
     switch (opt) {
       case 'f':
         input_filename = optarg;
@@ -57,6 +59,14 @@ int main(int argc, char *argv[])
       case 't':
         MAXT = std::stoi(optarg);
         break;
+
+      case 'b':
+        X_INTVL = std::stoi(optarg);
+        break;
+
+      case 'g':
+        MAX_GENS = std::stoi(optarg);
+        break;
     }
   }
 
@@ -68,7 +78,7 @@ int main(int argc, char *argv[])
 
   vector<item> items(num_items);
 
-  int index = num_items - 1;
+  int index = 0;
 
   for (int i = 0; i < num_clients; i++) {
     input_file >> client;
@@ -79,7 +89,7 @@ int main(int argc, char *argv[])
       items[index].height = height;
       items[index].width = width;
       items[index].client = client;
-      index--;
+      index++;
     }
   }
 
@@ -132,7 +142,10 @@ int main(int argc, char *argv[])
          << "Fração mutante: " << pm << "\n"
          << "Probabilidade herdar alelo elite: " << rhoe << "\n"
          << "Número de populações independentes: " << K << "\n"
-         << "Número de threads: " << MAXT << "\n";
+         << "Número de threads: " << MAXT << "\n"
+         << "Trocar os melhores indivíduos a cada " << X_INTVL << " gerações\n"
+         << "Número máximo de gerações: " << MAX_GENS << "\n"
+         << "\n";
 
   logfile << params.str();
 
@@ -182,7 +195,7 @@ int main(int argc, char *argv[])
   logfile << "Melhor altura = " << best << "\n\n";
   logfile << "Lower Bound 1 = " << lb1 << "\n";
   logfile << "Lower Bound 2 = " << lb2 << "\n";
-  logfile << "Avaliação = " << (double)best / lb << "\n";
+  logfile << "Avaliação = " << (double)best / lb << "\n\n";
 
   logfile << "Tempo de execução: " << duration << "ms" << "\n\n"
           << "---------------------------" << "\n\n";

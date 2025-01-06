@@ -163,7 +163,7 @@ void open_new_layer(vector<set<ems, bottom_left_cmp>> &layers, int &num_layers,
 
   ems space;
   space.bottom_point = make_pair(0, strip_height);
-  space.top_point = make_pair(max_width, item_height);
+  space.top_point = make_pair(max_width, item_height + strip_height);
 
   layers[num_layers - 1].insert(space);
   strip_height += item_height;
