@@ -158,11 +158,8 @@ int main(int argc, char *argv[])
   BRKGA<SampleDecoder, MTRand> algorithm(num_items, p, pe, pm, rhoe, decoder,
                                          rng, K, MAXT);
 
-  unsigned generation = 0;  // current generation
-  const unsigned X_INTVL =
-      10;  // exchange best individuals at every 100 generations
-  const unsigned X_NUMBER = 2;    // exchange top 2 best
-  const unsigned MAX_GENS = 100;  // run for 1000 gens
+  unsigned generation = 0;      // current generation
+  const unsigned X_NUMBER = 2;  // exchange top 2 best
 
   auto start = std::chrono::high_resolution_clock::now();
 
