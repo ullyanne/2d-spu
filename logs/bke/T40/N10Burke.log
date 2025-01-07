@@ -957,3 +957,265 @@ Tempo de execução: 81989ms
 
 ---------------------------
 
+Número de cromossomos: 200
+Tamanho da população: 2500
+Fração elite: 0.4
+Fração mutante: 0.3
+Probabilidade herdar alelo elite: 0.7
+Número de populações independentes: 8
+Número de threads: 14
+Trocar os melhores indivíduos a cada 1000 gerações
+Número máximo de gerações: 1200
+
+Melhor até agora: 3008 Geração: 0
+Melhor até agora: 3004 Geração: 4
+Melhor até agora: 2968 Geração: 5
+Melhor até agora: 2954 Geração: 11
+Melhor até agora: 2793 Geração: 14
+Melhor até agora: 2780 Geração: 38
+Melhor até agora: 2504 Geração: 65
+Melhor até agora: 2455 Geração: 292
+Melhor até agora: 2289 Geração: 353
+Melhor até agora: 2277 Geração: 402
+Melhor até agora: 2253 Geração: 424
+Melhor até agora: 2120 Geração: 453
+Melhor até agora: 2108 Geração: 511
+Melhor até agora: 2075 Geração: 530
+Melhor até agora: 2074 Geração: 562
+Melhor até agora: 2041 Geração: 569
+Melhor até agora: 2008 Geração: 576
+Melhor até agora: 1918 Geração: 599
+Melhor até agora: 1831 Geração: 661
+Melhor até agora: 1806 Geração: 675
+Melhor até agora: 1800 Geração: 753
+Melhor até agora: 1784 Geração: 759
+Melhor até agora: 1781 Geração: 779
+Melhor até agora: 1703 Geração: 796
+Melhor até agora: 1697 Geração: 833
+Melhor até agora: 1690 Geração: 834
+Melhor até agora: 1685 Geração: 840
+Melhor até agora: 1666 Geração: 877
+Melhor até agora: 1633 Geração: 878
+Melhor até agora: 1616 Geração: 900
+Melhor até agora: 1593 Geração: 932
+Melhor até agora: 1573 Geração: 948
+Melhor até agora: 1553 Geração: 1036
+Melhor até agora: 1542 Geração: 1083
+Melhor até agora: 1541 Geração: 1118
+Melhor até agora: 1515 Geração: 1155
+Melhor até agora: 1514 Geração: 1182
+Melhor até agora: 1503 Geração: 1195
+Largura da faixa = 62
+Melhor altura = 1503
+
+Lower Bound 1 = 169
+Lower Bound 2 = 239
+Avaliação = 6.2887
+
+Solução: 
+Peça 1: Cliente:79 Altura: 2 Largura: 2
+Peça 2: Cliente:76 Altura: 2 Largura: 3
+Peça 3: Cliente:79 Altura: 2 Largura: 2
+Peça 4: Cliente:77 Altura: 2 Largura: 2
+Peça 5: Cliente:79 Altura: 3 Largura: 2
+Peça 6: Cliente:77 Altura: 3 Largura: 18
+Peça 7: Cliente:80 Altura: 2 Largura: 2
+Peça 8: Cliente:71 Altura: 2 Largura: 3
+Peça 9: Cliente:69 Altura: 8 Largura: 2
+Peça 10: Cliente:73 Altura: 2 Largura: 3
+Peça 11: Cliente:78 Altura: 2 Largura: 2
+Peça 12: Cliente:72 Altura: 6 Largura: 5
+Peça 13: Cliente:76 Altura: 3 Largura: 2
+Peça 14: Cliente:76 Altura: 2 Largura: 2
+Peça 15: Cliente:59 Altura: 2 Largura: 2
+Peça 16: Cliente:63 Altura: 6 Largura: 2
+Peça 17: Cliente:78 Altura: 2 Largura: 6
+Peça 18: Cliente:53 Altura: 2 Largura: 2
+Peça 19: Cliente:75 Altura: 3 Largura: 3
+Peça 20: Cliente:74 Altura: 2 Largura: 3
+Peça 21: Cliente:76 Altura: 2 Largura: 3
+Peça 22: Cliente:59 Altura: 3 Largura: 2
+Peça 23: Cliente:79 Altura: 2 Largura: 3
+Peça 24: Cliente:72 Altura: 2 Largura: 3
+Peça 25: Cliente:77 Altura: 5 Largura: 2
+Peça 26: Cliente:74 Altura: 3 Largura: 2
+Peça 27: Cliente:46 Altura: 2 Largura: 2
+Peça 28: Cliente:30 Altura: 4 Largura: 2
+Peça 29: Cliente:60 Altura: 3 Largura: 2
+Peça 30: Cliente:44 Altura: 2 Largura: 3
+Peça 31: Cliente:9 Altura: 3 Largura: 2
+Peça 32: Cliente:32 Altura: 2 Largura: 2
+Peça 33: Cliente:45 Altura: 2 Largura: 6
+Peça 34: Cliente:65 Altura: 3 Largura: 3
+Peça 35: Cliente:52 Altura: 2 Largura: 2
+Peça 36: Cliente:27 Altura: 2 Largura: 2
+Peça 37: Cliente:12 Altura: 2 Largura: 2
+Peça 38: Cliente:5 Altura: 2 Largura: 2
+Peça 39: Cliente:5 Altura: 2 Largura: 2
+Peça 40: Cliente:38 Altura: 5 Largura: 3
+Peça 41: Cliente:8 Altura: 3 Largura: 3
+Peça 42: Cliente:70 Altura: 18 Largura: 59
+Peça 43: Cliente:79 Altura: 50 Largura: 6
+Peça 44: Cliente:73 Altura: 5 Largura: 7
+Peça 45: Cliente:76 Altura: 2 Largura: 2
+Peça 46: Cliente:55 Altura: 2 Largura: 3
+Peça 47: Cliente:54 Altura: 3 Largura: 8
+Peça 48: Cliente:41 Altura: 3 Largura: 3
+Peça 49: Cliente:63 Altura: 8 Largura: 3
+Peça 50: Cliente:56 Altura: 2 Largura: 2
+Peça 51: Cliente:60 Altura: 2 Largura: 2
+Peça 52: Cliente:53 Altura: 2 Largura: 2
+Peça 53: Cliente:63 Altura: 2 Largura: 2
+Peça 54: Cliente:65 Altura: 6 Largura: 3
+Peça 55: Cliente:58 Altura: 3 Largura: 5
+Peça 56: Cliente:62 Altura: 3 Largura: 2
+Peça 57: Cliente:72 Altura: 11 Largura: 3
+Peça 58: Cliente:70 Altura: 3 Largura: 3
+Peça 59: Cliente:55 Altura: 2 Largura: 9
+Peça 60: Cliente:74 Altura: 3 Largura: 29
+Peça 61: Cliente:75 Altura: 3 Largura: 25
+Peça 62: Cliente:61 Altura: 2 Largura: 25
+Peça 63: Cliente:74 Altura: 4 Largura: 9
+Peça 64: Cliente:69 Altura: 7 Largura: 2
+Peça 65: Cliente:40 Altura: 4 Largura: 2
+Peça 66: Cliente:47 Altura: 2 Largura: 2
+Peça 67: Cliente:43 Altura: 2 Largura: 2
+Peça 68: Cliente:61 Altura: 2 Largura: 2
+Peça 69: Cliente:49 Altura: 2 Largura: 2
+Peça 70: Cliente:74 Altura: 3 Largura: 3
+Peça 71: Cliente:46 Altura: 3 Largura: 5
+Peça 72: Cliente:64 Altura: 3 Largura: 25
+Peça 73: Cliente:55 Altura: 2 Largura: 2
+Peça 74: Cliente:64 Altura: 3 Largura: 5
+Peça 75: Cliente:70 Altura: 7 Largura: 2
+Peça 76: Cliente:54 Altura: 8 Largura: 2
+Peça 77: Cliente:59 Altura: 2 Largura: 2
+Peça 78: Cliente:43 Altura: 2 Largura: 2
+Peça 79: Cliente:34 Altura: 2 Largura: 2
+Peça 80: Cliente:49 Altura: 2 Largura: 3
+Peça 81: Cliente:28 Altura: 2 Largura: 2
+Peça 82: Cliente:17 Altura: 2 Largura: 2
+Peça 83: Cliente:66 Altura: 3 Largura: 2
+Peça 84: Cliente:45 Altura: 3 Largura: 3
+Peça 85: Cliente:26 Altura: 2 Largura: 2
+Peça 86: Cliente:68 Altura: 2 Largura: 2
+Peça 87: Cliente:15 Altura: 5 Largura: 2
+Peça 88: Cliente:15 Altura: 2 Largura: 2
+Peça 89: Cliente:52 Altura: 3 Largura: 2
+Peça 90: Cliente:67 Altura: 3 Largura: 48
+Peça 91: Cliente:65 Altura: 3 Largura: 11
+Peça 92: Cliente:65 Altura: 2 Largura: 32
+Peça 93: Cliente:49 Altura: 2 Largura: 2
+Peça 94: Cliente:74 Altura: 8 Largura: 17
+Peça 95: Cliente:34 Altura: 62 Largura: 3
+Peça 96: Cliente:57 Altura: 2 Largura: 29
+Peça 97: Cliente:60 Altura: 3 Largura: 2
+Peça 98: Cliente:57 Altura: 6 Largura: 4
+Peça 99: Cliente:46 Altura: 2 Largura: 2
+Peça 100: Cliente:59 Altura: 2 Largura: 2
+Peça 101: Cliente:64 Altura: 2 Largura: 2
+Peça 102: Cliente:33 Altura: 3 Largura: 3
+Peça 103: Cliente:47 Altura: 2 Largura: 2
+Peça 104: Cliente:47 Altura: 2 Largura: 4
+Peça 105: Cliente:35 Altura: 2 Largura: 2
+Peça 106: Cliente:43 Altura: 5 Largura: 8
+Peça 107: Cliente:33 Altura: 3 Largura: 2
+Peça 108: Cliente:28 Altura: 2 Largura: 3
+Peça 109: Cliente:41 Altura: 2 Largura: 2
+Peça 110: Cliente:53 Altura: 3 Largura: 3
+Peça 111: Cliente:41 Altura: 21 Largura: 3
+Peça 112: Cliente:51 Altura: 11 Largura: 2
+Peça 113: Cliente:42 Altura: 31 Largura: 16
+Peça 114: Cliente:47 Altura: 2 Largura: 2
+Peça 115: Cliente:31 Altura: 3 Largura: 2
+Peça 116: Cliente:39 Altura: 2 Largura: 2
+Peça 117: Cliente:29 Altura: 2 Largura: 2
+Peça 118: Cliente:43 Altura: 2 Largura: 20
+Peça 119: Cliente:47 Altura: 2 Largura: 5
+Peça 120: Cliente:56 Altura: 3 Largura: 2
+Peça 121: Cliente:37 Altura: 2 Largura: 2
+Peça 122: Cliente:41 Altura: 3 Largura: 3
+Peça 123: Cliente:26 Altura: 2 Largura: 2
+Peça 124: Cliente:41 Altura: 28 Largura: 5
+Peça 125: Cliente:28 Altura: 2 Largura: 7
+Peça 126: Cliente:26 Altura: 3 Largura: 2
+Peça 127: Cliente:24 Altura: 2 Largura: 2
+Peça 128: Cliente:27 Altura: 28 Largura: 31
+Peça 129: Cliente:14 Altura: 2 Largura: 3
+Peça 130: Cliente:41 Altura: 6 Largura: 22
+Peça 131: Cliente:16 Altura: 13 Largura: 5
+Peça 132: Cliente:28 Altura: 2 Largura: 5
+Peça 133: Cliente:25 Altura: 6 Largura: 17
+Peça 134: Cliente:20 Altura: 2 Largura: 2
+Peça 135: Cliente:14 Altura: 2 Largura: 4
+Peça 136: Cliente:6 Altura: 2 Largura: 3
+Peça 137: Cliente:2 Altura: 3 Largura: 2
+Peça 138: Cliente:9 Altura: 2 Largura: 2
+Peça 139: Cliente:1 Altura: 2 Largura: 4
+Peça 140: Cliente:15 Altura: 2 Largura: 2
+Peça 141: Cliente:3 Altura: 12 Largura: 3
+Peça 142: Cliente:35 Altura: 33 Largura: 54
+Peça 143: Cliente:48 Altura: 3 Largura: 14
+Peça 144: Cliente:46 Altura: 2 Largura: 23
+Peça 145: Cliente:43 Altura: 2 Largura: 20
+Peça 146: Cliente:36 Altura: 2 Largura: 5
+Peça 147: Cliente:49 Altura: 2 Largura: 32
+Peça 148: Cliente:40 Altura: 33 Largura: 13
+Peça 149: Cliente:15 Altura: 4 Largura: 4
+Peça 150: Cliente:42 Altura: 3 Largura: 4
+Peça 151: Cliente:34 Altura: 12 Largura: 5
+Peça 152: Cliente:50 Altura: 2 Largura: 7
+Peça 153: Cliente:35 Altura: 3 Largura: 2
+Peça 154: Cliente:8 Altura: 2 Largura: 2
+Peça 155: Cliente:33 Altura: 3 Largura: 2
+Peça 156: Cliente:33 Altura: 2 Largura: 2
+Peça 157: Cliente:23 Altura: 2 Largura: 2
+Peça 158: Cliente:28 Altura: 2 Largura: 34
+Peça 159: Cliente:30 Altura: 3 Largura: 3
+Peça 160: Cliente:9 Altura: 2 Largura: 2
+Peça 161: Cliente:25 Altura: 2 Largura: 2
+Peça 162: Cliente:9 Altura: 2 Largura: 2
+Peça 163: Cliente:4 Altura: 2 Largura: 3
+Peça 164: Cliente:10 Altura: 3 Largura: 2
+Peça 165: Cliente:7 Altura: 2 Largura: 2
+Peça 166: Cliente:3 Altura: 3 Largura: 6
+Peça 167: Cliente:21 Altura: 2 Largura: 3
+Peça 168: Cliente:8 Altura: 2 Largura: 4
+Peça 169: Cliente:6 Altura: 9 Largura: 5
+Peça 170: Cliente:2 Altura: 2 Largura: 2
+Peça 171: Cliente:41 Altura: 3 Largura: 51
+Peça 172: Cliente:34 Altura: 3 Largura: 16
+Peça 173: Cliente:5 Altura: 3 Largura: 2
+Peça 174: Cliente:9 Altura: 12 Largura: 3
+Peça 175: Cliente:27 Altura: 3 Largura: 8
+Peça 176: Cliente:12 Altura: 2 Largura: 2
+Peça 177: Cliente:52 Altura: 2 Largura: 2
+Peça 178: Cliente:9 Altura: 3 Largura: 2
+Peça 179: Cliente:17 Altura: 10 Largura: 3
+Peça 180: Cliente:36 Altura: 2 Largura: 3
+Peça 181: Cliente:15 Altura: 2 Largura: 2
+Peça 182: Cliente:41 Altura: 3 Largura: 12
+Peça 183: Cliente:19 Altura: 2 Largura: 2
+Peça 184: Cliente:11 Altura: 8 Largura: 19
+Peça 185: Cliente:2 Altura: 3 Largura: 2
+Peça 186: Cliente:3 Altura: 2 Largura: 2
+Peça 187: Cliente:24 Altura: 3 Largura: 3
+Peça 188: Cliente:6 Altura: 3 Largura: 13
+Peça 189: Cliente:11 Altura: 3 Largura: 2
+Peça 190: Cliente:11 Altura: 6 Largura: 6
+Peça 191: Cliente:3 Altura: 4 Largura: 16
+Peça 192: Cliente:11 Altura: 2 Largura: 19
+Peça 193: Cliente:13 Altura: 2 Largura: 13
+Peça 194: Cliente:22 Altura: 3 Largura: 42
+Peça 195: Cliente:9 Altura: 2 Largura: 5
+Peça 196: Cliente:5 Altura: 3 Largura: 8
+Peça 197: Cliente:18 Altura: 3 Largura: 14
+Peça 198: Cliente:6 Altura: 2 Largura: 2
+Peça 199: Cliente:26 Altura: 25 Largura: 60
+Peça 200: Cliente:17 Altura: 2 Largura: 27
+
+
+Tempo de execução: 3228638ms
+
+---------------------------
+
