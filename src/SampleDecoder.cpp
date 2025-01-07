@@ -17,9 +17,18 @@ using namespace std;
 
 SampleDecoder::~SampleDecoder() {}
 
-bool sort_rank(const ranking &a, const ranking &b)
+bool sort_descending_group_ascending_chromosome(const ranking &a,
+                                                const ranking &b)
 {
+  if (a.group != b.group) {
+    return a.group > b.group;
+  }
   return a.chromosome < b.chromosome;
+}
+
+bool sort_ascending_client(const ranking &a, const ranking &b)
+{
+  return a.client < b.client;
 }
 
 typedef struct {
@@ -138,7 +147,7 @@ void fit_item(item item, ems space, set<ems, bottom_left_cmp> &layer,
   for (int i = x3; i < x4; i++) {
     if (clients_verification[i] != -1 &&
         clients_verification[i] < item.client) {
-      *penalty += item.client - clients_verification[i];
+      *penalty += ub;
       break;
     }
   }
@@ -186,7 +195,20 @@ double SampleDecoder::decode(const std::vector<double> &chromosome) const
     rank[i].client = items[i].client;
   }
 
-  std::sort(rank.begin(), rank.end(), sort_rank);
+  std::sort(rank.begin(), rank.end(), sort_ascending_client);
+
+  unsigned client = 1;
+  unsigned group = 0;
+  for (unsigned i = 0; i < rank.size(); ++i) {
+    if (rank[i].client != client && rank[i].client != client + 1) {
+      group += 1;
+      client += 2;
+    }
+    rank[i].group = group;
+  }
+
+  std::sort(rank.begin(), rank.end(),
+            sort_descending_group_ascending_chromosome);
 
   vector<set<ems, bottom_left_cmp>> layers;
 
@@ -235,10 +257,6 @@ double SampleDecoder::decode(const std::vector<double> &chromosome) const
       fit = true;
       items_placed++;
     }
-  }
-
-  if (penalty) {
-    penalty += ub;
   }
 
   std::cout << strip_height + penalty << std::endl;

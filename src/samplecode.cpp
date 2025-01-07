@@ -197,7 +197,8 @@ int main(int argc, char *argv[])
     solution[i].index = i;
     solution[i].client = items[i].client;
   }
-  std::sort(solution.begin(), solution.end(), sort_rank);
+  std::sort(solution.begin(), solution.end(),
+            sort_descending_group_ascending_chromosome);
 
   std::cout << "Melhor altura = " << best << "\n";
 

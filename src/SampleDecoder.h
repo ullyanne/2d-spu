@@ -48,8 +48,10 @@ typedef struct {
   double chromosome;
   unsigned index;
   unsigned client;
+  unsigned group;
 } ranking;
 
-bool sort_rank(const ranking& a, const ranking& b);
+bool sort_descending_group_ascending_chromosome(const ranking& a,
+                                                const ranking& b);
 
 #endif

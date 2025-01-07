@@ -249,3 +249,219 @@ Peça 10: Cliente:1 Altura: 16 Largura: 40
 Tempo de execução: 13992ms
 
 ---------------------------
+Número de cromossomos: 10
+Tamanho da população: 2500
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.4
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 1000
+
+Melhor até agora: 44 Geração: 0
+Melhor até agora: 40 Geração: 2
+Largura da faixa = 40
+Melhor altura = 40
+
+Lower Bound 1 = 40
+Lower Bound 2 = 36
+Avaliação = 1
+
+Solução: 
+Peça 1: Cliente:1 Altura: 24 Largura: 24
+Peça 2: Cliente:2 Altura: 4 Largura: 7
+Peça 3: Cliente:2 Altura: 20 Largura: 4
+Peça 4: Cliente:2 Altura: 8 Largura: 7
+Peça 5: Cliente:2 Altura: 6 Largura: 7
+Peça 6: Cliente:2 Altura: 4 Largura: 5
+Peça 7: Cliente:2 Altura: 20 Largura: 5
+Peça 8: Cliente:1 Altura: 6 Largura: 7
+Peça 9: Cliente:1 Altura: 4 Largura: 4
+Peça 10: Cliente:1 Altura: 16 Largura: 40
+
+
+Tempo de execução: 51306ms
+
+---------------------------
+
+Número de cromossomos: 10
+Tamanho da população: 2500
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.4
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 1000
+
+Melhor até agora: 44 Geração: 0
+Melhor até agora: 40 Geração: 2
+Largura da faixa = 40
+Melhor altura = 40
+
+Lower Bound 1 = 40
+Lower Bound 2 = 36
+Avaliação = 1
+
+Solução: 
+Peça 1: Cliente:1 Altura: 24 Largura: 24
+Peça 2: Cliente:2 Altura: 4 Largura: 7
+Peça 3: Cliente:2 Altura: 20 Largura: 4
+Peça 4: Cliente:2 Altura: 8 Largura: 7
+Peça 5: Cliente:2 Altura: 6 Largura: 7
+Peça 6: Cliente:2 Altura: 4 Largura: 5
+Peça 7: Cliente:2 Altura: 20 Largura: 5
+Peça 8: Cliente:1 Altura: 6 Largura: 7
+Peça 9: Cliente:1 Altura: 4 Largura: 4
+Peça 10: Cliente:1 Altura: 16 Largura: 40
+
+
+Tempo de execução: 45233ms
+
+---------------------------
+
+Número de cromossomos: 10
+Tamanho da população: 2500
+Fração elite: 0.6
+Fração mutante: 0.4
+Probabilidade herdar alelo elite: 0.7
+Número de populações independentes: 5
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 1000
+
+Melhor até agora: 44 Geração: 0
+Melhor até agora: 40 Geração: 1
+Largura da faixa = 40
+Melhor altura = 40
+
+Lower Bound 1 = 40
+Lower Bound 2 = 36
+Avaliação = 1
+
+Solução: 
+Peça 1: Cliente:1 Altura: 24 Largura: 24
+Peça 2: Cliente:2 Altura: 4 Largura: 7
+Peça 3: Cliente:2 Altura: 20 Largura: 5
+Peça 4: Cliente:2 Altura: 8 Largura: 7
+Peça 5: Cliente:2 Altura: 6 Largura: 7
+Peça 6: Cliente:1 Altura: 6 Largura: 7
+Peça 7: Cliente:2 Altura: 4 Largura: 5
+Peça 8: Cliente:2 Altura: 20 Largura: 4
+Peça 9: Cliente:1 Altura: 4 Largura: 4
+Peça 10: Cliente:1 Altura: 16 Largura: 40
+
+
+Tempo de execução: 42806ms
+
+---------------------------
+
+Número de cromossomos: 10
+Tamanho da população: 2500
+Fração elite: 0.7
+Fração mutante: 0.3
+Probabilidade herdar alelo elite: 0.8
+Número de populações independentes: 5
+Número de threads: 14
+Trocar os melhores indivíduos a cada 1000 gerações
+Número máximo de gerações: 1000
+
+Melhor até agora: 44 Geração: 0
+Melhor até agora: 40 Geração: 1
+Largura da faixa = 40
+Melhor altura = 40
+
+Lower Bound 1 = 40
+Lower Bound 2 = 36
+Avaliação = 1
+
+Solução: 
+Peça 1: Cliente:1 Altura: 24 Largura: 24
+Peça 2: Cliente:2 Altura: 4 Largura: 7
+Peça 3: Cliente:2 Altura: 20 Largura: 4
+Peça 4: Cliente:2 Altura: 8 Largura: 7
+Peça 5: Cliente:2 Altura: 6 Largura: 7
+Peça 6: Cliente:2 Altura: 20 Largura: 5
+Peça 7: Cliente:1 Altura: 6 Largura: 7
+Peça 8: Cliente:2 Altura: 4 Largura: 5
+Peça 9: Cliente:1 Altura: 4 Largura: 4
+Peça 10: Cliente:1 Altura: 16 Largura: 40
+
+
+Tempo de execução: 32990ms
+
+---------------------------
+
+Número de cromossomos: 10
+Tamanho da população: 2500
+Fração elite: 0.7
+Fração mutante: 0.3
+Probabilidade herdar alelo elite: 0.8
+Número de populações independentes: 5
+Número de threads: 14
+Trocar os melhores indivíduos a cada 1000 gerações
+Número máximo de gerações: 1000
+
+Melhor até agora: 44 Geração: 0
+Melhor até agora: 40 Geração: 1
+Largura da faixa = 40
+Melhor altura = 40
+
+Lower Bound 1 = 40
+Lower Bound 2 = 36
+Avaliação = 1
+
+Solução: 
+Peça 1: Cliente:1 Altura: 24 Largura: 24
+Peça 2: Cliente:2 Altura: 4 Largura: 7
+Peça 3: Cliente:2 Altura: 20 Largura: 4
+Peça 4: Cliente:2 Altura: 8 Largura: 7
+Peça 5: Cliente:2 Altura: 6 Largura: 7
+Peça 6: Cliente:2 Altura: 20 Largura: 5
+Peça 7: Cliente:1 Altura: 6 Largura: 7
+Peça 8: Cliente:2 Altura: 4 Largura: 5
+Peça 9: Cliente:1 Altura: 4 Largura: 4
+Peça 10: Cliente:1 Altura: 16 Largura: 40
+
+
+Tempo de execução: 47683ms
+
+---------------------------
+
+Número de cromossomos: 10
+Tamanho da população: 2500
+Fração elite: 0.7
+Fração mutante: 0.3
+Probabilidade herdar alelo elite: 0.8
+Número de populações independentes: 5
+Número de threads: 14
+Trocar os melhores indivíduos a cada 1000 gerações
+Número máximo de gerações: 1000
+
+Melhor até agora: 44 Geração: 0
+Melhor até agora: 40 Geração: 1
+Largura da faixa = 40
+Melhor altura = 40
+
+Lower Bound 1 = 40
+Lower Bound 2 = 36
+Avaliação = 1
+
+Solução: 
+Peça 1: Cliente:1 Altura: 24 Largura: 24
+Peça 2: Cliente:2 Altura: 4 Largura: 7
+Peça 3: Cliente:2 Altura: 20 Largura: 4
+Peça 4: Cliente:2 Altura: 8 Largura: 7
+Peça 5: Cliente:2 Altura: 6 Largura: 7
+Peça 6: Cliente:2 Altura: 20 Largura: 5
+Peça 7: Cliente:1 Altura: 6 Largura: 7
+Peça 8: Cliente:2 Altura: 4 Largura: 5
+Peça 9: Cliente:1 Altura: 4 Largura: 4
+Peça 10: Cliente:1 Altura: 16 Largura: 40
+
+
+Tempo de execução: 47185ms
+
+---------------------------
+
