@@ -52,3 +52,26 @@ Tempo de execução: 43329ms
 
 ---------------------------
 
+Número de cromossomos: 300
+Tamanho da população: 1500
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.7
+Número de populações independentes: 6
+Número de threads: 14
+Trocar os melhores indivíduos a cada 1000 gerações
+Número máximo de gerações: 500
+
+Melhor até agora: 307 Geração: 0
+Melhor até agora: 305 Geração: 36
+Largura da faixa = 70
+Melhor altura = 305
+
+Lower Bound 1 = 150
+Lower Bound 2 = 112
+Avaliação = 2.03333
+
+Tempo de execução: 769817ms
+
+---------------------------
+
