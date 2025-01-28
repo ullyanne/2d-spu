@@ -1,5 +1,9 @@
-typedef struct{
-	int height;
-	int width;
-	int client;
+#ifndef ITEM_H
+#define ITEM_H
+typedef struct {
+  unsigned height;
+  unsigned width;
+  unsigned client;
 } item;
+
+#endif  // ITEM_H

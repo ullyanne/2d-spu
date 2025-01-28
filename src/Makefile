@@ -1,7 +1,7 @@
 # Macros:
 CPP = g++
 CFLAGS = -g -O0 -fopenmp -Wall
-OBJECTS = SampleDecoder.o samplecode.o
+OBJECTS = SampleDecoder.o samplecode.o Packing.o
 
 # Targets:
 all: samplecode
@@ -14,6 +14,9 @@ SampleDecoder.o: SampleDecoder.cpp SampleDecoder.h
 
 samplecode.o: samplecode.cpp
 	$(CPP) $(CFLAGS) -c samplecode.cpp
+
+Packing.o: Packing.cpp Packing.h
+	$(CPP) $(CFLAGS) -c -g Packing.cpp
 
 # Remove:
 clean:
