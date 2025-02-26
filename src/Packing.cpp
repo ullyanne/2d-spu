@@ -1,6 +1,7 @@
 #include "Packing.h"
 
 #include <algorithm>
+#include <fstream>
 
 using namespace std;
 
@@ -97,6 +98,18 @@ void calc_diff_process(set<ems, bottom_left_cmp> &layer, ems space, int x3,
     space.top_point = make_pair(diff_proc[i + 2], diff_proc[i + 3]);
 
     if (is_ems_valid(space, layer)) {
+      bool intersects_x =
+          !(space.top_point.first <= x3 || space.bottom_point.first >= x4);
+      bool below_piece = space.bottom_point.second < y3;
+      if (intersects_x && below_piece) {
+        continue;
+      }
+      // if (space.bottom_point.second < y3 && space.bottom_point.first >= x3 &&
+      //         space.bottom_point.first < x4 ||
+      //     space.bottom_point.first < x3 && space.top_point.first > x3) {
+      //   continue;
+      // }
+
       layer.insert(space);
     }
   }
@@ -108,15 +121,36 @@ bool does_intersect(int x3, int y3, int x4, int y4, ems space)
           y3 < space.top_point.second && y4 > space.bottom_point.second);
 }
 
-void fit_item(item item, ems space, set<ems, bottom_left_cmp> &layer,
-              int clients_verification[], unsigned ub, unsigned *penalty)
+void calculate_item_coordinates(int &x3, int &y3, int &x4, int &y4, item item,
+                                ems space)
 {
-  layer.erase(space);
+  x3 = space.bottom_point.first;
+  y3 = space.bottom_point.second;
+  x4 = x3 + item.width;
+  y4 = y3 + item.height;
+}
 
-  int x3 = space.bottom_point.first;
-  int y3 = space.bottom_point.second;
-  int x4 = x3 + item.width;
-  int y4 = y3 + item.height;
+bool will_violate_unloading_constraint(item item, ems space,
+                                       int clients_verification[])
+{
+  int x3, y3, x4, y4;
+  calculate_item_coordinates(x3, y3, x4, y4, item, space);
+
+  for (int i = x3; i < x4; i++) {
+    if (clients_verification[i] != -1 &&
+        clients_verification[i] < item.client) {
+      return true;
+    }
+  }
+  return false;
+}
+
+void fit_item(item item, ems space, set<ems, bottom_left_cmp> &layer,
+              int clients_verification[], unsigned ub, unsigned *penalty,
+              bool debug_sol = false, fstream *solfile = nullptr)
+{
+  int x3, y3, x4, y4;
+  calculate_item_coordinates(x3, y3, x4, y4, item, space);
 
   for (int i = x3; i < x4; i++) {
     if (clients_verification[i] != -1 &&
@@ -130,6 +164,12 @@ void fit_item(item item, ems space, set<ems, bottom_left_cmp> &layer,
     clients_verification[i] = item.client;
   }
 
+  if (debug_sol) {
+    *solfile << x3 << " " << y3 << "\n" << x4 << " " << y4 << "\n";
+  }
+
+  layer.erase(space);
+
   calc_diff_process(layer, space, x3, y3, x4, y4);
 
   for (auto ems = layer.begin(); ems != layer.end();) {
@@ -139,7 +179,20 @@ void fit_item(item item, ems space, set<ems, bottom_left_cmp> &layer,
       calc_diff_process(layer, ems_tmp, x3, y3, x4, y4);
     }
     else {
-      ems++;
+      bool intersects_x =
+          !(space.top_point.first <= x3 || space.bottom_point.first >= x4);
+      bool below_piece = space.bottom_point.second < y3;
+      if (intersects_x && below_piece) {
+        ems = layer.erase(ems);
+      }
+
+      // if (ems->bottom_point.second < y3 && ems->bottom_point.first >= x3 &&
+      //     ems->top_point.first < x4) {
+      //   ems = layer.erase(ems);
+      // }
+      else {
+        ems++;
+      }
     }
   }
 }
@@ -186,28 +239,14 @@ void construct_sol(std::vector<ranking> &full_solution,
   }
   std::sort(rank.begin(), rank.end(), sort_rank);
 
-  for (int i = 0; i < chromosome.size(); ++i) {
-    std::cout << "rank: " << rank[i].index << "\n";
-  }
-
   full_solution = lns_seq;
 
   std::vector<unsigned> subchromosome_copy = subchromosome;
   for (unsigned i = 0; i < chromosome.size(); i++) {
-    // std::cout << lns_seq_copy[i].index << "\n";
-    // std::cout << "bom dia!" << subchromosome[i] << "\n";
-    // std::cout << "b!" << rank[i].index << "\n";
-    // std::cout << "d!" << lns_seq[rank[i].index].index << "\n";
     subchromosome_copy[i] = rank[i].index;
-    // lns_seq_copy[subchromosome[i]] = lns_seq[rank[i].index];
   }
 
   rearrangeSeq(full_solution, subchromosome_copy);
-
-  for (int i = 0; i < full_solution.size(); i++) {
-    // std::cout << "hi!\n";
-    std::cout << full_solution[i].index << " ";
-  }
 }
 
 unsigned pack(
@@ -215,8 +254,9 @@ unsigned pack(
     const unsigned max_width, const unsigned ub,
     std::unordered_map<unsigned, std::vector<unsigned>> &clients_to_layers,
     std::unordered_map<unsigned, unsigned> &layers_to_index,
-    unsigned &num_layers)
+    unsigned &num_layers, bool debug_sol, std::fstream *solfile)
 {
+  // vector<set<ems, bottom_left_cmp>> layers;
   vector<set<ems, bottom_left_cmp>> layers;
 
   unsigned item_index = rank[0].index;
@@ -228,17 +268,13 @@ unsigned pack(
   unsigned penalty = 0;
 
   std::vector<unsigned> layers_client;
-  unsigned current_client = 1;
+  unsigned current_client = item.client;
 
   int clients_verification[max_width];
 
   for (unsigned i = 0; i < max_width; i++) {
     clients_verification[i] = -1;
   }
-
-  // for (int i = 0; i < rank.size(); i++) {
-  //   std::cout << "rank: " << rank[i].index << "\n";
-  // }
 
   open_new_layer(layers, num_layers, strip_height, max_width, item.height);
   layers_to_index[num_layers - 1] = 0;
@@ -254,27 +290,15 @@ unsigned pack(
            ems != layers[num_layers - 1].end();) {
         if (item_can_fit(item, *ems)) {
           fit_item(item, *ems, layers[num_layers - 1], clients_verification, ub,
-                   &penalty);
-          // cout << "woops " << item_index << "\n";
+                   &penalty, debug_sol, solfile);
           fit = true;
           items_placed++;
 
           if (item.client != current_client) {
             clients_to_layers[current_client] = layers_client;
 
-            // for (unsigned lay : layers_client) {
-            //   std::cout << "lay changed!: " << lay << "\n";
-            // }
-
             layers_client.clear();
 
-            // for (unsigned lay : layers_client) {
-            //   std::cout << "lay cleared!: " << lay << "\n";
-            // }
-
-            // for (unsigned lay : clients_to_layers[current_client]) {
-            //   std::cout << "new vec!: " << lay << "\n";
-            // }
             current_client = item.client;
             layers_client.push_back(num_layers - 1);
           }
@@ -287,36 +311,29 @@ unsigned pack(
     }
 
     if (!fit) {
+      open_new_layer(layers, num_layers, strip_height, max_width, item.height);
       if (item.client != current_client) {
         clients_to_layers[current_client] = layers_client;
 
-        // for (unsigned lay : layers_client) {
-        //   std::cout << "lay changed!: " << lay << "\n";
-        // }
-
         layers_client.clear();
 
-        // for (unsigned lay : layers_client) {
-        //   std::cout << "lay cleared!: " << lay << "\n";
-        // }
-
-        // for (unsigned lay : clients_to_layers[current_client]) {
-        //   std::cout << "new vec!: " << lay << "\n";
-        // }
         current_client = item.client;
         layers_client.push_back(num_layers - 1);
       }
       else {
         layers_client.push_back(num_layers - 1);
       }
-      open_new_layer(layers, num_layers, strip_height, max_width, item.height);
       auto new_space = *layers[num_layers - 1].begin();
       fit_item(item, new_space, layers[num_layers - 1], clients_verification,
-               ub, &penalty);
-      // cout << "woops1 " << item_index << "\n";
+               ub, &penalty, debug_sol, solfile);
+
       fit = true;
       items_placed++;
       layers_to_index[num_layers - 1] = items_placed - 1;
+    }
+
+    if (debug_sol) {
+      *solfile << item_index << "\n" << item.client << "\n";
     }
   }
 
@@ -326,10 +343,138 @@ unsigned pack(
     penalty += ub;
   }
 
-  // for (int i = 0; i < rank.size(); i++) {
-  //   std::cout << "rank: " << rank[i].index << "\n";
-  // }
-
-  // std::cout << strip_height + penalty << std::endl;
   return strip_height + penalty;
+}
+
+void calc_strip_height(unsigned &strip_height, ems space, unsigned item_height)
+{
+  unsigned height = space.bottom_point.second + item_height;
+  if (height > strip_height) {
+    strip_height = height;
+  }
+}
+
+unsigned pack_with_one_layer(const std::vector<ranking> &rank,
+                             vector<item> items, const unsigned max_width,
+                             const unsigned ub, bool debug_sol,
+                             std::fstream *solfile)
+{
+  vector<set<ems, bottom_left_cmp>> layers;
+
+  unsigned item_index = rank[0].index;
+  item item = items[item_index];
+  unsigned strip_height = 0;
+  long unsigned int items_placed = 0;
+  bool fit;
+  unsigned penalty = 0;
+
+  unsigned current_client = item.client;
+
+  int clients_verification[max_width];
+
+  for (unsigned i = 0; i < max_width; i++) {
+    clients_verification[i] = -1;
+  }
+
+  layers.push_back(set<ems, bottom_left_cmp>());
+  ems space;
+  space.bottom_point = make_pair(0, 0);
+  space.top_point = make_pair(max_width, ub);
+  layers[0].insert(space);
+
+  while (items_placed < items.size()) {
+    item_index = rank[items_placed].index;
+    item = items[item_index];
+    fit = false;
+
+    if (!layers[0].empty()) {
+      for (auto ems = layers[0].begin(); ems != layers[0].end();) {
+        if (item_can_fit(item, *ems)) {
+          calc_strip_height(strip_height, *ems, item.height);
+          fit_item(item, *ems, layers[0], clients_verification, ub, &penalty,
+                   debug_sol, solfile);
+          if (debug_sol) {
+            *solfile << item_index << "\n" << item.client << "\n";
+          }
+          fit = true;
+          items_placed++;
+          break;
+        }
+        else {
+          ems++;
+        }
+      }
+    }
+  }
+
+  if (penalty) {
+    penalty += ub;
+  }
+
+  return strip_height + penalty;
+}
+
+unsigned pack_compressed(const std::vector<ranking> &rank, vector<item> items,
+                         const unsigned max_width, const unsigned ub,
+                         bool debug_sol, std::fstream *solfile)
+{
+  vector<set<ems, bottom_left_cmp>> layers;
+
+  unsigned item_index = rank[0].index;
+  item item = items[item_index];
+  unsigned strip_height = 0;
+  long unsigned int items_placed = 0;
+  bool fit;
+  unsigned penalty;
+
+  unsigned current_client = item.client;
+
+  int clients_verification[max_width];
+
+  for (unsigned i = 0; i < max_width; i++) {
+    clients_verification[i] = -1;
+  }
+
+  layers.push_back(set<ems, bottom_left_cmp>());
+  ems space;
+  space.bottom_point = make_pair(0, 0);
+  space.top_point = make_pair(max_width, ub);
+  layers[0].insert(space);
+
+  unsigned index = 0;
+  std::vector<ranking> rank_copy = rank;
+
+  while (items_placed < items.size()) {
+    item_index = rank_copy[index].index;
+    item = items[item_index];
+    fit = false;
+
+    if (!layers[0].empty()) {
+      for (auto ems = layers[0].begin(); ems != layers[0].end();) {
+        if (item_can_fit(item, *ems) && !will_violate_unloading_constraint(
+                                            item, *ems, clients_verification)) {
+          calc_strip_height(strip_height, *ems, item.height);
+          fit_item(item, *ems, layers[0], clients_verification, ub, &penalty,
+                   debug_sol, solfile);
+          if (debug_sol) {
+            *solfile << item_index << "\n" << item.client << "\n";
+          }
+          fit = true;
+          items_placed++;
+          index = 0;
+          rank_copy.erase(rank_copy.begin() + index);
+          break;
+        }
+        else if (index == rank_copy.size() - 1) {
+          ems = layers[0].erase(ems);
+        }
+        else {
+          index++;
+          // ems++;
+        }
+      }
+    }
+  }
+
+  return strip_height;
 }

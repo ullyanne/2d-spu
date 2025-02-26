@@ -1,6 +1,7 @@
 #ifndef PACKING_H
 #define PACKING_H
 
+#include <algorithm>
 #include <iostream>
 #include <set>
 #include <unordered_map>
@@ -38,7 +39,18 @@ unsigned pack(
     const unsigned max_width, const unsigned ub,
     std::unordered_map<unsigned, std::vector<unsigned>> &clients_to_layers,
     std::unordered_map<unsigned, unsigned> &layers_to_index,
-    unsigned &num_layers);
+    unsigned &num_layers, bool debug_sol = false,
+    std::fstream *solfile = nullptr);
+
+unsigned pack_with_one_layer(const std::vector<ranking> &rank,
+                             std::vector<item> items, const unsigned max_width,
+                             const unsigned ub, bool debug_sol = false,
+                             std::fstream *solfile = nullptr);
+
+unsigned pack_compressed(const std::vector<ranking> &rank,
+                         std::vector<item> items, const unsigned max_width,
+                         const unsigned ub, bool debug_sol,
+                         std::fstream *solfile);
 
 bool sort_rank(const ranking &a, const ranking &b);
 

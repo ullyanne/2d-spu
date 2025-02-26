@@ -136,6 +136,12 @@ class BRKGA {
   unsigned getK() const;
   unsigned getMAX_THREADS() const;
 
+ public:
+  std::unordered_map<unsigned, std::vector<unsigned>> getBestClientsToLayers()
+      const;
+
+  std::unordered_map<unsigned, unsigned> getBestLayersToIndex() const;
+
  private:
   // Hyperparameters:
   const unsigned n;   // number of genes in the chromosome
@@ -238,10 +244,10 @@ const Population& BRKGA<Decoder, RNG>::getPopulation(unsigned k) const
 template <class Decoder, class RNG>
 double BRKGA<Decoder, RNG>::getBestFitness() const
 {
-  double best = current[0]->fitness[0].first;
+  double best = current[0]->chromosome_packing_info[0].fitness;
   for (unsigned i = 1; i < K; ++i) {
-    if (current[i]->fitness[0].first < best) {
-      best = current[i]->fitness[0].first;
+    if (current[i]->chromosome_packing_info[0].fitness < best) {
+      best = current[i]->chromosome_packing_info[0].fitness;
     }
   }
   return best;
@@ -258,6 +264,34 @@ const std::vector<double>& BRKGA<Decoder, RNG>::getBestChromosome() const
   }
 
   return current[bestK]->getChromosome(0);  // The top one :-)
+}
+
+template <class Decoder, class RNG>
+std::unordered_map<unsigned, std::vector<unsigned>>
+BRKGA<Decoder, RNG>::getBestClientsToLayers() const
+{
+  unsigned bestK = 0;
+  for (unsigned i = 1; i < K; ++i) {
+    if (current[i]->getBestFitness() < current[bestK]->getBestFitness()) {
+      bestK = i;
+    }
+  }
+
+  return current[bestK]->getClientsToLayers(0);
+}
+
+template <class Decoder, class RNG>
+std::unordered_map<unsigned, unsigned>
+BRKGA<Decoder, RNG>::getBestLayersToIndex() const
+{
+  unsigned bestK = 0;
+  for (unsigned i = 1; i < K; ++i) {
+    if (current[i]->getBestFitness() < current[bestK]->getBestFitness()) {
+      bestK = i;
+    }
+  }
+
+  return current[bestK]->getLayersToIndex(0);
 }
 
 template <class Decoder, class RNG>
@@ -310,7 +344,8 @@ void BRKGA<Decoder, RNG>::exchangeElite(unsigned M)
         std::copy(bestOfJ.begin(), bestOfJ.end(),
                   current[i]->getChromosome(dest).begin());
 
-        current[i]->fitness[dest].first = current[j]->fitness[m].first;
+        current[i]->chromosome_packing_info[dest].fitness =
+            current[j]->chromosome_packing_info[m].fitness;
 
         --dest;
       }
@@ -336,7 +371,17 @@ inline void BRKGA<Decoder, RNG>::initialize(const unsigned i)
 #pragma omp parallel for num_threads(MAX_THREADS)
 #endif
   for (int j = 0; j < int(p); ++j) {
-    current[i]->setFitness(j, refDecoder.decode((*current[i])(j)));
+    std::unordered_map<unsigned, std::vector<unsigned>> clients_to_layers;
+
+    std::unordered_map<unsigned, unsigned> layers_to_index;
+
+    unsigned num_layers;
+
+    double fitness =
+        refDecoder.decode((*current[i])(j), clients_to_layers, layers_to_index);
+
+    current[i]->setFitness(j, fitness);
+    current[i]->setLayersInfo(j, clients_to_layers, layers_to_index);
   }
 
   // Sort:
@@ -354,11 +399,18 @@ inline void BRKGA<Decoder, RNG>::evolution(Population& curr, Population& next)
   // 'current':
   while (i < pe) {
     for (j = 0; j < n; ++j) {
-      next(i, j) = curr(curr.fitness[i].second, j);
+      next(i, j) = curr(curr.chromosome_packing_info[i].chromosome, j);
     }
 
-    next.fitness[i].first = curr.fitness[i].first;
-    next.fitness[i].second = i;
+    next.chromosome_packing_info[i].fitness =
+        curr.chromosome_packing_info[i].fitness;
+    next.chromosome_packing_info[i].chromosome = i;
+    next.chromosome_packing_info[i].clients_to_layers =
+        curr.chromosome_packing_info[i].clients_to_layers;
+    next.chromosome_packing_info[i].layers_to_index =
+        curr.chromosome_packing_info[i].layers_to_index;
+    // next.fitness[i].first = curr.fitness[i].first;
+    // next.fitness[i].second = i;
     ++i;
   }
 
@@ -376,7 +428,8 @@ inline void BRKGA<Decoder, RNG>::evolution(Population& curr, Population& next)
       const unsigned sourceParent =
           ((refRNG.rand() < rhoe) ? eliteParent : noneliteParent);
 
-      next(i, j) = curr(curr.fitness[sourceParent].second, j);
+      next(i, j) =
+          curr(curr.chromosome_packing_info[sourceParent].chromosome, j);
 
       // next(i, j) = (refRNG.rand() < rhoe) ?
       // curr(curr.fitness[eliteParent].second, j) :
@@ -400,7 +453,12 @@ inline void BRKGA<Decoder, RNG>::evolution(Population& curr, Population& next)
 #pragma omp parallel for num_threads(MAX_THREADS)
 #endif
   for (int i = int(pe); i < int(p); ++i) {
-    next.setFitness(i, refDecoder.decode(next.population[i]));
+    std::unordered_map<unsigned, std::vector<unsigned>> clients_to_layers;
+
+    std::unordered_map<unsigned, unsigned> layers_to_index;
+    next.setFitness(i, refDecoder.decode(next.population[i], clients_to_layers,
+                                         layers_to_index));
+    next.setLayersInfo(i, clients_to_layers, layers_to_index);
   }
 
   // Now we must sort 'current' by fitness, since things might have changed:

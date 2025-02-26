@@ -76,3 +76,194 @@ Tempo de execução: 42288ms
 
 ---------------------------
 
+Número de cromossomos: 80
+Tamanho da população: 50
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 4
+Número de threads: 14
+Trocar os melhores indivíduos a cada 600 gerações
+Número máximo de gerações: 100
+
+Largura da faixa = 50
+Melhor altura = 205
+
+Lower Bound 1 = 160
+Lower Bound 2 = 71
+Avaliação = 1.28125
+
+Tempo de execução: 10313ms
+
+---------------------------
+
+Número de cromossomos: 80
+Tamanho da população: 50
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 4
+Número de threads: 14
+Trocar os melhores indivíduos a cada 600 gerações
+Número máximo de gerações: 100
+
+Largura da faixa = 50
+Melhor altura = 203
+
+Lower Bound 1 = 160
+Lower Bound 2 = 71
+Avaliação = 1.26875
+
+Tempo de execução: 106968ms
+
+---------------------------
+
+Número de cromossomos: 80
+Tamanho da população: 50
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 4
+Número de threads: 14
+Trocar os melhores indivíduos a cada 600 gerações
+Número máximo de gerações: 100
+
+Largura da faixa = 50
+Melhor altura = 179
+
+Lower Bound 1 = 160
+Lower Bound 2 = 71
+Avaliação = 1.11875
+
+Tempo de execução: 123287000s
+
+---------------------------
+
+Número de cromossomos: 80
+Tamanho da população: 50
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 4
+Número de threads: 1
+Trocar os melhores indivíduos a cada 600 gerações
+Número máximo de gerações: 100
+
+Largura da faixa = 50
+Melhor altura = 240
+
+Lower Bound 1 = 160
+Lower Bound 2 = 71
+Avaliação = 1.5
+
+Tempo de execução: 3679000s
+
+---------------------------
+
+Número de cromossomos: 80
+Tamanho da população: 50
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 4
+Número de threads: 1
+Trocar os melhores indivíduos a cada 600 gerações
+Número máximo de gerações: 100
+
+Largura da faixa = 50
+Melhor altura = 240
+
+Lower Bound 1 = 160
+Lower Bound 2 = 71
+Avaliação = 1.5
+
+Tempo de execução: 307344000s
+
+---------------------------
+
+Número de cromossomos: 80
+Tamanho da população: 50
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 4
+Número de threads: 1
+Trocar os melhores indivíduos a cada 600 gerações
+Número máximo de gerações: 100
+
+Largura da faixa = 50
+Melhor altura = 240
+
+Lower Bound 1 = 160
+Lower Bound 2 = 71
+Avaliação = 1.5
+
+Tempo de execução: 305806000s
+
+---------------------------
+
+Número de cromossomos: 80
+Tamanho da população: 50
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 4
+Número de threads: 1
+Trocar os melhores indivíduos a cada 600 gerações
+Número máximo de gerações: 100
+
+Largura da faixa = 50
+Melhor altura = 246
+
+Lower Bound 1 = 160
+Lower Bound 2 = 71
+Avaliação = 1.5375
+
+Tempo de execução: 30s
+
+---------------------------
+
+Número de cromossomos: 80
+Tamanho da população: 50
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 4
+Número de threads: 1
+Trocar os melhores indivíduos a cada 600 gerações
+Número máximo de gerações: 100
+
+Número de swaps entre camadas = 15
+Largura da faixa = 50
+Melhor altura = 176
+
+Lower Bound 1 = 160
+Lower Bound 2 = 71
+Avaliação = 1.1
+
+Tempo de execução: 50s
+
+---------------------------
+
+Número de cromossomos: 80
+Tamanho da população: 50
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 4
+Número de threads: 1
+Trocar os melhores indivíduos a cada 600 gerações
+Número máximo de gerações: 100
+
+Número de swaps entre camadas = 15
+Largura da faixa = 50
+Melhor altura = 185
+
+Lower Bound 1 = 160
+Lower Bound 2 = 71
+Avaliação = 1.15625
+
+Tempo de execução: 45s
+
+---------------------------
+

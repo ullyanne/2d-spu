@@ -20,7 +20,10 @@ using namespace std;
 SampleDecoder::~SampleDecoder() {}
 
 // Runs in \Theta(n \log n):
-double SampleDecoder::decode(const std::vector<double> &chromosome) const
+double SampleDecoder::decode(
+    const std::vector<double> &chromosome,
+    std::unordered_map<unsigned, std::vector<unsigned>> &clients_to_layers,
+    std::unordered_map<unsigned, unsigned> &layers_to_index) const
 {
   std::vector<ranking> rank(chromosome.size());
 
@@ -81,21 +84,19 @@ double SampleDecoder::decode(const std::vector<double> &chromosome) const
 
   unsigned strip_height_plus_penalty = 0;
 
-  std::unordered_map<unsigned, std::vector<unsigned>> clients_to_layers;
-  std::unordered_map<unsigned, unsigned> layers_to_index;
   unsigned num_layers = 0;
 
   strip_height_plus_penalty =
       pack(lns_seq_copy, items, max_width, ub, clients_to_layers,
            layers_to_index, num_layers);
 
-  if (strip_height_plus_penalty == 40) {
-    cout << "\nh: " << strip_height_plus_penalty << "\n";
+  // if (strip_height_plus_penalty == 40) {
+  //   cout << "\nh: " << strip_height_plus_penalty << "\n";
 
-    for (int i = 0; i < lns_seq_copy.size(); i++) {
-      cout << "baba " << lns_seq_copy[i].index << " ";
-    }
-  }
+  //   for (int i = 0; i < lns_seq_copy.size(); i++) {
+  //     cout << "baba " << lns_seq_copy[i].index << " ";
+  //   }
+  // }
 
   return strip_height_plus_penalty;
 }

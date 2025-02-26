@@ -43,7 +43,10 @@ class SampleDecoder {
   {
   }
   ~SampleDecoder();
-  double decode(const vector<double>& chromosome) const;
+  double decode(
+      const vector<double> &chromosome,
+      std::unordered_map<unsigned, std::vector<unsigned>> &clients_to_layers,
+      std::unordered_map<unsigned, unsigned> &layers_to_index) const;
 
  private:
   const vector<ranking> lns_seq;
