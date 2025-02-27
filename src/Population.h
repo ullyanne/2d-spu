@@ -141,6 +141,9 @@ void Population::setFitness(unsigned i, double f)
   // layers_info_fitness.fitness[i].first = f;
   // layers_info_fitness.fitness[i].second = i;
   chromosome_packing_info[i].fitness = f;
+  if (f < 1) {
+    std::cout << "oi!";
+  }
   chromosome_packing_info[i].chromosome = i;
   // fitness[i].first = f;
   // fitness[i].second = i;

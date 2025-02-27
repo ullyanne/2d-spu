@@ -29,38 +29,38 @@ double SampleDecoder::decode(
 
   for (unsigned i = 0; i < chromosome.size(); ++i) {
     rank[i].chromosome = chromosome[i];
-    rank[i].index = subchromosome[i];
+    rank[i].index = i;
   }
 
   std::sort(rank.begin(), rank.end(), sort_rank);
 
-  std::vector<ranking> lns_seq_copy = lns_seq;
+  // std::vector<ranking> lns_seq_copy = lns_seq;
 
-  // for (unsigned i = 0; i < lns_seq.size(); i++) {
-  //   std::cout << "seq " << lns_seq[i].index << "\n";
+  // // for (unsigned i = 0; i < lns_seq.size(); i++) {
+  // //   std::cout << "seq " << lns_seq[i].index << "\n";
+  // // }
+
+  // std::vector<unsigned> subchromosome_copy = subchromosome;
+  // for (unsigned i = 0; i < chromosome.size(); i++) {
+  //   // std::cout << lns_seq_copy[i].index << "\n";
+  //   // std::cout << "bom dia!" << subchromosome[i] << "\n";
+  //   // std::cout << "b!" << rank[i].index << "\n";
+  //   // std::cout << "d!" << lns_seq[rank[i].index].index << "\n";
+  //   subchromosome_copy[i] = rank[i].index;
+  //   // lns_seq_copy[subchromosome[i]] = lns_seq[rank[i].index];
   // }
 
-  std::vector<unsigned> subchromosome_copy = subchromosome;
-  for (unsigned i = 0; i < chromosome.size(); i++) {
-    // std::cout << lns_seq_copy[i].index << "\n";
-    // std::cout << "bom dia!" << subchromosome[i] << "\n";
-    // std::cout << "b!" << rank[i].index << "\n";
-    // std::cout << "d!" << lns_seq[rank[i].index].index << "\n";
-    subchromosome_copy[i] = rank[i].index;
-    // lns_seq_copy[subchromosome[i]] = lns_seq[rank[i].index];
-  }
+  // // lns_seq_copy[0] = lns_seq[8];
+  // // lns_seq_copy[1] = lns_seq[7];
+  // // lns_seq_copy[2] = lns_seq[1];
+  // // lns_seq_copy[3] = lns_seq[0];
+  // // lns_seq_copy[4] = lns_seq[5];
+  // // lns_seq_copy[5] = lns_seq[3];
+  // // lns_seq_copy[7] = lns_seq[4];
+  // // lns_seq_copy[8] = lns_seq[2];
+  // // lns_seq_copy[9] = lns_seq[9];
 
-  // lns_seq_copy[0] = lns_seq[8];
-  // lns_seq_copy[1] = lns_seq[7];
-  // lns_seq_copy[2] = lns_seq[1];
-  // lns_seq_copy[3] = lns_seq[0];
-  // lns_seq_copy[4] = lns_seq[5];
-  // lns_seq_copy[5] = lns_seq[3];
-  // lns_seq_copy[7] = lns_seq[4];
-  // lns_seq_copy[8] = lns_seq[2];
-  // lns_seq_copy[9] = lns_seq[9];
-
-  rearrangeSeq(lns_seq_copy, subchromosome_copy);
+  // rearrangeSeq(lns_seq_copy, subchromosome_copy);
   // for (unsigned i = 0; i < lns_seq_copy.size(); i++) {
   //   std::cout << "seq copy " << lns_seq_copy[i].index << "\n";
   // }
@@ -86,9 +86,11 @@ double SampleDecoder::decode(
 
   unsigned num_layers = 0;
 
-  strip_height_plus_penalty =
-      pack(lns_seq_copy, items, max_width, ub, clients_to_layers,
-           layers_to_index, num_layers);
+  strip_height_plus_penalty = pack_with_one_layer(rank, items, max_width, ub);
+
+  // strip_height_plus_penalty =
+  //     pack(lns_seq_copy, items, max_width, ub, clients_to_layers,
+  //          layers_to_index, num_layers);
 
   // if (strip_height_plus_penalty == 40) {
   //   cout << "\nh: " << strip_height_plus_penalty << "\n";
@@ -97,6 +99,10 @@ double SampleDecoder::decode(
   //     cout << "baba " << lns_seq_copy[i].index << " ";
   //   }
   // }
+
+  if (strip_height_plus_penalty < 1) {
+    cout << "h: " << strip_height_plus_penalty << "\n";
+  }
 
   return strip_height_plus_penalty;
 }

@@ -32,14 +32,9 @@ using namespace std;
 
 class SampleDecoder {
  public:
-  SampleDecoder(const vector<ranking> lns_seq,
-                const vector<unsigned> subchromosome, const vector<item> items,
+  SampleDecoder(const vector<ranking> lns_seq, const vector<item> items,
                 const int max_width, const int ub)
-      : lns_seq(lns_seq),
-        subchromosome(subchromosome),
-        items(items),
-        max_width(max_width),
-        ub(ub)
+      : lns_seq(lns_seq), items(items), max_width(max_width), ub(ub)
   {
   }
   ~SampleDecoder();
@@ -50,7 +45,6 @@ class SampleDecoder {
 
  private:
   const vector<ranking> lns_seq;
-  const vector<unsigned> subchromosome;
   const vector<item> items;
   const int max_width;
   const int ub;

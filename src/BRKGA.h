@@ -58,6 +58,7 @@
 #include <stdexcept>
 #include <typeinfo>
 
+#include "Packing.h"
 #include "Population.h"
 
 template <class Decoder, class RNG>
@@ -82,8 +83,8 @@ class BRKGA {
    * const
    */
   BRKGA(unsigned n, unsigned p, double pe, double pm, double rhoe,
-        const Decoder& refDecoder, RNG& refRNG, unsigned K = 1,
-        unsigned MAX_THREADS = 1);
+        const Decoder& refDecoder, RNG& refRNG, unsigned K,
+        unsigned MAX_THREADS, std::vector<ranking> presolution);
 
   /**
    * Destructor
@@ -159,6 +160,7 @@ class BRKGA {
   // Parallel populations parameters:
   const unsigned K;            // number of independent parallel populations
   const unsigned MAX_THREADS;  // number of threads for parallel decoding
+  const std::vector<ranking> presolution;
 
   // Data:
   std::vector<Population*> previous;  // previous populations
@@ -175,7 +177,8 @@ class BRKGA {
 template <class Decoder, class RNG>
 BRKGA<Decoder, RNG>::BRKGA(unsigned _n, unsigned _p, double _pe, double _pm,
                            double _rhoe, const Decoder& decoder, RNG& rng,
-                           unsigned _K, unsigned MAX)
+                           unsigned _K, unsigned MAX,
+                           std::vector<ranking> presolution)
     : n(_n),
       p(_p),
       pe(unsigned(_pe * p)),
@@ -185,6 +188,7 @@ BRKGA<Decoder, RNG>::BRKGA(unsigned _n, unsigned _p, double _pe, double _pm,
       refDecoder(decoder),
       K(_K),
       MAX_THREADS(MAX),
+      presolution(presolution),
       previous(K, 0),
       current(K, 0)
 {
@@ -360,6 +364,45 @@ void BRKGA<Decoder, RNG>::exchangeElite(unsigned M)
 template <class Decoder, class RNG>
 inline void BRKGA<Decoder, RNG>::initialize(const unsigned i)
 {
+  if (i == 0 && !presolution.empty()) {
+    // Insert the preSolution as the first chromosome in the population
+    std::vector<double> chromosome(n);
+    std::vector<std::pair<unsigned, double>> seq(n);
+
+    for (unsigned i = 0; i < n; i++) {
+      seq[i].first = presolution[i].index;
+      seq[i].second = (static_cast<double>(i) / presolution.size()) * 10.0;
+    }
+
+    std::sort(
+        seq.begin(), seq.end(),
+        [](const std::pair<unsigned, double>& a,
+           const std::pair<unsigned, double>& b) { return a.first < b.first; });
+
+    for (unsigned i = 0; i < n; i++) {
+      std::cout << seq[i].first << " --* \n";
+    }
+
+    for (unsigned i = 0; i < n; i++) {
+      chromosome[i] = seq[i].first;
+      // std::cout << chromosome[i] << " --* \n";
+      // std::cout << seq[i].second << "\n";
+    }
+
+    for (unsigned j = 0; j < n; ++j) {
+      (*current[i])(0, j) = chromosome[j];  // Assign the pre-solution
+    }
+
+    // Decode and set the fitness
+    std::unordered_map<unsigned, std::vector<unsigned>> clients_to_layers;
+    std::unordered_map<unsigned, unsigned> layers_to_index;
+    double fitness =
+        refDecoder.decode((*current[i])(0), clients_to_layers, layers_to_index);
+
+    current[i]->setFitness(0, fitness);
+    current[i]->setLayersInfo(0, clients_to_layers, layers_to_index);
+  }
+
   for (unsigned j = 0; j < p; ++j) {
     for (unsigned k = 0; k < n; ++k) {
       (*current[i])(j, k) = refRNG.rand();
@@ -374,8 +417,6 @@ inline void BRKGA<Decoder, RNG>::initialize(const unsigned i)
     std::unordered_map<unsigned, std::vector<unsigned>> clients_to_layers;
 
     std::unordered_map<unsigned, unsigned> layers_to_index;
-
-    unsigned num_layers;
 
     double fitness =
         refDecoder.decode((*current[i])(j), clients_to_layers, layers_to_index);

@@ -25,6 +25,19 @@ bool sort_lns(const ranking& a, const ranking& b,
          (items[b.index].height * items[b.index].width);
 }
 
+bool sort_lns_2(const unsigned& a, const unsigned& b,
+                const std::vector<ranking>& lns, const std::vector<item>& items)
+{
+  ranking first = lns[a];
+  ranking second = lns[b];
+
+  if (first.client != second.client) {
+    return first.client > second.client;
+  }
+  return (items[first.index].height * items[first.index].width) >
+         (items[second.index].width * items[second.index].height);
+}
+
 void choose_client(MTRand& random, unsigned& client, unsigned& next_client,
                    unsigned num_clients)
 {
@@ -225,6 +238,10 @@ int main(int argc, char* argv[])
               return sort_lns(a, b, items);
             });
 
+  for (unsigned i = 0; i < lns_seq.size(); i++) {
+    cout << lns_seq[i].index << " ";
+  }
+
   // for (const auto& item : lns_seq) {
   //   std::cout << item.client << " " << item.index << " "
   //             << items[item.index].width << " " << items[item.index].height
@@ -249,7 +266,6 @@ int main(int argc, char* argv[])
 
   /* choose layers of adjacent clients to swap */
   for (unsigned i = 0; i <= swap_num; ++i) {
-    height = best_height;
     lns_seq = best_sol;
     unsigned client;
     unsigned next_client;
@@ -293,52 +309,66 @@ int main(int argc, char* argv[])
       continue;
     }
 
-    SampleDecoder decoder(lns_seq, subchromosome, items, max_width,
-                          ub);  // initialize the decoder
+    std::sort(subchromosome.begin(), subchromosome.end(),
+              [&lns_seq, items](const unsigned& a, const unsigned& b) {
+                return sort_lns_2(a, b, lns_seq, items);
+              });
 
-    const long unsigned rngSeed = 0;  // seed to the random number generator
-    MTRand rng(rngSeed);              // initialize the random number generator
+    std::vector<ranking> lns_seq_copy = lns_seq;
+    rearrangeSeq(lns_seq_copy, subchromosome);
 
-    // initialize the BRKGA-based heuristic
-    BRKGA<SampleDecoder, MTRand> algorithm(subchromosome_size, p, pe, pm, rhoe,
-                                           decoder, rng, K, MAXT);
-
-    unsigned generation = 0;      // current generation
-    const unsigned X_NUMBER = 2;  // exchange top 2 best
-
-    best_fitness = best_height;
-    do {
-      algorithm.evolve();  // evolve the population for one generation
-      int cost = algorithm.getBestFitness();
-
-      if (cost < best_fitness) {
-        best_fitness = cost;
-        layers_to_index = algorithm.getBestLayersToIndex();
-        clients_to_layers = algorithm.getBestClientsToLayers();
-        // printf("%d %d\n", best, generation);
-        logfile << "Melhor até agora: " << best_fitness << " "
-                << "Geração: " << generation << "\n"
-                << "Iteração: " << i << "\n";
-      }
-
-      if ((++generation) % X_INTVL == 0) {
-        algorithm.exchangeElite(X_NUMBER);  // exchange top individuals
-      }
-    } while (generation < MAX_GENS);
-
-    if (best_fitness < best_height) {
-      best_height = best_fitness;
-      // cout << "best! " << best_height << "\n";
-      auto end = std::chrono::high_resolution_clock::now();
-      auto duration =
-          std::chrono::duration_cast<std::chrono::milliseconds>(end - start)
-              .count();
-      /* update clients to index, layers to index etc... */
-      /* remember subchromosome is just a part of the sol. construct sol merges
-       * lns_seq with subchromosome*/
-      construct_sol(best_sol, algorithm.getBestChromosome(), subchromosome,
-                    lns_seq);
+    for (unsigned i = 0; i < lns_seq_copy.size(); i++) {
+      cout << lns_seq_copy[i].index << " ";
     }
+
+    unsigned height = pack(lns_seq_copy, items, max_width, ub,
+                           clients_to_layers, layers_to_index, num_layers);
+
+    if (height < best_height) {
+      best_height = height;
+      best_sol = lns_seq_copy;
+      // cout << "best! " << best_height << "\n";
+      /* update clients to index, layers to index etc... */
+      /* remember subchromosome is just a part of the sol. construct sol
+      merges
+       * lns_seq with subchromosome*/
+    }
+  }
+
+  cout << best_height << " best << !\n";
+
+  SampleDecoder decoder(best_sol, items, max_width,
+                        ub);  // initialize the decoder
+
+  const long unsigned rngSeed = 0;  // seed to the random number generator
+  MTRand rng(rngSeed);              // initialize the random number generator
+
+  // initialize the BRKGA-based heuristic
+  BRKGA<SampleDecoder, MTRand> algorithm(best_sol.size(), p, pe, pm, rhoe,
+                                         decoder, rng, K, MAXT, lns_seq);
+
+  unsigned generation = 0;      // current generation
+  const unsigned X_NUMBER = 2;  // exchange top 2 best
+
+  best_fitness = best_height;
+  do {
+    algorithm.evolve();  // evolve the population for one generation
+    int cost = algorithm.getBestFitness();
+
+    if (cost < best_fitness) {
+      best_fitness = cost;
+      // printf("%d %d\n", best, generation);
+      logfile << "Melhor até agora: " << best_fitness << " "
+              << "Geração: " << generation << "\n";
+    }
+
+    if ((++generation) % X_INTVL == 0) {
+      algorithm.exchangeElite(X_NUMBER);  // exchange top individuals
+    }
+  } while (generation < MAX_GENS);
+
+  if (best_fitness < best_height) {
+    best_height = best_fitness;
   }
 
   // for (int i = 0; i < best_sol.size(); i++) {
@@ -388,15 +418,15 @@ int main(int argc, char* argv[])
   // cout << "x " << best_sol[0].index << "\n";
 
   // /* pack with one layer [old version]*/
-  unsigned best_swap;
-  std::vector<ranking> best_swap_sol = best_sol;
-  best_swap = pack_with_one_layer(best_swap_sol, items, max_width, ub);
-  // cout << best_height << "\n";
-  // std::cout << "h2: " << best_swap << "\n";
+  // unsigned best_swap;
+  // std::vector<ranking> best_swap_sol = best_sol;
+  // best_swap = pack_with_one_layer(best_swap_sol, items, max_width, ub);
+  // // cout << best_height << "\n";
+  // // std::cout << "h2: " << best_swap << "\n";
 
-  if (best_swap < best_height) {
-    best_height = best_swap;
-  }
+  // if (best_swap < best_height) {
+  //   best_height = best_swap;
+  // }
 
   // for (int i = 0; i < best_swap_sol.size(); i++) {
   //   cout << best_swap_sol[i].index << " ";
@@ -425,8 +455,8 @@ int main(int argc, char* argv[])
   // }
 
   MTRand choose_two_2(4);
-
-  for (int j = 0; j < 300; j++) {
+  std::vector<ranking> best_swap_sol = best_sol;
+  for (int j = 0; j < 800; j++) {
     unsigned first_piece = choose_two_2.randInt(num_items - 1);
     unsigned second_piece = choose_two_2.randInt(num_items - 1);
 
@@ -445,16 +475,11 @@ int main(int argc, char* argv[])
 
     unsigned swap = pack_with_one_layer(rank, items, max_width, ub);
 
-    if (swap < best_swap) {
+    if (swap < best_height) {
       // cout << "swap " << swap << "\n";
-      best_swap = swap;
-      best_swap_sol = rank;
+      best_height = swap;
+      best_sol = rank;
     }
-  }
-
-  if (best_swap < best_height) {
-    best_height = best_swap;
-    best_sol = best_swap_sol;
   }
 
   // for (int i = 0; i < best_sol.size(); i++) {
@@ -472,16 +497,17 @@ int main(int argc, char* argv[])
   if (debug_sol) {
     solfile << max_width << "\n";
 
-    cout << best_swap << "\n";
     cout << best_height << "\n";
-    if (best_swap == best_height) {
-      unsigned dummy = pack_with_one_layer(best_sol, items, max_width, ub,
-                                           debug_sol, &solfile);
-    }
-    else {
-      unsigned dummy = pack(best_sol, items, max_width, ub, clients_to_layers,
-                            layers_to_index, num_layers, debug_sol, &solfile);
-    }
+    // if (best_swap == best_height) {
+    unsigned dummy = pack_with_one_layer(best_sol, items, max_width, ub,
+                                         debug_sol, &solfile);
+    // }
+    // else {
+    //   unsigned dummy = pack(best_sol, items, max_width, ub,
+    //   clients_to_layers,
+    //                         layers_to_index, num_layers, debug_sol,
+    //                         &solfile);
+    // }
   }
 
   std::cout << "Melhor altura = " << best_height << "\n";
