@@ -19,10 +19,10 @@ typedef struct {
 typedef struct {
   std::pair<int, int> bottom_point;
   std::pair<int, int> top_point;
-} ems;
+} ems_t;
 
 struct bottom_left_cmp {
-  bool operator()(ems a, ems b) const
+  bool operator()(ems_t a, ems_t b) const
   {
     if (a.bottom_point.second == b.bottom_point.second) {
       if (a.bottom_point.first != b.bottom_point.first) {

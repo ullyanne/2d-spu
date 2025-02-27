@@ -245,7 +245,7 @@ int main(int argc, char* argv[])
   MTRand random_lns(2);
   MTRand choose_two(300);
 
-  unsigned swap_num = 15;
+  unsigned swap_num = 5;
 
   /* choose layers of adjacent clients to swap */
   for (unsigned i = 0; i <= swap_num; ++i) {

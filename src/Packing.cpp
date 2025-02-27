@@ -1,18 +1,21 @@
 #include "Packing.h"
 
 #include <algorithm>
+#include <boost/container/flat_set.hpp>
+#include <deque>
 #include <fstream>
 
 using namespace std;
+using boost::container::flat_set;
 
-void open_new_layer(vector<set<ems, bottom_left_cmp>> &layers,
+void open_new_layer(vector<flat_set<ems_t, bottom_left_cmp>> &layers,
                     unsigned &num_layers, unsigned &strip_height, int max_width,
                     int item_height)
 {
-  layers.push_back(set<ems, bottom_left_cmp>());
+  layers.push_back(flat_set<ems_t, bottom_left_cmp>());
   num_layers++;
 
-  ems space;
+  ems_t space;
   space.bottom_point = make_pair(0, strip_height);
   space.top_point = make_pair(max_width, item_height + strip_height);
 
@@ -20,10 +23,10 @@ void open_new_layer(vector<set<ems, bottom_left_cmp>> &layers,
   strip_height += item_height;
 }
 
-bool item_can_fit(item item, ems ems)
+bool item_can_fit(item item, ems_t ems_t)
 {
-  int space_width = ems.top_point.first - ems.bottom_point.first;
-  int space_height = ems.top_point.second - ems.bottom_point.second;
+  int space_width = ems_t.top_point.first - ems_t.bottom_point.first;
+  int space_height = ems_t.top_point.second - ems_t.bottom_point.second;
 
   if (item.width <= space_width && item.height <= space_height) {
     return true;
@@ -31,7 +34,7 @@ bool item_can_fit(item item, ems ems)
   return false;
 }
 
-bool is_a_line(ems space)
+bool is_a_line(ems_t space)
 {
   if (space.bottom_point.first == space.top_point.first or
       space.bottom_point.second == space.top_point.second) {
@@ -40,7 +43,7 @@ bool is_a_line(ems space)
   return false;
 }
 
-bool is_contained(ems a, ems b)
+bool is_contained(ems_t a, ems_t b)
 {
   if (a.top_point.first <= b.top_point.first &&
       a.top_point.second <= b.top_point.second &&
@@ -51,7 +54,7 @@ bool is_contained(ems a, ems b)
   return false;
 }
 
-bool is_maximal(ems new_space, set<ems, bottom_left_cmp> &layer)
+bool is_maximal(ems_t new_space, flat_set<ems_t, bottom_left_cmp> &layer)
 {
   for (const auto &space : layer) {
     if (is_contained(new_space, space) || is_contained(space, new_space)) {
@@ -61,7 +64,7 @@ bool is_maximal(ems new_space, set<ems, bottom_left_cmp> &layer)
   return true;
 }
 
-bool is_ems_valid(ems space, set<ems, bottom_left_cmp> &layer)
+bool is_ems_valid(ems_t space, flat_set<ems_t, bottom_left_cmp> &layer)
 {
   if (is_a_line(space)) {
     return false;
@@ -82,8 +85,9 @@ bool is_ems_valid(ems space, set<ems, bottom_left_cmp> &layer)
   return true;
 }
 
-void calc_diff_process(set<ems, bottom_left_cmp> &layer, ems space, int x3,
-                       int y3, int x4, int y4)
+void calc_diff_process(flat_set<ems_t, bottom_left_cmp> &layer,
+                       std::deque<ems_t> &layer_it, ems_t space, int x3, int y3,
+                       int x4, int y4)
 {
   int x1 = space.bottom_point.first;
   int y1 = space.bottom_point.second;
@@ -104,25 +108,21 @@ void calc_diff_process(set<ems, bottom_left_cmp> &layer, ems space, int x3,
       if (intersects_x && below_piece) {
         continue;
       }
-      // if (space.bottom_point.second < y3 && space.bottom_point.first >= x3 &&
-      //         space.bottom_point.first < x4 ||
-      //     space.bottom_point.first < x3 && space.top_point.first > x3) {
-      //   continue;
-      // }
 
       layer.insert(space);
+      layer_it.push_back(space);
     }
   }
 }
 
-bool does_intersect(int x3, int y3, int x4, int y4, ems space)
+bool does_intersect(int x3, int y3, int x4, int y4, ems_t space)
 {
   return (x3 < space.top_point.first && x4 > space.bottom_point.first &&
           y3 < space.top_point.second && y4 > space.bottom_point.second);
 }
 
 void calculate_item_coordinates(int &x3, int &y3, int &x4, int &y4, item item,
-                                ems space)
+                                ems_t space)
 {
   x3 = space.bottom_point.first;
   y3 = space.bottom_point.second;
@@ -130,7 +130,7 @@ void calculate_item_coordinates(int &x3, int &y3, int &x4, int &y4, item item,
   y4 = y3 + item.height;
 }
 
-bool will_violate_unloading_constraint(item item, ems space,
+bool will_violate_unloading_constraint(item item, ems_t space,
                                        int clients_verification[])
 {
   int x3, y3, x4, y4;
@@ -145,7 +145,7 @@ bool will_violate_unloading_constraint(item item, ems space,
   return false;
 }
 
-void fit_item(item item, ems space, set<ems, bottom_left_cmp> &layer,
+void fit_item(item item, ems_t space, flat_set<ems_t, bottom_left_cmp> &layer,
               int clients_verification[], unsigned ub, unsigned *penalty,
               bool debug_sol = false, fstream *solfile = nullptr)
 {
@@ -170,28 +170,25 @@ void fit_item(item item, ems space, set<ems, bottom_left_cmp> &layer,
 
   layer.erase(space);
 
-  calc_diff_process(layer, space, x3, y3, x4, y4);
+  std::deque<ems_t> to_process(layer.begin(), layer.end());
 
-  for (auto ems = layer.begin(); ems != layer.end();) {
-    if (does_intersect(x3, y3, x4, y4, *ems)) {
-      auto ems_tmp = *ems;
-      ems = layer.erase(ems);
-      calc_diff_process(layer, ems_tmp, x3, y3, x4, y4);
+  calc_diff_process(layer, to_process, space, x3, y3, x4, y4);
+
+  while (!to_process.empty()) {
+    ems_t ems = to_process.front();
+    to_process.pop_front();
+
+    if (does_intersect(x3, y3, x4, y4, ems)) {
+      ems_t ems_tmp = ems;
+      layer.erase(ems);
+      calc_diff_process(layer, to_process, ems_tmp, x3, y3, x4, y4);
     }
     else {
       bool intersects_x =
           !(space.top_point.first <= x3 || space.bottom_point.first >= x4);
       bool below_piece = space.bottom_point.second < y3;
       if (intersects_x && below_piece) {
-        ems = layer.erase(ems);
-      }
-
-      // if (ems->bottom_point.second < y3 && ems->bottom_point.first >= x3 &&
-      //     ems->top_point.first < x4) {
-      //   ems = layer.erase(ems);
-      // }
-      else {
-        ems++;
+        layer.erase(ems);
       }
     }
   }
@@ -256,8 +253,8 @@ unsigned pack(
     std::unordered_map<unsigned, unsigned> &layers_to_index,
     unsigned &num_layers, bool debug_sol, std::fstream *solfile)
 {
-  // vector<set<ems, bottom_left_cmp>> layers;
-  vector<set<ems, bottom_left_cmp>> layers;
+  // vector<flat_set<ems_t, bottom_left_cmp>> layers;
+  vector<flat_set<ems_t, bottom_left_cmp>> layers;
 
   unsigned item_index = rank[0].index;
   item item = items[item_index];
@@ -286,11 +283,11 @@ unsigned pack(
     fit = false;
 
     if (!layers[num_layers - 1].empty()) {
-      for (auto ems = layers[num_layers - 1].begin();
-           ems != layers[num_layers - 1].end();) {
-        if (item_can_fit(item, *ems)) {
-          fit_item(item, *ems, layers[num_layers - 1], clients_verification, ub,
-                   &penalty, debug_sol, solfile);
+      for (auto ems_t = layers[num_layers - 1].begin();
+           ems_t != layers[num_layers - 1].end();) {
+        if (item_can_fit(item, *ems_t)) {
+          fit_item(item, *ems_t, layers[num_layers - 1], clients_verification,
+                   ub, &penalty, debug_sol, solfile);
           fit = true;
           items_placed++;
 
@@ -305,7 +302,7 @@ unsigned pack(
           break;
         }
         else {
-          ems++;
+          ems_t++;
         }
       }
     }
@@ -346,7 +343,8 @@ unsigned pack(
   return strip_height + penalty;
 }
 
-void calc_strip_height(unsigned &strip_height, ems space, unsigned item_height)
+void calc_strip_height(unsigned &strip_height, ems_t space,
+                       unsigned item_height)
 {
   unsigned height = space.bottom_point.second + item_height;
   if (height > strip_height) {
@@ -359,7 +357,7 @@ unsigned pack_with_one_layer(const std::vector<ranking> &rank,
                              const unsigned ub, bool debug_sol,
                              std::fstream *solfile)
 {
-  vector<set<ems, bottom_left_cmp>> layers;
+  vector<flat_set<ems_t, bottom_left_cmp>> layers;
 
   unsigned item_index = rank[0].index;
   item item = items[item_index];
@@ -376,8 +374,8 @@ unsigned pack_with_one_layer(const std::vector<ranking> &rank,
     clients_verification[i] = -1;
   }
 
-  layers.push_back(set<ems, bottom_left_cmp>());
-  ems space;
+  layers.push_back(flat_set<ems_t, bottom_left_cmp>());
+  ems_t space;
   space.bottom_point = make_pair(0, 0);
   space.top_point = make_pair(max_width, ub);
   layers[0].insert(space);
@@ -388,10 +386,10 @@ unsigned pack_with_one_layer(const std::vector<ranking> &rank,
     fit = false;
 
     if (!layers[0].empty()) {
-      for (auto ems = layers[0].begin(); ems != layers[0].end();) {
-        if (item_can_fit(item, *ems)) {
-          calc_strip_height(strip_height, *ems, item.height);
-          fit_item(item, *ems, layers[0], clients_verification, ub, &penalty,
+      for (auto ems_t = layers[0].begin(); ems_t != layers[0].end();) {
+        if (item_can_fit(item, *ems_t)) {
+          calc_strip_height(strip_height, *ems_t, item.height);
+          fit_item(item, *ems_t, layers[0], clients_verification, ub, &penalty,
                    debug_sol, solfile);
           if (debug_sol) {
             *solfile << item_index << "\n" << item.client << "\n";
@@ -401,7 +399,7 @@ unsigned pack_with_one_layer(const std::vector<ranking> &rank,
           break;
         }
         else {
-          ems++;
+          ems_t++;
         }
       }
     }
@@ -418,7 +416,8 @@ unsigned pack_compressed(const std::vector<ranking> &rank, vector<item> items,
                          const unsigned max_width, const unsigned ub,
                          bool debug_sol, std::fstream *solfile)
 {
-  vector<set<ems, bottom_left_cmp>> layers;
+  // vector<flat_set<ems_t, bottom_left_cmp>> layers;
+  vector<flat_set<ems_t, bottom_left_cmp>> layers;
 
   unsigned item_index = rank[0].index;
   item item = items[item_index];
@@ -435,8 +434,8 @@ unsigned pack_compressed(const std::vector<ranking> &rank, vector<item> items,
     clients_verification[i] = -1;
   }
 
-  layers.push_back(set<ems, bottom_left_cmp>());
-  ems space;
+  layers.push_back(flat_set<ems_t, bottom_left_cmp>());
+  ems_t space;
   space.bottom_point = make_pair(0, 0);
   space.top_point = make_pair(max_width, ub);
   layers[0].insert(space);
@@ -450,11 +449,12 @@ unsigned pack_compressed(const std::vector<ranking> &rank, vector<item> items,
     fit = false;
 
     if (!layers[0].empty()) {
-      for (auto ems = layers[0].begin(); ems != layers[0].end();) {
-        if (item_can_fit(item, *ems) && !will_violate_unloading_constraint(
-                                            item, *ems, clients_verification)) {
-          calc_strip_height(strip_height, *ems, item.height);
-          fit_item(item, *ems, layers[0], clients_verification, ub, &penalty,
+      for (auto ems_t = layers[0].begin(); ems_t != layers[0].end();) {
+        if (item_can_fit(item, *ems_t) &&
+            !will_violate_unloading_constraint(item, *ems_t,
+                                               clients_verification)) {
+          calc_strip_height(strip_height, *ems_t, item.height);
+          fit_item(item, *ems_t, layers[0], clients_verification, ub, &penalty,
                    debug_sol, solfile);
           if (debug_sol) {
             *solfile << item_index << "\n" << item.client << "\n";
@@ -466,11 +466,11 @@ unsigned pack_compressed(const std::vector<ranking> &rank, vector<item> items,
           break;
         }
         else if (index == rank_copy.size() - 1) {
-          ems = layers[0].erase(ems);
+          ems_t = layers[0].erase(ems_t);
         }
         else {
           index++;
-          // ems++;
+          // ems_t++;
         }
       }
     }
