@@ -24,10 +24,10 @@ def process_logs(directory):
         media = sum(melhor_alturas) / len(melhor_alturas)
         menor = min(melhor_alturas)
         maior = max(melhor_alturas)
-        print(f"Média: {media:.2f}, Menor: {menor:.2f}, Maior: {maior:.2f}")
+        print(f"Menor: {menor:.2f}, Média: {media:.2f}, Maior: {maior:.2f}")
     else:
         print("Nenhuma altura encontrada nos arquivos .log")
 
 if __name__ == "__main__":
-    diretorio_base = "/home/ullyanne/Documents/2spp/logs/bke/T20"
+    diretorio_base = "/home/ullyanne/Documents/2spp/logs/ben/T20"
     process_logs(diretorio_base)
