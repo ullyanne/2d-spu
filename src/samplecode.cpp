@@ -238,10 +238,6 @@ int main(int argc, char* argv[])
               return sort_lns(a, b, items);
             });
 
-  for (unsigned i = 0; i < lns_seq.size(); i++) {
-    cout << lns_seq[i].index << " ";
-  }
-
   // for (const auto& item : lns_seq) {
   //   std::cout << item.client << " " << item.index << " "
   //             << items[item.index].width << " " << items[item.index].height
@@ -316,10 +312,6 @@ int main(int argc, char* argv[])
 
     std::vector<ranking> lns_seq_copy = lns_seq;
     rearrangeSeq(lns_seq_copy, subchromosome);
-
-    for (unsigned i = 0; i < lns_seq_copy.size(); i++) {
-      cout << lns_seq_copy[i].index << " ";
-    }
 
     unsigned height = pack(lns_seq_copy, items, max_width, ub,
                            clients_to_layers, layers_to_index, num_layers);

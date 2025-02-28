@@ -371,7 +371,7 @@ inline void BRKGA<Decoder, RNG>::initialize(const unsigned i)
 
     for (unsigned i = 0; i < n; i++) {
       seq[i].first = presolution[i].index;
-      seq[i].second = (static_cast<double>(i) / presolution.size()) * 10.0;
+      seq[i].second = (static_cast<double>(i) / (presolution.size() * 10));
     }
 
     std::sort(
@@ -380,13 +380,8 @@ inline void BRKGA<Decoder, RNG>::initialize(const unsigned i)
            const std::pair<unsigned, double>& b) { return a.first < b.first; });
 
     for (unsigned i = 0; i < n; i++) {
-      std::cout << seq[i].first << " --* \n";
-    }
-
-    for (unsigned i = 0; i < n; i++) {
-      chromosome[i] = seq[i].first;
+      chromosome[i] = seq[i].second;
       // std::cout << chromosome[i] << " --* \n";
-      // std::cout << seq[i].second << "\n";
     }
 
     for (unsigned j = 0; j < n; ++j) {
