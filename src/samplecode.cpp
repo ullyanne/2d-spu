@@ -241,9 +241,9 @@ int main(int argc, char* argv[])
                      layers_to_index, num_layers);
 
   // cout << "first! " << best_height << "\n";
-  MTRand random(1);
-  MTRand random_lns(2);
-  MTRand choose_two(300);
+  MTRand random;
+  MTRand random_lns;
+  MTRand choose_two;
 
   unsigned swap_num = 5;
 
@@ -297,7 +297,7 @@ int main(int argc, char* argv[])
                           ub);  // initialize the decoder
 
     const long unsigned rngSeed = 0;  // seed to the random number generator
-    MTRand rng(rngSeed);              // initialize the random number generator
+    MTRand rng;                       // initialize the random number generator
 
     // initialize the BRKGA-based heuristic
     BRKGA<SampleDecoder, MTRand> algorithm(subchromosome_size, p, pe, pm, rhoe,
@@ -424,7 +424,7 @@ int main(int argc, char* argv[])
   //   best_height = height;
   // }
 
-  MTRand choose_two_2(4);
+  MTRand choose_two_2;
 
   for (int j = 0; j < 300; j++) {
     unsigned first_piece = choose_two_2.randInt(num_items - 1);
