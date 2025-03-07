@@ -44,7 +44,9 @@ unsigned pack(
 
 unsigned pack_with_one_layer(const std::vector<ranking> &rank,
                              std::vector<item> items, const unsigned max_width,
-                             const unsigned ub, bool debug_sol = false,
+                             const unsigned ub,
+                             std::vector<std::vector<unsigned>> &virtual_layers,
+                             unsigned &best_height, bool debug_sol = false,
                              std::fstream *solfile = nullptr);
 
 unsigned pack_compressed(const std::vector<ranking> &rank,

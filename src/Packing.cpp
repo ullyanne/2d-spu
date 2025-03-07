@@ -354,7 +354,9 @@ void calc_strip_height(unsigned &strip_height, ems_t space,
 
 unsigned pack_with_one_layer(const std::vector<ranking> &rank,
                              vector<item> items, const unsigned max_width,
-                             const unsigned ub, bool debug_sol,
+                             const unsigned ub,
+                             std::vector<std::vector<unsigned>> &virtual_layers,
+                             unsigned &best_height, bool debug_sol,
                              std::fstream *solfile)
 {
   vector<flat_set<ems_t, bottom_left_cmp>> layers;
@@ -380,6 +382,8 @@ unsigned pack_with_one_layer(const std::vector<ranking> &rank,
   space.top_point = make_pair(max_width, ub);
   layers[0].insert(space);
 
+  unsigned division_factor = virtual_layers.size();
+
   while (items_placed < items.size()) {
     item_index = rank[items_placed].index;
     item = items[item_index];
@@ -389,8 +393,19 @@ unsigned pack_with_one_layer(const std::vector<ranking> &rank,
       for (auto ems_t = layers[0].begin(); ems_t != layers[0].end();) {
         if (item_can_fit(item, *ems_t)) {
           calc_strip_height(strip_height, *ems_t, item.height);
+          unsigned bottom_height = ems_t->bottom_point.second;
+
           fit_item(item, *ems_t, layers[0], clients_verification, ub, &penalty,
                    debug_sol, solfile);
+
+          for (unsigned i = 0; i < division_factor; i++) {
+            if (bottom_height >= (i * best_height) / division_factor &&
+                bottom_height < ((i + 1) * best_height) / division_factor) {
+              virtual_layers[i].push_back(items_placed);
+              break;
+            }
+          }
+
           if (debug_sol) {
             *solfile << item_index << "\n" << item.client << "\n";
           }
