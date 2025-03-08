@@ -197,24 +197,23 @@ void fit_item(item item, ems_t space, flat_set<ems_t, bottom_left_cmp> &layer,
 void rearrangeSeq(std::vector<ranking> &arr,
                   const std::vector<unsigned> &indices_to_move)
 {
-  int n = arr.size();
-  std::vector<ranking> result(n);
+  std::vector<ranking> result;
+  std::vector<bool> copied(arr.size(), 0);
 
-  // Inserir elementos especificados na nova ordem
-  for (size_t i = 0; i < indices_to_move.size(); ++i) {
-    result[i] = arr[indices_to_move[i]];
-  }
-
-  // Inserir os elementos restantes
-  int insert_index = indices_to_move.size();
-  for (int i = 0; i < n; ++i) {
-    if (std::find(indices_to_move.begin(), indices_to_move.end(), i) ==
-        indices_to_move.end()) {
-      result[insert_index++] = arr[i];
+  for (unsigned j = 0; j < indices_to_move.size(); j++) {
+    if (!copied[indices_to_move[j]]) {
+      result.push_back(arr[indices_to_move[j]]);
+      copied[indices_to_move[j]] = 1;
     }
   }
 
-  // Substituir o array original pelo reorganizado
+  for (unsigned i = 0; i < arr.size(); i++) {
+    if (!copied[i]) {
+      result.push_back(arr[i]);
+      copied[i] = 1;
+    }
+  }
+
   arr = result;
 }
 

@@ -241,9 +241,9 @@ int main(int argc, char* argv[])
                      layers_to_index, num_layers);
 
   // cout << "first! " << best_height << "\n";
-  MTRand random;
-  MTRand random_lns;
-  MTRand choose_two;
+  MTRand random(20);
+  MTRand random_lns(21);
+  MTRand choose_two(300);
 
   unsigned swap_num = 5;
 
@@ -297,7 +297,7 @@ int main(int argc, char* argv[])
                           false);  // initialize the decoder
 
     const long unsigned rngSeed = 0;  // seed to the random number generator
-    MTRand rng;                       // initialize the random number generator
+    MTRand rng(rngSeed);              // initialize the random number generator
 
     // initialize the BRKGA-based heuristic
     BRKGA<SampleDecoder, MTRand> algorithm(subchromosome_size, p, pe, pm, rhoe,
