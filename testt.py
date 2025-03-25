@@ -100,7 +100,28 @@ def read_data_from_txt(file_path):
 # Gerar cores únicas por cliente
 def generate_colors(clients):
     cmap = plt.get_cmap("tab20")
-    return {client: cmap(i / len(clients)) for i, client in enumerate(clients)}
+    num_colors = 20  # Usaremos todas as 20 cores da paleta
+    colors = {}
+
+    sorted_clients = sorted(clients)  # Ordenamos os clientes para manter consistência
+    used_colors = [-1]  # Começamos com um valor inválido para evitar problemas de índice
+
+    for i, client in enumerate(sorted_clients):
+        # Lista de cores disponíveis, evitando repetir a última usada
+        available_colors = [c for c in range(num_colors) if c != used_colors[-1]]
+
+        # Escolhemos a cor na ordem, garantindo que não repetimos a última usada
+        chosen_color = available_colors[i % len(available_colors)]
+        used_colors.append(chosen_color)
+
+        colors[client] = cmap(chosen_color / num_colors)
+
+    return colors
+
+# def generate_colors(clients):
+#     cmap = plt.get_cmap("viridis")
+#     return {client: cmap(i / len(clients)) for i, client in enumerate(clients)}
+
 
 solfile = sys.argv[1]
 file_path = f'/home/ullyanne/Documents/2spp/sol/bke/T20/N{solfile}BurkeSol.txt'

@@ -16,6 +16,11 @@ typedef struct {
   unsigned client;
 } ranking;
 
+inline bool operator==(const ranking &a, const ranking &b)
+{
+  return a.index == b.index;
+}
+
 typedef struct {
   std::pair<int, int> bottom_point;
   std::pair<int, int> top_point;
@@ -43,10 +48,13 @@ unsigned pack(
     std::fstream *solfile = nullptr);
 
 unsigned pack_with_one_layer(const std::vector<ranking> &rank,
-                             std::vector<item> items, const unsigned max_width,
-                             const unsigned ub,
-                             std::vector<std::vector<unsigned>> &virtual_layers,
-                             unsigned &best_height, bool debug_sol = false,
+                             const std::vector<item> &items,
+                             const unsigned &max_width, const unsigned &ub,
+                             std::vector<std::vector<ranking>> &virtual_layers,
+                             const unsigned &pieces_per_layer,
+                             const bool &fill_virtual_layers,
+                             const unsigned &best_height,
+                             bool debug_sol = false,
                              std::fstream *solfile = nullptr);
 
 unsigned pack_compressed(const std::vector<ranking> &rank,
@@ -60,6 +68,10 @@ void construct_sol(std::vector<ranking> &full_solution,
                    std::vector<double> chromosome,
                    std::vector<unsigned> subchromosome,
                    std::vector<ranking> lns_seq);
+
+void construct_vl_sol(std::vector<ranking> &sol, std::vector<double> chromosome,
+                      unsigned current_layer,
+                      std::vector<std::vector<ranking>> &virtual_layers);
 
 void rearrangeSeq(std::vector<ranking> &arr,
                   const std::vector<unsigned> &indices_to_move);

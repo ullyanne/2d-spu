@@ -118,3 +118,1930 @@ Tempo de execução: 9s
 
 ---------------------------
 
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 200
+Fração elite: 0.2
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.5
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 60
+Número máximo de iterações sem melhora: 50
+Melhor até agora: 138 Geração: 6
+Iteração: 0
+Melhor até agora: 137 Geração: 13
+Iteração: 0
+Melhor até agora: 132 Geração: 22
+Iteração: 3
+Melhor até agora: 131 Geração: 33
+Iteração: 3
+Número de swaps entre camadas = 5
+Largura da faixa = 50
+Melhor altura = 131
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.31
+
+Tempo de execução: 7s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 30
+Melhor até agora: 138 Geração: 2
+Iteração: 0
+Melhor até agora: 137 Geração: 15
+Iteração: 0
+Número de swaps entre camadas = 10
+Largura da faixa = 50
+Melhor altura = 137
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.37
+
+Tempo de execução: 6s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 30
+Melhor até agora: 138 Geração: 3
+Iteração: 0
+Melhor até agora: 137 Geração: 5
+Iteração: 0
+Melhor até agora: 134 Geração: 3
+Iteração: 3
+Número de swaps entre camadas = 10
+Largura da faixa = 50
+Melhor altura = 134
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.34
+
+Tempo de execução: 6s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 30
+Melhor até agora: 138 Geração: 2
+Iteração: 0
+Melhor até agora: 137 Geração: 18
+Iteração: 0
+Melhor até agora: 133 Geração: 11
+Iteração: 3
+Melhor até agora: 131 Geração: 24
+Iteração: 3
+Melhor até agora: 130 Geração: 44
+Iteração: 3
+Número de swaps entre camadas = 10
+Largura da faixa = 50
+Melhor altura = 130
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.3
+
+Tempo de execução: 7s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 30
+Melhor até agora: 138 Geração: 3
+Iteração: 0
+Melhor até agora: 137 Geração: 6
+Iteração: 0
+Número de swaps entre camadas = 10
+Largura da faixa = 50
+Melhor altura = 137
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.37
+
+Tempo de execução: 6s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 30
+Melhor até agora: 138 Geração: 2
+Iteração: 0
+Melhor até agora: 137 Geração: 10
+Iteração: 0
+Número de swaps entre camadas = 10
+Largura da faixa = 50
+Melhor altura = 137
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.37
+
+Tempo de execução: 6s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Melhor até agora: 236 Geração: 0
+Iteração: 1
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 30
+Melhor até agora: 137 Geração: 11
+Iteração: 0
+Número de swaps entre camadas = 10
+Largura da faixa = 50
+Melhor altura = 137
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.37
+
+Tempo de execução: 7s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 30
+Melhor até agora: 138 Geração: 0
+Iteração: 0
+Melhor até agora: 137 Geração: 12
+Iteração: 0
+Número de swaps entre camadas = 10
+Largura da faixa = 50
+Melhor altura = 137
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.37
+
+Tempo de execução: 6s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 30
+Melhor até agora: 138 Geração: 5
+Iteração: 0
+Melhor até agora: 137 Geração: 16
+Iteração: 0
+Número de swaps entre camadas = 10
+Largura da faixa = 50
+Melhor altura = 137
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.37
+
+Tempo de execução: 6s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 30
+Melhor até agora: 138 Geração: 2
+Iteração: 0
+Melhor até agora: 137 Geração: 17
+Iteração: 0
+Melhor até agora: 134 Geração: 11
+Iteração: 3
+Melhor até agora: 133 Geração: 16
+Iteração: 3
+Número de swaps entre camadas = 10
+Largura da faixa = 50
+Melhor altura = 133
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.33
+
+Tempo de execução: 7s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 30
+Melhor até agora: 138 Geração: 5
+Iteração: 0
+Melhor até agora: 137 Geração: 7
+Iteração: 0
+Número de swaps entre camadas = 10
+Largura da faixa = 50
+Melhor altura = 137
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.37
+
+Tempo de execução: 6s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 30
+Melhor até agora: 138 Geração: 3
+Iteração: 0
+Melhor até agora: 137 Geração: 5
+Iteração: 0
+Melhor até agora: 131 Geração: 1
+Iteração: 3
+Número de swaps entre camadas = 10
+Largura da faixa = 50
+Melhor altura = 131
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.31
+
+Tempo de execução: 6s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 30
+Melhor até agora: 138 Geração: 1
+Iteração: 0
+Melhor até agora: 137 Geração: 2
+Iteração: 0
+Melhor até agora: 134 Geração: 6
+Iteração: 3
+Melhor até agora: 131 Geração: 15
+Iteração: 3
+Melhor até agora: 130 Geração: 38
+Iteração: 3
+Número de swaps entre camadas = 10
+Largura da faixa = 50
+Melhor altura = 130
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.3
+
+Tempo de execução: 7s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 30
+Melhor até agora: 138 Geração: 3
+Iteração: 0
+Melhor até agora: 137 Geração: 8
+Iteração: 0
+Número de swaps entre camadas = 10
+Largura da faixa = 50
+Melhor altura = 137
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.37
+
+Tempo de execução: 6s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 30
+Melhor até agora: 138 Geração: 1
+Iteração: 0
+Melhor até agora: 137 Geração: 9
+Iteração: 0
+Número de swaps entre camadas = 10
+Largura da faixa = 50
+Melhor altura = 137
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.37
+
+Tempo de execução: 6s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 30
+Melhor até agora: 138 Geração: 2
+Iteração: 0
+Melhor até agora: 137 Geração: 5
+Iteração: 0
+Melhor até agora: 136 Geração: 0
+Iteração: 3
+Melhor até agora: 135 Geração: 8
+Iteração: 3
+Melhor até agora: 134 Geração: 14
+Iteração: 3
+Melhor até agora: 133 Geração: 15
+Iteração: 3
+Melhor até agora: 132 Geração: 16
+Iteração: 3
+Melhor até agora: 130 Geração: 22
+Iteração: 3
+Número de swaps entre camadas = 10
+Largura da faixa = 50
+Melhor altura = 130
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.3
+
+Tempo de execução: 6s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 30
+Melhor até agora: 138 Geração: 0
+Iteração: 0
+Melhor até agora: 137 Geração: 8
+Iteração: 0
+Número de swaps entre camadas = 10
+Largura da faixa = 50
+Melhor altura = 137
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.37
+
+Tempo de execução: 6s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 30
+Melhor até agora: 138 Geração: 2
+Iteração: 0
+Melhor até agora: 137 Geração: 5
+Iteração: 1
+Melhor até agora: 136 Geração: 11
+Iteração: 3
+Melhor até agora: 135 Geração: 13
+Iteração: 3
+Melhor até agora: 133 Geração: 24
+Iteração: 3
+Melhor até agora: 132 Geração: 28
+Iteração: 3
+Melhor até agora: 130 Geração: 36
+Iteração: 3
+Número de swaps entre camadas = 10
+Largura da faixa = 50
+Melhor altura = 130
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.3
+
+Tempo de execução: 7s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 30
+Melhor até agora: 138 Geração: 2
+Iteração: 0
+Melhor até agora: 137 Geração: 14
+Iteração: 0
+Número de swaps entre camadas = 10
+Largura da faixa = 50
+Melhor altura = 137
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.37
+
+Tempo de execução: 6s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 30
+Melhor até agora: 138 Geração: 4
+Iteração: 0
+Melhor até agora: 137 Geração: 16
+Iteração: 0
+Número de swaps entre camadas = 10
+Largura da faixa = 50
+Melhor altura = 137
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.37
+
+Tempo de execução: 6s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 30
+Melhor até agora: 138 Geração: 2
+Iteração: 0
+Melhor até agora: 137 Geração: 11
+Iteração: 0
+Número de swaps entre camadas = 10
+Largura da faixa = 50
+Melhor altura = 137
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.37
+
+Tempo de execução: 6s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 50
+Melhor até agora: 138 Geração: 3
+Iteração: 0
+Melhor até agora: 137 Geração: 4
+Iteração: 0
+Número de swaps entre camadas = 0
+Largura da faixa = 50
+Melhor altura = 137
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.37
+
+Tempo de execução: 7s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 50
+Melhor até agora: 138 Geração: 0
+Iteração: 0
+Melhor até agora: 137 Geração: 7
+Iteração: 0
+Melhor até agora: 131 Geração: 16
+Iteração: 3
+Melhor até agora: 130 Geração: 47
+Iteração: 3
+Número de swaps entre camadas = 0
+Largura da faixa = 50
+Melhor altura = 130
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.3
+
+Tempo de execução: 8s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 50
+Melhor até agora: 138 Geração: 3
+Iteração: 0
+Melhor até agora: 137 Geração: 26
+Iteração: 0
+Número de swaps entre camadas = 0
+Largura da faixa = 50
+Melhor altura = 137
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.37
+
+Tempo de execução: 8s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 50
+Melhor até agora: 138 Geração: 2
+Iteração: 0
+Melhor até agora: 137 Geração: 7
+Iteração: 0
+Número de swaps entre camadas = 0
+Largura da faixa = 50
+Melhor altura = 137
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.37
+
+Tempo de execução: 7s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 50
+Melhor até agora: 138 Geração: 1
+Iteração: 0
+Melhor até agora: 137 Geração: 11
+Iteração: 0
+Número de swaps entre camadas = 0
+Largura da faixa = 50
+Melhor altura = 137
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.37
+
+Tempo de execução: 7s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 50
+Melhor até agora: 138 Geração: 4
+Iteração: 0
+Melhor até agora: 137 Geração: 37
+Iteração: 0
+Número de swaps entre camadas = 0
+Largura da faixa = 50
+Melhor altura = 137
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.37
+
+Tempo de execução: 8s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 50
+Melhor até agora: 138 Geração: 4
+Iteração: 0
+Melhor até agora: 137 Geração: 12
+Iteração: 0
+Melhor até agora: 134 Geração: 20
+Iteração: 3
+Melhor até agora: 131 Geração: 41
+Iteração: 3
+Número de swaps entre camadas = 0
+Largura da faixa = 50
+Melhor altura = 131
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.31
+
+Tempo de execução: 8s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 50
+Melhor até agora: 138 Geração: 3
+Iteração: 0
+Melhor até agora: 137 Geração: 12
+Iteração: 0
+Melhor até agora: 135 Geração: 4
+Iteração: 3
+Melhor até agora: 133 Geração: 17
+Iteração: 3
+Melhor até agora: 131 Geração: 21
+Iteração: 3
+Melhor até agora: 130 Geração: 27
+Iteração: 3
+Número de swaps entre camadas = 0
+Largura da faixa = 50
+Melhor altura = 130
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.3
+
+Tempo de execução: 8s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 50
+Melhor até agora: 138 Geração: 2
+Iteração: 0
+Melhor até agora: 137 Geração: 10
+Iteração: 0
+Melhor até agora: 134 Geração: 26
+Iteração: 3
+Melhor até agora: 131 Geração: 44
+Iteração: 3
+Número de swaps entre camadas = 0
+Largura da faixa = 50
+Melhor altura = 131
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.31
+
+Tempo de execução: 9s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 50
+Melhor até agora: 138 Geração: 0
+Iteração: 0
+Melhor até agora: 137 Geração: 12
+Iteração: 0
+Número de swaps entre camadas = 0
+Largura da faixa = 50
+Melhor altura = 137
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.37
+
+Tempo de execução: 7s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 50
+Melhor até agora: 138 Geração: 5
+Iteração: 0
+Melhor até agora: 137 Geração: 10
+Iteração: 0
+Número de swaps entre camadas = 0
+Largura da faixa = 50
+Melhor altura = 137
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.37
+
+Tempo de execução: 7s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 50
+Melhor até agora: 138 Geração: 5
+Iteração: 0
+Melhor até agora: 137 Geração: 17
+Iteração: 0
+Melhor até agora: 134 Geração: 24
+Iteração: 3
+Melhor até agora: 131 Geração: 39
+Iteração: 3
+Melhor até agora: 130 Geração: 48
+Iteração: 3
+Número de swaps entre camadas = 0
+Largura da faixa = 50
+Melhor altura = 130
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.3
+
+Tempo de execução: 9s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 50
+Melhor até agora: 138 Geração: 1
+Iteração: 0
+Melhor até agora: 137 Geração: 7
+Iteração: 0
+Melhor até agora: 130 Geração: 34
+Iteração: 3
+Número de swaps entre camadas = 0
+Largura da faixa = 50
+Melhor altura = 130
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.3
+
+Tempo de execução: 8s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 50
+Melhor até agora: 138 Geração: 2
+Iteração: 0
+Melhor até agora: 137 Geração: 4
+Iteração: 0
+Número de swaps entre camadas = 0
+Largura da faixa = 50
+Melhor altura = 137
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.37
+
+Tempo de execução: 7s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 50
+Melhor até agora: 138 Geração: 4
+Iteração: 0
+Melhor até agora: 137 Geração: 7
+Iteração: 0
+Número de swaps entre camadas = 0
+Largura da faixa = 50
+Melhor altura = 137
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.37
+
+Tempo de execução: 7s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 50
+Melhor até agora: 138 Geração: 5
+Iteração: 0
+Melhor até agora: 137 Geração: 15
+Iteração: 0
+Número de swaps entre camadas = 0
+Largura da faixa = 50
+Melhor altura = 137
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.37
+
+Tempo de execução: 8s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 50
+Melhor até agora: 138 Geração: 4
+Iteração: 0
+Melhor até agora: 137 Geração: 8
+Iteração: 0
+Número de swaps entre camadas = 0
+Largura da faixa = 50
+Melhor altura = 137
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.37
+
+Tempo de execução: 7s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 50
+Melhor até agora: 138 Geração: 6
+Iteração: 0
+Melhor até agora: 137 Geração: 14
+Iteração: 0
+Melhor até agora: 131 Geração: 11
+Iteração: 3
+Melhor até agora: 130 Geração: 18
+Iteração: 3
+Número de swaps entre camadas = 0
+Largura da faixa = 50
+Melhor altura = 130
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.3
+
+Tempo de execução: 8s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 50
+Melhor até agora: 138 Geração: 3
+Iteração: 0
+Melhor até agora: 137 Geração: 8
+Iteração: 0
+Melhor até agora: 134 Geração: 7
+Iteração: 3
+Melhor até agora: 130 Geração: 28
+Iteração: 3
+Número de swaps entre camadas = 0
+Largura da faixa = 50
+Melhor altura = 130
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.3
+
+Tempo de execução: 8s
+
+---------------------------
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Número de cromossomos: 60
+Tamanho da população: 60
+Fração elite: 0.3
+Fração mutante: 0.7
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 2
+Número de threads: 14
+Trocar os melhores indivíduos a cada 100 gerações
+Número máximo de gerações: 100
+
+Tamanho da população: 250
+Fração elite: 0.15
+Fração mutante: 0.2
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 130
+Número máximo de iterações sem melhora: 50
+Melhor até agora: 138 Geração: 5
+Iteração: 0
+Melhor até agora: 137 Geração: 10
+Iteração: 0
+Número de swaps entre camadas = 0
+Largura da faixa = 50
+Melhor altura = 137
+
+Lower Bound 1 = 100
+Lower Bound 2 = 98
+Avaliação = 1.37
+
+Tempo de execução: 7s
+
+---------------------------
+

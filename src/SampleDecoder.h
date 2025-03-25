@@ -34,13 +34,12 @@ class SampleDecoder {
  public:
   SampleDecoder(const vector<ranking> lns_seq,
                 const vector<unsigned> subchromosome, const vector<item> items,
-                const int max_width, const int ub, const bool pack_compressed)
+                const int max_width, const int ub)
       : lns_seq(lns_seq),
         subchromosome(subchromosome),
         items(items),
         max_width(max_width),
-        ub(ub),
-        pack_compressed(pack_compressed)
+        ub(ub)
   {
   }
   ~SampleDecoder();
@@ -55,7 +54,6 @@ class SampleDecoder {
   const vector<item> items;
   const int max_width;
   const int ub;
-  const bool pack_compressed;
 };
 
 #endif

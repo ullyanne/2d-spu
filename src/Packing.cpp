@@ -2,39 +2,49 @@
 
 #include <algorithm>
 #include <boost/container/flat_set.hpp>
+#include <chrono>
+#include <cmath>
 #include <deque>
 #include <fstream>
+#include <optional>
 
 using namespace std;
 using boost::container::flat_set;
 
 void open_new_layer(vector<flat_set<ems_t, bottom_left_cmp>> &layers,
-                    unsigned &num_layers, unsigned &strip_height, int max_width,
-                    int item_height)
+                    unsigned &num_layers, unsigned &strip_height,
+                    const int &max_width, const int &item_height)
 {
-  layers.push_back(flat_set<ems_t, bottom_left_cmp>());
-  num_layers++;
+  layers.emplace_back();
+  ++num_layers;
 
-  ems_t space;
-  space.bottom_point = make_pair(0, strip_height);
-  space.top_point = make_pair(max_width, item_height + strip_height);
+  int new_strip_height = strip_height + item_height;
 
-  layers[num_layers - 1].insert(space);
-  strip_height += item_height;
+  // ems_t space;
+  // space.bottom_point = make_pair(0, strip_height);
+  // space.top_point = make_pair(max_width, item_height + strip_height);
+
+  // layers[num_layers - 1].insert(space);
+
+  layers.back().insert({{0, strip_height}, {max_width, new_strip_height}});
+
+  strip_height = new_strip_height;
 }
 
-bool item_can_fit(item item, ems_t ems_t)
+inline bool item_can_fit(const item &item, const ems_t &ems)
 {
-  int space_width = ems_t.top_point.first - ems_t.bottom_point.first;
-  int space_height = ems_t.top_point.second - ems_t.bottom_point.second;
+  // int space_width = ems_t.top_point.first - ems_t.bottom_point.first;
+  // int space_height = ems_t.top_point.second - ems_t.bottom_point.second;
 
-  if (item.width <= space_width && item.height <= space_height) {
-    return true;
-  }
-  return false;
+  // if (item.width <= space_width && item.height <= space_height) {
+  //   return true;
+  // }
+  // return false;
+  return item.width <= (ems.top_point.first - ems.bottom_point.first) &&
+         item.height <= (ems.top_point.second - ems.bottom_point.second);
 }
 
-bool is_a_line(ems_t space)
+bool is_a_line(const ems_t &space)
 {
   if (space.bottom_point.first == space.top_point.first or
       space.bottom_point.second == space.top_point.second) {
@@ -43,7 +53,7 @@ bool is_a_line(ems_t space)
   return false;
 }
 
-bool is_contained(ems_t a, ems_t b)
+bool is_contained(const ems_t &a, const ems_t &b)
 {
   if (a.top_point.first <= b.top_point.first &&
       a.top_point.second <= b.top_point.second &&
@@ -54,7 +64,7 @@ bool is_contained(ems_t a, ems_t b)
   return false;
 }
 
-bool is_maximal(ems_t new_space, flat_set<ems_t, bottom_left_cmp> &layer)
+bool is_maximal(const ems_t &new_space, flat_set<ems_t, bottom_left_cmp> &layer)
 {
   for (const auto &space : layer) {
     if (is_contained(new_space, space) || is_contained(space, new_space)) {
@@ -64,7 +74,7 @@ bool is_maximal(ems_t new_space, flat_set<ems_t, bottom_left_cmp> &layer)
   return true;
 }
 
-bool is_ems_valid(ems_t space, flat_set<ems_t, bottom_left_cmp> &layer)
+bool is_ems_valid(const ems_t &space, flat_set<ems_t, bottom_left_cmp> &layer)
 {
   if (is_a_line(space)) {
     return false;
@@ -115,14 +125,14 @@ void calc_diff_process(flat_set<ems_t, bottom_left_cmp> &layer,
   }
 }
 
-bool does_intersect(int x3, int y3, int x4, int y4, ems_t space)
+bool does_intersect(int x3, int y3, int x4, int y4, const ems_t &space)
 {
   return (x3 < space.top_point.first && x4 > space.bottom_point.first &&
           y3 < space.top_point.second && y4 > space.bottom_point.second);
 }
 
-void calculate_item_coordinates(int &x3, int &y3, int &x4, int &y4, item item,
-                                ems_t space)
+void calculate_item_coordinates(int &x3, int &y3, int &x4, int &y4,
+                                const item &item, const ems_t &space)
 {
   x3 = space.bottom_point.first;
   y3 = space.bottom_point.second;
@@ -130,19 +140,15 @@ void calculate_item_coordinates(int &x3, int &y3, int &x4, int &y4, item item,
   y4 = y3 + item.height;
 }
 
-bool will_violate_unloading_constraint(item item, ems_t space,
+bool will_violate_unloading_constraint(const item &item, const ems_t &space,
                                        int clients_verification[])
 {
   int x3, y3, x4, y4;
   calculate_item_coordinates(x3, y3, x4, y4, item, space);
 
-  for (int i = x3; i < x4; i++) {
-    if (clients_verification[i] != -1 &&
-        clients_verification[i] < item.client) {
-      return true;
-    }
-  }
-  return false;
+  return std::any_of(
+      clients_verification + x3, clients_verification + x4,
+      [&](int client) { return client != -1 && client < item.client; });
 }
 
 void fit_item(item item, ems_t space, flat_set<ems_t, bottom_left_cmp> &layer,
@@ -155,14 +161,14 @@ void fit_item(item item, ems_t space, flat_set<ems_t, bottom_left_cmp> &layer,
   for (int i = x3; i < x4; i++) {
     if (clients_verification[i] != -1 &&
         clients_verification[i] < item.client) {
+      // cout << "violation " << clients_verification[i] << " " << item.client
+      //      << "\n";
       *penalty += item.client - clients_verification[i];
       break;
     }
   }
 
-  for (int i = x3; i < x4; i++) {
-    clients_verification[i] = item.client;
-  }
+  std::fill(clients_verification + x3, clients_verification + x4, item.client);
 
   if (debug_sol) {
     *solfile << x3 << " " << y3 << "\n" << x4 << " " << y4 << "\n";
@@ -243,6 +249,41 @@ void construct_sol(std::vector<ranking> &full_solution,
   }
 
   rearrangeSeq(full_solution, subchromosome_copy);
+}
+
+void construct_vl_sol(std::vector<ranking> &sol, std::vector<double> chromosome,
+                      unsigned current_layer,
+                      std::vector<std::vector<ranking>> &virtual_layers)
+{
+  std::vector<ranking> rank(chromosome.size());
+
+  unsigned idx = 0;
+  for (unsigned i = 0; i < virtual_layers[current_layer].size(); i++, idx++) {
+    rank[idx].chromosome = chromosome[idx];
+    rank[idx].index = virtual_layers[current_layer][i].index;
+  }
+
+  // for (unsigned i = 0; i < virtual_layers[current_layer + 1].size();
+  //      i++, idx++) {
+  //   rank[idx].chromosome = chromosome[idx];
+  //   rank[idx].index = virtual_layers[current_layer + 1][i].index;
+  // }
+
+  std::sort(rank.begin(), rank.end(), sort_rank);
+
+  virtual_layers[current_layer] = rank;
+
+  for (unsigned i = 0; i < virtual_layers.size(); i++) {
+    if (i == current_layer) {
+      sol.insert(sol.end(), rank.begin(), rank.end());
+    }
+    // else if (i == current_layer + 1) {
+    //   continue;
+    // }
+    else {
+      sol.insert(sol.end(), virtual_layers[i].begin(), virtual_layers[i].end());
+    }
+  }
 }
 
 unsigned pack(
@@ -352,12 +393,15 @@ void calc_strip_height(unsigned &strip_height, ems_t space,
 }
 
 unsigned pack_with_one_layer(const std::vector<ranking> &rank,
-                             vector<item> items, const unsigned max_width,
-                             const unsigned ub,
-                             std::vector<std::vector<unsigned>> &virtual_layers,
-                             unsigned &best_height, bool debug_sol,
+                             const vector<item> &items,
+                             const unsigned &max_width, const unsigned &ub,
+                             std::vector<std::vector<ranking>> &virtual_layers,
+                             const unsigned &pieces_per_layer,
+                             const bool &fill_virtual_layers,
+                             const unsigned &best_height, bool debug_sol,
                              std::fstream *solfile)
 {
+  // auto start = std::chrono::high_resolution_clock::now();
   vector<flat_set<ems_t, bottom_left_cmp>> layers;
 
   unsigned item_index = rank[0].index;
@@ -370,10 +414,7 @@ unsigned pack_with_one_layer(const std::vector<ranking> &rank,
   unsigned current_client = item.client;
 
   int clients_verification[max_width];
-
-  for (unsigned i = 0; i < max_width; i++) {
-    clients_verification[i] = -1;
-  }
+  std::fill(clients_verification, clients_verification + max_width, -1);
 
   layers.push_back(flat_set<ems_t, bottom_left_cmp>());
   ems_t space;
@@ -382,9 +423,17 @@ unsigned pack_with_one_layer(const std::vector<ranking> &rank,
   layers[0].insert(space);
 
   unsigned division_factor = virtual_layers.size();
+  unsigned current_virtual_layer = 0;
+  unsigned count_pieces_virtual_layer = 0;
 
-  while (items_placed < items.size()) {
+  while (items_placed < rank.size()) {
     item_index = rank[items_placed].index;
+    // if (item_index == 254 || item_index == 250 || item_index == 242 ||
+    //     item_index == 253) {
+    //   cout << "item index : " << item_index << "\n";
+    //   cout << "item client: " << items[item_index].client << "\n";
+    // }
+
     item = items[item_index];
     fit = false;
 
@@ -397,12 +446,23 @@ unsigned pack_with_one_layer(const std::vector<ranking> &rank,
           fit_item(item, *ems_t, layers[0], clients_verification, ub, &penalty,
                    debug_sol, solfile);
 
-          for (unsigned i = 0; i < division_factor; i++) {
-            if (bottom_height >= (i * best_height) / division_factor &&
-                bottom_height < ((i + 1) * best_height) / division_factor) {
-              virtual_layers[i].push_back(items_placed);
-              break;
-            }
+          // if (fill_virtual_layers) {
+          //   for (unsigned i = 0; i < division_factor; i++) {
+          //     if (bottom_height >= (i * best_height) / division_factor &&
+          //         bottom_height < ((i + 1) * best_height) / division_factor)
+          //         {
+          //       ranking item_rank;
+          //       item_rank.index = item_index;
+          //       virtual_layers[i].push_back(item_rank);
+          //       break;
+          //     }
+          //   }
+          // }
+
+          if (fill_virtual_layers) {
+            ranking item_rank;
+            item_rank.index = item_index;
+            virtual_layers[current_virtual_layer].push_back(item_rank);
           }
 
           if (debug_sol) {
@@ -410,6 +470,13 @@ unsigned pack_with_one_layer(const std::vector<ranking> &rank,
           }
           fit = true;
           items_placed++;
+          count_pieces_virtual_layer++;
+
+          if (count_pieces_virtual_layer == pieces_per_layer) {
+            current_virtual_layer++;
+            count_pieces_virtual_layer = 0;
+          }
+
           break;
         }
         else {
@@ -423,6 +490,12 @@ unsigned pack_with_one_layer(const std::vector<ranking> &rank,
     penalty += ub;
   }
 
+  // auto end = std::chrono::high_resolution_clock::now();
+
+  // cout << "Packing Time: "
+  //      << std::chrono::duration_cast<std::chrono::milliseconds>(end - start)
+  //             .count()
+  //      << "ms\n";
   return strip_height + penalty;
 }
 

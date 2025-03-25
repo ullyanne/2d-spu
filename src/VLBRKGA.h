@@ -1,0 +1,608 @@
+/*
+ * VLBRKGA.h
+ *
+ * This class encapsulates a Biased Random-key Genetic Algorithm (for
+ * minimization problems) with K independent Populations stored in two vectors
+ * of Population, current and previous. It supports multi-threading via OpenMP,
+ * and implements the following key methods:
+ *
+ * - VLBRKGA() constructor: initializes the populations with parameters
+ * described below.
+ * - evolve() operator: evolve each Population following the VLBRKGA
+ * methodology. This method supports OpenMP to evolve up to K independent
+ * Populations in parallel. Please note that double Decoder::decode(...) MUST be
+ * thread-safe.
+ *
+ * Required hyperparameters:
+ * - n: number of genes in each chromosome
+ * - p: number of elements in each population
+ * - pe: pct of elite items into each population
+ * - pm: pct of mutants introduced at each generation into the population
+ * - rhoe: probability that an offspring inherits the allele of its elite parent
+ *
+ * Optional parameters:
+ * - K: number of independent Populations
+ * - MAX_THREADS: number of threads to perform parallel decoding -- WARNING:
+ * Decoder::decode() MUST be thread-safe!
+ *
+ * Required templates are:
+ * RNG: random number generator that implements the methods below.
+ *     - RNG(unsigned long seed) to initialize a new RNG with 'seed'
+ *     - double rand() to return a double precision random deviate in range
+ * [0,1)
+ *     - unsigned long randInt() to return a >=32-bit unsigned random deviate in
+ * range [0,2^32-1)
+ *     - unsigned long randInt(N) to return a unsigned random deviate in range
+ * [0, N] with N < 2^32
+ *
+ * Decoder: problem-specific decoder that implements any of the decode methods
+ * outlined below. When compiling and linking VLBRKGA with -fopenmp (i.e., with
+ * multithreading support via OpenMP), the method must be thread-safe.
+ *     - double decode(const vector< double >& chromosome) const, if you don't
+ * want to change chromosomes inside the framework, or
+ *     - double decode(vector< double >& chromosome) const, if you'd like to
+ * update a chromosome
+ *
+ *  Created on : Jun 22, 2010 by rtoso
+ *  Last update: Sep 28, 2010 by rtoso
+ *      Authors: Rodrigo Franco Toso <rtoso@cs.rutgers.edu>
+ */
+
+#ifndef VLBRKGA_H
+#define VLBRKGA_H
+
+#include <omp.h>
+
+#include <algorithm>
+// #include <deque>
+#include <exception>
+#include <limits>
+#include <stdexcept>
+#include <typeinfo>
+
+#include "VLPopulation.h"
+
+template <class VirtualLayersDecoder, class RNG>
+class VLBRKGA {
+ public:
+  /*
+   * Default constructor
+   * Required hyperparameters:
+   * - n: number of genes in each chromosome
+   * - p: number of elements in each population
+   * - pe: pct of elite items into each population
+   * - pm: pct of mutants introduced at each generation into the population
+   * - rhoe: probability that an offspring inherits the allele of its elite
+   * parent
+   *
+   * Optional parameters:
+   * - K: number of independent Populations
+   * - MAX_THREADS: number of threads to perform parallel decoding
+   *                WARNING: Decoder::decode() MUST be thread-safe; safe if
+   * implemented as
+   *                + double Decoder::decode(std::vector< double >& chromosome)
+   * const
+   */
+  VLBRKGA(unsigned n, unsigned p, double pe, double pm, double rhoe,
+          const VirtualLayersDecoder& refDecoder, RNG& refRNG, unsigned K = 1,
+          unsigned MAX_THREADS = 1);
+
+  /**
+   * Destructor
+   */
+  ~VLBRKGA();
+
+  /**
+   * Resets all populations with brand new keys
+   */
+  void reset();
+
+  /**
+   * Evolve the current populations following the guidelines of VLBRKGAs
+   * @param generations number of generations (must be even and nonzero)
+   * @param J interval to exchange elite chromosomes (must be even; 0 ==> no
+   * synchronization)
+   * @param M number of elite chromosomes to select from each population in
+   * order to exchange
+   */
+  void evolve(unsigned generations = 1);
+
+  /**
+   * Exchange elite-solutions between the populations
+   * @param M number of elite chromosomes to select from each population
+   */
+  void exchangeElite(unsigned M);
+
+  /**
+   * Returns the current population
+   */
+  const VLPopulation& getPopulation(unsigned k = 0) const;
+
+  /**
+   * Returns the chromosome with best fitness so far among all populations
+   */
+  const std::vector<double>& getBestChromosome() const;
+
+  /**
+   * Returns the best fitness found so far among all populations
+   */
+  double getBestFitness() const;
+
+  // Return copies to the internal parameters:
+  unsigned getN() const;
+  unsigned getP() const;
+  unsigned getPe() const;
+  unsigned getPm() const;
+  unsigned getPo() const;
+  double getRhoe() const;
+  unsigned getK() const;
+  unsigned getMAX_THREADS() const;
+
+ private:
+  // Hyperparameters:
+  const unsigned n;   // number of genes in the chromosome
+  const unsigned p;   // number of elements in the population
+  const unsigned pe;  // number of elite items in the population
+  const unsigned pm;  // number of mutants introduced at each generation into
+                      // the population
+  const double rhoe;  // probability that an offspring inherits the allele of
+                      // its elite parent
+
+  // Templates:
+  RNG& refRNG;  // reference to the random number generator
+  const VirtualLayersDecoder&
+      refDecoder;  // reference to the problem-dependent Decoder
+
+  // Parallel populations parameters:
+  const unsigned K;            // number of independent parallel populations
+  const unsigned MAX_THREADS;  // number of threads for parallel decoding
+
+  // Data:
+  std::vector<VLPopulation*> previous;  // previous populations
+  std::vector<VLPopulation*> current;   // current populations
+
+  // std::deque<std::vector<double>> elite_memory;
+  // const size_t MEMORY_SIZE = 10;
+
+  // void update_memory(const std::vector<double>& chromosome)
+  // {
+  //   if (elite_memory.size() >= MEMORY_SIZE) {
+  //     elite_memory.pop_front();  // Remove de forma eficiente (O(1))
+  //   }
+  //   elite_memory.push_back(chromosome);
+  // }
+
+  // void two_opt(std::vector<double>& chromosome)
+  // {
+  //   unsigned first = refRNG.randInt(chromosome.size() - 1);
+  //   unsigned second = refRNG.randInt(chromosome.size() - 1);
+
+  //   if (first > second) std::swap(first, second);
+
+  //   // Cria um clone para teste
+  //   std::vector<double> new_chromosome = chromosome;
+  //   std::reverse(new_chromosome.begin() + first,
+  //                new_chromosome.begin() + second);
+
+  //   // Calcula a fitness antes e depois da inversão
+  //   double old_fitness = refDecoder.decode(chromosome);
+  //   double new_fitness = refDecoder.decode(new_chromosome);
+
+  //   // Aceita a mudança se melhorar
+  //   if (new_fitness < old_fitness) {
+  //     chromosome = new_chromosome;
+  //   }
+  // }
+
+  // Local operations:
+  void initialize(
+      const unsigned i);  // initialize current population 'i' with random keys
+  void evolution(VLPopulation& curr, VLPopulation& next);
+  bool isRepeated(const std::vector<double>& chrA,
+                  const std::vector<double>& chrB) const;
+};
+
+template <class VirtualLayersDecoder, class RNG>
+VLBRKGA<VirtualLayersDecoder, RNG>::VLBRKGA(unsigned _n, unsigned _p,
+                                            double _pe, double _pm,
+                                            double _rhoe,
+                                            const VirtualLayersDecoder& decoder,
+                                            RNG& rng, unsigned _K, unsigned MAX)
+    : n(_n),
+      p(_p),
+      pe(unsigned(_pe * p)),
+      pm(unsigned(_pm * p)),
+      rhoe(_rhoe),
+      refRNG(rng),
+      refDecoder(decoder),
+      K(_K),
+      MAX_THREADS(MAX),
+      previous(K, 0),
+      current(K, 0)
+{
+  // Error check:
+  using std::range_error;
+  if (n == 0) {
+    throw range_error("Chromosome size equals zero.");
+  }
+  if (p == 0) {
+    throw range_error("Population size equals zero.");
+  }
+  if (pe == 0) {
+    throw range_error("Elite-set size equals zero.");
+  }
+  if (pe > p) {
+    throw range_error("Elite-set size greater than population size (pe > p).");
+  }
+  if (pm > p) {
+    throw range_error("Mutant-set size (pm) greater than population size (p).");
+  }
+  if (pe + pm > p) {
+    throw range_error("elite + mutant sets greater than population size (p).");
+  }
+  if (K == 0) {
+    throw range_error("Number of parallel populations cannot be zero.");
+  }
+
+  // Initialize and decode each chromosome of the current population, then copy
+  // to previous:
+  for (unsigned i = 0; i < K; ++i) {
+    // Allocate:
+    current[i] = new VLPopulation(n, p);
+
+    // Initialize:
+    initialize(i);
+
+    // Then just copy to previous:
+    previous[i] = new VLPopulation(*current[i]);
+  }
+}
+
+template <class VirtualLayersDecoder, class RNG>
+VLBRKGA<VirtualLayersDecoder, RNG>::~VLBRKGA()
+{
+  for (unsigned i = 0; i < K; ++i) {
+    delete current[i];
+    delete previous[i];
+  }
+}
+
+template <class VirtualLayersDecoder, class RNG>
+const VLPopulation& VLBRKGA<VirtualLayersDecoder, RNG>::getPopulation(
+    unsigned k) const
+{
+  return (*current[k]);
+}
+
+template <class VirtualLayersDecoder, class RNG>
+double VLBRKGA<VirtualLayersDecoder, RNG>::getBestFitness() const
+{
+  double best = current[0]->chromosome_packing_info[0].fitness;
+  for (unsigned i = 1; i < K; ++i) {
+    if (current[i]->chromosome_packing_info[0].fitness < best) {
+      best = current[i]->chromosome_packing_info[0].fitness;
+    }
+  }
+  return best;
+}
+
+template <class VirtualLayersDecoder, class RNG>
+const std::vector<double>&
+VLBRKGA<VirtualLayersDecoder, RNG>::getBestChromosome() const
+{
+  unsigned bestK = 0;
+  for (unsigned i = 1; i < K; ++i) {
+    if (current[i]->getBestFitness() < current[bestK]->getBestFitness()) {
+      bestK = i;
+    }
+  }
+
+  return current[bestK]->getChromosome(0);  // The top one :-)
+}
+
+template <class VirtualLayersDecoder, class RNG>
+void VLBRKGA<VirtualLayersDecoder, RNG>::reset()
+{
+  for (unsigned i = 0; i < K; ++i) {
+    initialize(i);
+  }
+}
+
+template <class VirtualLayersDecoder, class RNG>
+void VLBRKGA<VirtualLayersDecoder, RNG>::evolve(unsigned generations)
+{
+  if (generations == 0) {
+    throw std::range_error("Cannot evolve for 0 generations.");
+  }
+
+  for (unsigned i = 0; i < generations; ++i) {
+    for (unsigned j = 0; j < K; ++j) {
+      evolution(*current[j],
+                *previous[j]);  // First evolve the population (curr, next)
+      std::swap(current[j],
+                previous[j]);  // Update (prev = curr; curr = prev == next)
+    }
+  }
+}
+
+template <class VirtualLayersDecoder, class RNG>
+void VLBRKGA<VirtualLayersDecoder, RNG>::exchangeElite(unsigned M)
+{
+  if (M == 0 || M >= p) {
+    throw std::range_error("M cannot be zero or >= p.");
+  }
+
+  for (unsigned i = 0; i < K; ++i) {
+    // Population i will receive some elite members from each Population j
+    // below:
+    unsigned dest = p - 1;  // Last chromosome of i (will be updated below)
+    for (unsigned j = 0; j < K; ++j) {
+      if (j == i) {
+        continue;
+      }
+
+      // Copy the M best of Population j into Population i:
+      for (unsigned m = 0; m < M; ++m) {
+        // Copy the m-th best of Population j into the 'dest'-th position of
+        // Population i:
+        const std::vector<double>& bestOfJ = current[j]->getChromosome(m);
+
+        std::copy(bestOfJ.begin(), bestOfJ.end(),
+                  current[i]->getChromosome(dest).begin());
+
+        current[i]->chromosome_packing_info[dest].fitness =
+            current[j]->chromosome_packing_info[m].fitness;
+
+        --dest;
+      }
+    }
+  }
+
+  for (int j = 0; j < int(K); ++j) {
+    current[j]->sortFitness();
+  }
+}
+
+template <class VirtualLayersDecoder, class RNG>
+inline void VLBRKGA<VirtualLayersDecoder, RNG>::initialize(const unsigned i)
+{
+  std::vector<double> chromosome(n);
+  std::vector<ranking> rank(n);
+
+  unsigned idx = 0;
+  for (const auto& item : refDecoder.virtual_layers[refDecoder.current_layer]) {
+    rank[idx].index = item.index;
+    rank[idx].chromosome = static_cast<double>(idx) / (n * 10);
+    idx++;
+  }
+
+  // for (unsigned i = 0;
+  //      i < refDecoder.virtual_layers[refDecoder.current_layer + 1].size();
+  //      i++, idx++) {
+  //   seq[idx].first =
+  //       refDecoder.virtual_layers[refDecoder.current_layer + 1][i].index;
+  //   seq[idx].second = (static_cast<double>(idx) / (n * 10));
+  // }
+
+  // std::sort(rank.begin(), rank.end(), [](const ranking& a, const ranking& b)
+  // {
+  //   return a.chromosome < b.chromosome;
+  // });
+
+  // for (unsigned i = 0; i < n; i++) {
+  //   // cout << "seq " << seq[i].first << " " << seq[i].second << "\n";
+  // }
+
+  for (unsigned i = 0; i < n; i++) {
+    chromosome[i] = rank[i].chromosome;
+  }
+
+  // for (unsigned j = 0; j < n; ++j) {
+  //   (*current[i])(0, j) = chromosome[j];
+  // }
+
+  (*current[i])(0) = chromosome;
+
+  std::vector<ranking> newseq;
+  newseq.reserve(refDecoder.items.size());
+
+  for (unsigned j = 0; j < refDecoder.virtual_layers.size(); j++) {
+    if (j == refDecoder.current_layer) {
+      newseq.insert(newseq.end(), rank.begin(), rank.end());
+    }
+    // else if (i == refDecoder.current_layer + 1) {
+    //   continue;
+    // }
+    else {
+      newseq.insert(newseq.end(), refDecoder.virtual_layers[j].begin(),
+                    refDecoder.virtual_layers[j].end());
+    }
+  }
+
+  unsigned bh = 0;
+  std::vector<std::vector<ranking>> vh;
+
+  double fitness = pack_with_one_layer(
+      newseq, refDecoder.items, refDecoder.max_width, refDecoder.ub, vh,
+      refDecoder.num_pieces_per_layer, false, bh);
+
+  current[i]->setFitness(0, fitness);
+
+  // for (unsigned j = 1; j < p; ++j) {
+  //   for (unsigned k = 0; k < n; ++k) {
+  //     (*current[i])(j, k) = refRNG.rand();
+  //   }
+  // }
+  MTRand choose_two;
+
+// Decode:
+#ifdef _OPENMP
+#pragma omp parallel for num_threads(MAX_THREADS)
+#endif
+
+  for (unsigned j = 1; j < p; ++j) {
+    unsigned first_piece = choose_two.randInt(n - 1);
+    unsigned second_piece = choose_two.randInt(n - 1);
+
+    while (second_piece == first_piece) {
+      second_piece = choose_two.randInt(n - 1);
+    }
+
+    std::swap(chromosome[first_piece], chromosome[second_piece]);
+
+    (*current[i])(j) = chromosome;
+  }
+
+  for (int j = 1; j < int(p); ++j) {
+    double fitness = refDecoder.decode((*current[i])(j));
+
+    current[i]->setFitness(j, fitness);
+  }
+
+  // Sort:
+  current[i]->sortFitness();
+}
+
+template <class VirtualLayersDecoder, class RNG>
+inline void VLBRKGA<VirtualLayersDecoder, RNG>::evolution(VLPopulation& curr,
+                                                          VLPopulation& next)
+{
+  // We now will set every chromosome of 'current', iterating with 'i':
+  unsigned i = 0;  // Iterate chromosome by chromosome
+  unsigned j = 0;  // Iterate allele by allele
+
+  // 2. The 'pe' best chromosomes are maintained, so we just copy these into
+  // 'current':
+  while (i < pe) {
+    for (j = 0; j < n; ++j) {
+      next(i, j) = curr(curr.chromosome_packing_info[i].chromosome, j);
+    }
+
+    next.chromosome_packing_info[i].fitness =
+        curr.chromosome_packing_info[i].fitness;
+    next.chromosome_packing_info[i].chromosome = i;
+    // update_memory(next.population[i]);
+
+    // next.fitness[i].first = curr.fitness[i].first;
+    // next.fitness[i].second = i;
+    ++i;
+  }
+
+  // 3. We'll mate 'p - pe - pm' pairs; initially, i = pe, so we need to iterate
+  // until i < p - pm:
+  while (i < p - pm) {
+    // Select an elite parent:
+    const unsigned eliteParent = (refRNG.randInt(pe - 1));
+
+    // Select a non-elite parent:
+    const unsigned noneliteParent = pe + (refRNG.randInt(p - pe - 1));
+
+    // Mate:
+    for (j = 0; j < n; ++j) {
+      const unsigned sourceParent =
+          ((refRNG.rand() < rhoe) ? eliteParent : noneliteParent);
+
+      next(i, j) =
+          curr(curr.chromosome_packing_info[sourceParent].chromosome, j);
+
+      // next(i, j) = (refRNG.rand() < rhoe) ?
+      // curr(curr.fitness[eliteParent].second, j) :
+      //		                              curr(curr.fitness[noneliteParent].second,
+      // j);
+    }
+
+    ++i;
+  }
+
+  // We'll introduce 'pm' mutants:
+  while (i < p) {
+    // if (elite_memory.empty()) {
+
+    // }
+    // else {
+    //   const std::vector<double>& base =
+    //       elite_memory[refRNG.randInt(elite_memory.size() - 1)];
+    //   next.population[i] = base;
+
+    //   for (j = 0; j < n; ++j) {
+    //     if (refRNG.rand() < 0.05) {
+    //       next(i, j) = refRNG.rand();
+    //     }
+    //   }
+
+    //   if (refRNG.rand() < 0.3) {
+    //     two_opt(next.population[i]);
+    //   }
+
+    //   for (j = 0; j < n; ++j) {
+    //     next(i, j) = refRNG.rand();
+    //   }
+    // }
+
+    for (j = 0; j < n; ++j) {
+      next(i, j) = refRNG.rand();
+    }
+    ++i;
+  }
+
+// Time to compute fitness, in parallel:
+#ifdef _OPENMP
+#pragma omp parallel for num_threads(MAX_THREADS)
+#endif
+  for (int i = int(pe); i < int(p); ++i) {
+    next.setFitness(i, refDecoder.decode(next.population[i]));
+  }
+
+  // Now we must sort 'current' by fitness, since things might have changed:
+  next.sortFitness();
+}
+
+template <class VirtualLayersDecoder, class RNG>
+unsigned VLBRKGA<VirtualLayersDecoder, RNG>::getN() const
+{
+  return n;
+}
+
+template <class VirtualLayersDecoder, class RNG>
+unsigned VLBRKGA<VirtualLayersDecoder, RNG>::getP() const
+{
+  return p;
+}
+
+template <class VirtualLayersDecoder, class RNG>
+unsigned VLBRKGA<VirtualLayersDecoder, RNG>::getPe() const
+{
+  return pe;
+}
+
+template <class VirtualLayersDecoder, class RNG>
+unsigned VLBRKGA<VirtualLayersDecoder, RNG>::getPm() const
+{
+  return pm;
+}
+
+template <class VirtualLayersDecoder, class RNG>
+unsigned VLBRKGA<VirtualLayersDecoder, RNG>::getPo() const
+{
+  return p - pe - pm;
+}
+
+template <class VirtualLayersDecoder, class RNG>
+double VLBRKGA<VirtualLayersDecoder, RNG>::getRhoe() const
+{
+  return rhoe;
+}
+
+template <class VirtualLayersDecoder, class RNG>
+unsigned VLBRKGA<VirtualLayersDecoder, RNG>::getK() const
+{
+  return K;
+}
+
+template <class VirtualLayersDecoder, class RNG>
+unsigned VLBRKGA<VirtualLayersDecoder, RNG>::getMAX_THREADS() const
+{
+  return MAX_THREADS;
+}
+
+#endif
