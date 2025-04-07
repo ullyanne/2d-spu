@@ -5504,3 +5504,118 @@ Tempo de execução: 12s
 
 ---------------------------
 
+Tamanho da população: 200
+Fração elite: 0.15
+Fração mutante: 0.25
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 3
+Número de threads: 14
+Trocar os melhores indivíduos a cada 50 gerações
+Número máximo de gerações: 200
+Número máximo de iterações sem melhora: 100
+Melhor até agora: 197 Geração: 0
+Iteração: 0
+Melhor até agora: 195 Geração: 6
+Iteração: 0
+Melhor até agora: 189 Geração: 7
+Iteração: 0
+Melhor até agora: 188 Geração: 8
+Iteração: 0
+Melhor até agora: 186 Geração: 16
+Iteração: 0
+Melhor até agora: 185 Geração: 8
+Iteração: 1
+Melhor até agora: 184 Geração: 9
+Iteração: 1
+Melhor até agora: 181 Geração: 11
+Iteração: 1
+Melhor até agora: 180 Geração: 15
+Iteração: 1
+Melhor até agora: 179 Geração: 21
+Iteração: 1
+Melhor até agora: 178 Geração: 23
+Iteração: 2
+Melhor até agora: 177 Geração: 46
+
+Classes por camada = 5
+Largura da faixa = 50
+Melhor altura = 177
+
+Lower Bound 1 = 160
+Lower Bound 2 = 71
+Avaliação = 1.10625
+
+Tempo de execução: 26s
+
+---------------------------
+
+Tamanho da população: 300
+Fração elite: 0.15
+Fração mutante: 0.3
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 8
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 250
+Número máximo de iterações sem melhora: 150
+Melhor até agora: 52 Geração: 0
+Iteração: 0
+Melhor até agora: 50 Geração: 6
+Iteração: 0
+Melhor até agora: 49 Geração: 7
+Iteração: 0
+Melhor até agora: 48 Geração: 14
+Iteração: 0
+Melhor até agora: 46 Geração: 17
+Iteração: 0
+Melhor até agora: 45 Geração: 30
+Iteração: 0
+Melhor até agora: 43 Geração: 65
+Iteração: 0
+
+Grupo de itens por camada = 20
+Largura da faixa = 50
+Melhor altura = 174
+
+Lower Bound 1 = 160
+Lower Bound 2 = 71
+Avaliação = 1.0875
+
+Tempo de execução: 59s
+
+---------------------------
+
+Tamanho da população: 300
+Fração elite: 0.2
+Fração mutante: 0.15
+Probabilidade herdar alelo elite: 0.7
+Número de populações independentes: 4
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 250
+Número máximo de iterações sem melhora: 150
+Melhor até agora: 199 Geração: 10
+Iteração: 0
+Melhor até agora: 197 Geração: 11
+Iteração: 0
+Melhor até agora: 195 Geração: 18
+Iteração: 0
+Melhor até agora: 191 Geração: 20
+Iteração: 0
+Melhor até agora: 185 Geração: 40
+Iteração: 0
+Melhor até agora: 184 Geração: 54
+Iteração: 0
+
+Grupo de itens por camada = 20
+Largura da faixa = 50
+Melhor altura = 184
+
+Lower Bound 1 = 160
+Lower Bound 2 = 71
+Avaliação = 1.15
+
+Tempo de execução: 14s
+
+---------------------------
+

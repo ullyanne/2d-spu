@@ -5,10 +5,10 @@ make clean
 make
 cd ..
 
-dir="/home/ullyanne/Documents/2spp/instances/bke/T20/N11Burke.txt"
+dir="/home/ullyanne/Documents/2spp/instances/bke/T20/"
 
 find "$dir" -type f -iname "*.txt" | while read file; do
     for i in {1..1}; do
-        src/samplecode -f "$file" -k 2 -m 0.7 -e 0.3 -o 0.6 -p 60 -t 14 -b 100 -g 100 -d
+        src/samplecode -f "$file" -k 4 -m 0.3 -e 0.15 -o 0.65 -p 250 -t 14 -b 200 -g 200 -d
     done
 done

@@ -11,6 +11,39 @@
 using namespace std;
 using boost::container::flat_set;
 
+std::vector<ranking> slice_layers(const std::vector<ranking> &current_layer,
+                                  const std::vector<ranking> &previous_layer,
+                                  unsigned &slice_num)
+{
+  unsigned s1 = min(slice_num, static_cast<unsigned>(previous_layer.size()));
+  unsigned s2 = min(slice_num, static_cast<unsigned>(current_layer.size()));
+
+  std::vector<ranking> seq;
+  seq.insert(seq.end(), previous_layer.end() - s1, previous_layer.end());
+  seq.insert(seq.end(), current_layer.begin(), current_layer.begin() + s2);
+
+  return seq;
+}
+
+void move_element(std::vector<ranking> &v, int from, int to)
+{
+  ranking element = v[from];
+
+  if (from < to) {
+    for (int i = from; i < to; ++i) {
+      v[i] = v[i + 1];
+    }
+  }
+
+  else if (from > to) {
+    for (int i = from; i > to; --i) {
+      v[i] = v[i - 1];
+    }
+  }
+
+  v[to] = element;
+}
+
 void open_new_layer(vector<flat_set<ems_t, bottom_left_cmp>> &layers,
                     unsigned &num_layers, unsigned &strip_height,
                     const int &max_width, const int &item_height)
@@ -261,13 +294,8 @@ void construct_vl_sol(std::vector<ranking> &sol, std::vector<double> chromosome,
   for (unsigned i = 0; i < virtual_layers[current_layer].size(); i++, idx++) {
     rank[idx].chromosome = chromosome[idx];
     rank[idx].index = virtual_layers[current_layer][i].index;
+    rank[idx].client = virtual_layers[current_layer][i].client;
   }
-
-  // for (unsigned i = 0; i < virtual_layers[current_layer + 1].size();
-  //      i++, idx++) {
-  //   rank[idx].chromosome = chromosome[idx];
-  //   rank[idx].index = virtual_layers[current_layer + 1][i].index;
-  // }
 
   std::sort(rank.begin(), rank.end(), sort_rank);
 
@@ -277,13 +305,28 @@ void construct_vl_sol(std::vector<ranking> &sol, std::vector<double> chromosome,
     if (i == current_layer) {
       sol.insert(sol.end(), rank.begin(), rank.end());
     }
-    // else if (i == current_layer + 1) {
-    //   continue;
-    // }
     else {
       sol.insert(sol.end(), virtual_layers[i].begin(), virtual_layers[i].end());
     }
   }
+}
+
+void construct_final_sol(std::vector<ranking> &sol,
+                         std::vector<double> chromosome,
+                         std::vector<ranking> seq)
+{
+  std::vector<ranking> rank(chromosome.size());
+
+  unsigned idx = 0;
+  for (unsigned i = 0; i < chromosome.size(); i++, idx++) {
+    rank[idx].chromosome = chromosome[idx];
+    rank[idx].index = seq[idx].index;
+    rank[idx].client = seq[idx].client;
+  }
+
+  std::sort(rank.begin(), rank.end(), sort_rank);
+
+  sol = rank;
 }
 
 unsigned pack(
@@ -428,11 +471,6 @@ unsigned pack_with_one_layer(const std::vector<ranking> &rank,
 
   while (items_placed < rank.size()) {
     item_index = rank[items_placed].index;
-    // if (item_index == 254 || item_index == 250 || item_index == 242 ||
-    //     item_index == 253) {
-    //   cout << "item index : " << item_index << "\n";
-    //   cout << "item client: " << items[item_index].client << "\n";
-    // }
 
     item = items[item_index];
     fit = false;
@@ -445,19 +483,6 @@ unsigned pack_with_one_layer(const std::vector<ranking> &rank,
 
           fit_item(item, *ems_t, layers[0], clients_verification, ub, &penalty,
                    debug_sol, solfile);
-
-          // if (fill_virtual_layers) {
-          //   for (unsigned i = 0; i < division_factor; i++) {
-          //     if (bottom_height >= (i * best_height) / division_factor &&
-          //         bottom_height < ((i + 1) * best_height) / division_factor)
-          //         {
-          //       ranking item_rank;
-          //       item_rank.index = item_index;
-          //       virtual_layers[i].push_back(item_rank);
-          //       break;
-          //     }
-          //   }
-          // }
 
           if (fill_virtual_layers) {
             ranking item_rank;
@@ -481,6 +506,99 @@ unsigned pack_with_one_layer(const std::vector<ranking> &rank,
         }
         else {
           ems_t++;
+        }
+      }
+    }
+  }
+
+  if (penalty) {
+    penalty += ub;
+  }
+
+  // auto end = std::chrono::high_resolution_clock::now();
+
+  // cout << "Packing Time: "
+  //      << std::chrono::duration_cast<std::chrono::milliseconds>(end - start)
+  //             .count()
+  //      << "ms\n";
+  return strip_height + penalty;
+}
+
+unsigned ls_pack(const std::vector<ranking> &rank, const vector<item> &items,
+                 const unsigned &max_width, const unsigned &ub,
+                 std::vector<std::vector<ranking>> &virtual_layers,
+                 const unsigned &pieces_per_layer,
+                 const bool &fill_virtual_layers, const unsigned &best_height,
+                 bool debug_sol, std::fstream *solfile)
+{
+  // auto start = std::chrono::high_resolution_clock::now();
+  vector<flat_set<ems_t, bottom_left_cmp>> layers;
+
+  unsigned item_index = rank[0].index;
+  item item = items[item_index];
+  unsigned strip_height = 0;
+  long unsigned int items_placed = 0;
+  bool fit;
+  unsigned penalty = 0;
+
+  unsigned current_client = item.client;
+
+  int clients_verification[max_width];
+  std::fill(clients_verification, clients_verification + max_width, -1);
+
+  layers.push_back(flat_set<ems_t, bottom_left_cmp>());
+  ems_t space;
+  space.bottom_point = make_pair(0, 0);
+  space.top_point = make_pair(max_width, ub);
+  layers[0].insert(space);
+
+  unsigned division_factor = virtual_layers.size();
+  unsigned current_virtual_layer = 0;
+  unsigned count_pieces_virtual_layer = 0;
+
+  while (items_placed < rank.size()) {
+    item_index = rank[items_placed].index;
+
+    item = items[item_index];
+    fit = false;
+
+    if (!layers[0].empty()) {
+      for (auto ems_t = layers[0].begin(); ems_t != layers[0].end();) {
+        if (item_can_fit(item, *ems_t) &&
+            !will_violate_unloading_constraint(item, *ems_t,
+                                               clients_verification)) {
+          calc_strip_height(strip_height, *ems_t, item.height);
+          unsigned bottom_height = ems_t->bottom_point.second;
+
+          fit_item(item, *ems_t, layers[0], clients_verification, ub, &penalty,
+                   debug_sol, solfile);
+
+          if (fill_virtual_layers) {
+            ranking item_rank;
+            item_rank.index = item_index;
+            virtual_layers[current_virtual_layer].push_back(item_rank);
+          }
+
+          if (debug_sol) {
+            *solfile << item_index << "\n" << item.client << "\n";
+          }
+          fit = true;
+          items_placed++;
+          count_pieces_virtual_layer++;
+
+          if (count_pieces_virtual_layer == pieces_per_layer) {
+            current_virtual_layer++;
+            count_pieces_virtual_layer = 0;
+          }
+
+          break;
+        }
+        else {
+          ems_t++;
+        }
+
+        if (ems_t == layers[0].end()) {
+          return ub + strip_height;
         }
       }
     }

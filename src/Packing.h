@@ -57,6 +57,14 @@ unsigned pack_with_one_layer(const std::vector<ranking> &rank,
                              bool debug_sol = false,
                              std::fstream *solfile = nullptr);
 
+unsigned ls_pack(const std::vector<ranking> &rank,
+                 const std::vector<item> &items, const unsigned &max_width,
+                 const unsigned &ub,
+                 std::vector<std::vector<ranking>> &virtual_layers,
+                 const unsigned &pieces_per_layer,
+                 const bool &fill_virtual_layers, const unsigned &best_height,
+                 bool debug_sol = false, std::fstream *solfile = nullptr);
+
 unsigned pack_compressed(const std::vector<ranking> &rank,
                          std::vector<item> items, const unsigned max_width,
                          const unsigned ub, bool debug_sol,
@@ -73,7 +81,17 @@ void construct_vl_sol(std::vector<ranking> &sol, std::vector<double> chromosome,
                       unsigned current_layer,
                       std::vector<std::vector<ranking>> &virtual_layers);
 
+void construct_final_sol(std::vector<ranking> &sol,
+                         std::vector<double> chromosome,
+                         std::vector<ranking> seq);
+
 void rearrangeSeq(std::vector<ranking> &arr,
                   const std::vector<unsigned> &indices_to_move);
+
+void move_element(std::vector<ranking> &v, int from, int to);
+
+std::vector<ranking> slice_layers(const std::vector<ranking> &current_layer,
+                                  const std::vector<ranking> &previous_layer,
+                                  unsigned &slice_num);
 
 #endif  // PACKING_H

@@ -58,6 +58,7 @@
 #include <stdexcept>
 #include <typeinfo>
 
+#include "MTRand.h"
 #include "Population.h"
 
 template <class Decoder, class RNG>
@@ -137,11 +138,6 @@ class BRKGA {
   unsigned getMAX_THREADS() const;
 
  public:
-  std::unordered_map<unsigned, std::vector<unsigned>> getBestClientsToLayers()
-      const;
-
-  std::unordered_map<unsigned, unsigned> getBestLayersToIndex() const;
-
  private:
   // Hyperparameters:
   const unsigned n;   // number of genes in the chromosome
@@ -267,34 +263,6 @@ const std::vector<double>& BRKGA<Decoder, RNG>::getBestChromosome() const
 }
 
 template <class Decoder, class RNG>
-std::unordered_map<unsigned, std::vector<unsigned>>
-BRKGA<Decoder, RNG>::getBestClientsToLayers() const
-{
-  unsigned bestK = 0;
-  for (unsigned i = 1; i < K; ++i) {
-    if (current[i]->getBestFitness() < current[bestK]->getBestFitness()) {
-      bestK = i;
-    }
-  }
-
-  return current[bestK]->getClientsToLayers(0);
-}
-
-template <class Decoder, class RNG>
-std::unordered_map<unsigned, unsigned>
-BRKGA<Decoder, RNG>::getBestLayersToIndex() const
-{
-  unsigned bestK = 0;
-  for (unsigned i = 1; i < K; ++i) {
-    if (current[i]->getBestFitness() < current[bestK]->getBestFitness()) {
-      bestK = i;
-    }
-  }
-
-  return current[bestK]->getLayersToIndex(0);
-}
-
-template <class Decoder, class RNG>
 void BRKGA<Decoder, RNG>::reset()
 {
   for (unsigned i = 0; i < K; ++i) {
@@ -360,28 +328,109 @@ void BRKGA<Decoder, RNG>::exchangeElite(unsigned M)
 template <class Decoder, class RNG>
 inline void BRKGA<Decoder, RNG>::initialize(const unsigned i)
 {
-  for (unsigned j = 0; j < p; ++j) {
-    for (unsigned k = 0; k < n; ++k) {
-      (*current[i])(j, k) = refRNG.rand();
+  std::vector<double> chromosome(n);
+  std::vector<ranking> rank(n);
+
+  unsigned idx = 0;
+  for (const auto& item : refDecoder.seq) {
+    rank[idx].index = item.index;
+    rank[idx].chromosome = static_cast<double>(idx) / (n * 10);
+    chromosome[idx] = rank[idx].chromosome;
+    idx++;
+  }
+
+  (*current[i])(0) = chromosome;
+
+  std::vector<std::vector<ranking>> vh;
+  unsigned num_pieces_per_layer;
+  unsigned bh;
+
+  unsigned fitness =
+      pack_with_one_layer(rank, refDecoder.items, refDecoder.max_width,
+                          refDecoder.ub, vh, num_pieces_per_layer, false, bh);
+
+  current[i]->setFitness(0, fitness);
+
+  MTRand choose;
+  MTRand rlayer;
+  MTRand neigh;
+  MTRand rdouble;
+  MTRand ritem;
+
+  unsigned option;
+  size_t num_layers = refDecoder.index_layers.size();
+  std::vector<unsigned> index_layers = refDecoder.index_layers;
+  std::vector<unsigned> layers_size = refDecoder.layers_size;
+
+  // for (unsigned j = 1; j < p; ++j) {
+  //   for (unsigned k = 0; k < n; ++k) {
+  //     (*current[i])(j, k) = refRNG.rand();
+  //   }
+  // }
+
+  for (unsigned j = 1; j < p; ++j) {
+    if (num_layers == 1) {
+      option = 1;
     }
+    else {
+      double r = choose.randExc();
+
+      if (r < 0.5) {
+        option = 0;
+      }
+      else if (r < 1) {
+        option = 1;
+      }
+    }
+
+    switch (option) {
+      case 0: {
+        unsigned l = rlayer.randInt(num_layers - 1);
+        unsigned item = ritem.randInt(layers_size[l]);
+        std::swap(chromosome[index_layers[l] + item],
+                  chromosome[index_layers[l] + (item + 1) % layers_size[l]]);
+        break;
+      }
+
+      case 1: {
+        unsigned l = rlayer.randInt(num_layers - 1);
+        unsigned neigh;
+
+        if (index_layers[l] == 0) {
+          neigh = l + 1;
+        }
+        else if (index_layers[l] == n - 1) {
+          neigh = l - 1;
+        }
+        else {
+          neigh = rlayer.randInt(1) == 0 ? l - 1 : l + 1;
+        }
+
+        unsigned item = ritem.randInt(layers_size[l]);
+        unsigned item_neigh = ritem.randInt(layers_size[neigh]);
+        std::swap(chromosome[index_layers[l] + item],
+                  chromosome[index_layers[neigh] + item_neigh]);
+
+        break;
+      }
+
+      default:
+        break;
+    }
+
+    (*current[i])(j) = chromosome;
+    chromosome = (*current[i])(0);
   }
 
 // Decode:
 #ifdef _OPENMP
 #pragma omp parallel for num_threads(MAX_THREADS)
 #endif
-  for (int j = 0; j < int(p); ++j) {
-    std::unordered_map<unsigned, std::vector<unsigned>> clients_to_layers;
 
-    std::unordered_map<unsigned, unsigned> layers_to_index;
-
-    unsigned num_layers;
-
-    double fitness =
-        refDecoder.decode((*current[i])(j), clients_to_layers, layers_to_index);
+  for (int j = 1; j < int(p); ++j) {
+    double fitness = refDecoder.decode((*current[i])(j));
 
     current[i]->setFitness(j, fitness);
-    current[i]->setLayersInfo(j, clients_to_layers, layers_to_index);
   }
 
   // Sort:
@@ -405,10 +454,6 @@ inline void BRKGA<Decoder, RNG>::evolution(Population& curr, Population& next)
     next.chromosome_packing_info[i].fitness =
         curr.chromosome_packing_info[i].fitness;
     next.chromosome_packing_info[i].chromosome = i;
-    next.chromosome_packing_info[i].clients_to_layers =
-        curr.chromosome_packing_info[i].clients_to_layers;
-    next.chromosome_packing_info[i].layers_to_index =
-        curr.chromosome_packing_info[i].layers_to_index;
     // next.fitness[i].first = curr.fitness[i].first;
     // next.fitness[i].second = i;
     ++i;
@@ -453,12 +498,7 @@ inline void BRKGA<Decoder, RNG>::evolution(Population& curr, Population& next)
 #pragma omp parallel for num_threads(MAX_THREADS)
 #endif
   for (int i = int(pe); i < int(p); ++i) {
-    std::unordered_map<unsigned, std::vector<unsigned>> clients_to_layers;
-
-    std::unordered_map<unsigned, unsigned> layers_to_index;
-    next.setFitness(i, refDecoder.decode(next.population[i], clients_to_layers,
-                                         layers_to_index));
-    next.setLayersInfo(i, clients_to_layers, layers_to_index);
+    next.setFitness(i, refDecoder.decode(next.population[i]));
   }
 
   // Now we must sort 'current' by fitness, since things might have changed:

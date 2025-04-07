@@ -21,8 +21,8 @@ using std::log10;
 bool sort_lns(const ranking& a, const ranking& b,
               const std::vector<item>& items)
 {
-  if (a.client != b.client) {
-    return a.client > b.client;
+  if (items[a.index].client != items[b.index].client) {
+    return items[a.index].client > items[b.index].client;
   }
   return (items[a.index].height * items[a.index].width) >
          (items[b.index].height * items[b.index].width);
@@ -140,8 +140,10 @@ int main(int argc, char* argv[])
       items[index].height = height;
       items[index].width = width;
       items[index].client = client;
+
       lns_seq[index].index = index;
       lns_seq[index].client = client;
+
       index++;
     }
   }
@@ -206,18 +208,6 @@ int main(int argc, char* argv[])
   std::fstream solfile(solFilePath, std::ios::out);
 
   std::stringstream params;
-  params << "Número de cromossomos: " << num_items << "\n"
-         << "Tamanho da população: " << p << "\n"
-         << "Fração elite: " << pe << "\n"
-         << "Fração mutante: " << pm << "\n"
-         << "Probabilidade herdar alelo elite: " << rhoe << "\n"
-         << "Número de populações independentes: " << K << "\n"
-         << "Número de threads: " << MAXT << "\n"
-         << "Trocar os melhores indivíduos a cada " << X_INTVL << " gerações\n"
-         << "Número máximo de gerações: " << MAX_GENS << "\n"
-         << "\n";
-
-  logfile << params.str();
 
   std::cout << filePath.stem().string() << "\n";
 
@@ -228,153 +218,79 @@ int main(int argc, char* argv[])
               return sort_lns(a, b, items);
             });
 
-  // for (const auto& item : lns_seq) {
-  //   std::cout << item.client << " " << item.index << " "
-  //             << items[item.index].width << " " << items[item.index].height
-  //             << "\n";
+  unsigned num_layers = 1;
+  unsigned count_layer_items = 0;
+  unsigned group_size_per_layer = 20;
+  unsigned current_client = lns_seq[0].client;
+  // std::vector<std::vector<ranking>> v_layers;
+  // v_layers.emplace_back();
+
+  // if (num_items <= 40) {
+  //   v_layers[num_layers - 1] = lns_seq;
   // }
+  // else {
+  //   for (ranking item : lns_seq) {
+  //     if (item.client != current_client) {
+  //       current_client = item.client;
+
+  //       if (count_layer_items >= group_size_per_layer) {
+  //         num_layers++;
+  //         count_layer_items = 0;
+  //         v_layers.emplace_back();
+  //       }
+  //     }
+
+  //     v_layers[num_layers - 1].push_back(item);
+  //     count_layer_items++;
+  //   }
+  // }
+
+  unsigned classes_per_layer = num_clients;
+  num_layers = ceil(static_cast<double>(num_clients) / classes_per_layer);
+  int layer_lim = num_clients - classes_per_layer;
+
+  std::vector<std::vector<ranking>> v_layers(num_layers);
+  unsigned idx = 0;
+  for (ranking item : lns_seq) {
+    if (item.client <= layer_lim) {
+      layer_lim -= classes_per_layer;
+      if (layer_lim < 0) {
+        layer_lim = 0;
+      }
+      idx++;
+    }
+    v_layers[idx].push_back(item);
+  }
 
   unordered_map<unsigned, vector<unsigned>> clients_to_layers;
   unordered_map<unsigned, unsigned> layers_to_index;
   unsigned best_height;
 
   std::vector<ranking> best_sol = lns_seq;
-  unsigned num_layers;
+
+  unsigned n;
   best_height = pack(lns_seq, items, max_width, ub, clients_to_layers,
-                     layers_to_index, num_layers);
-
-  unsigned swap_num = 0;
-  // cout << "first! " << best_height << "\n";
-  // MTRand random;
-  // MTRand random_lns;
-  // MTRand choose_two;
-
-  // unsigned swap_num = 10;
-  // unsigned max_swaps = 2;
-  // unsigned attempts = 0;
-
-  // /* choose layers of adjacent clients to swap */
-
-  // for (unsigned i = 0; i < swap_num; ++i) {
-  //   if (attempts >= max_swaps) {
-  //     break;
-  //   }
-
-  //   height = best_height;
-  //   lns_seq = best_sol;
-  //   unsigned client;
-  //   unsigned next_client;
-  //   choose_client(random, client, next_client, num_clients);
-
-  //   unsigned c_size = clients_to_layers[client].size();
-
-  //   unsigned layer_1 =
-  //       clients_to_layers[client][random_lns.randInt(c_size - 1)];
-
-  //   unsigned cn_size = clients_to_layers[next_client].size();
-
-  //   unsigned layer_2 =
-  //       clients_to_layers[next_client][random_lns.randInt(cn_size - 1)];
-
-  //   vector<unsigned> subchromosome;
-
-  //   unsigned index_end = lns_seq.size();
-  //   num_layers = layers_to_index.size();
-
-  //   if (layer_1 < num_layers - 1) {
-  //     index_end = layers_to_index[layer_1 + 1];
-  //   }
-  //   for (unsigned i = layers_to_index[layer_1]; i < index_end; ++i) {
-  //     subchromosome.push_back(i);
-  //   }
-
-  //   if (layer_1 != layer_2) {
-  //     index_end = lns_seq.size();
-  //     if (layer_2 < num_layers - 1) {
-  //       index_end = layers_to_index[layer_2 + 1];
-  //     }
-  //     for (unsigned i = layers_to_index[layer_2]; i < index_end; ++i) {
-  //       subchromosome.push_back(i);
-  //     }
-  //   }
-
-  //   // std::cout << "l! " << layer_1 << " " << layer_2 << "\n";
-  //   unsigned subchromosome_size = subchromosome.size();
-  //   if (subchromosome_size == 0) {
-  //     continue;
-  //   }
-
-  //   SampleDecoder decoder(lns_seq, subchromosome, items, max_width,
-  //                         ub);  // initialize the decoder
-
-  //   const long unsigned rngSeed = 0;  // seed to the random number generator
-  //   MTRand rng;                       // initialize the random number
-  //   generator
-
-  //   // initialize the BRKGA-based heuristic
-  //   BRKGA<SampleDecoder, MTRand> algorithm(subchromosome_size, p, pe, pm,
-  //   rhoe,
-  //                                          decoder, rng, K, MAXT);
-
-  //   unsigned generation = 0;      // current generation
-  //   const unsigned X_NUMBER = 2;  // exchange top 2 best
-
-  //   best_fitness = best_height;
-  //   do {
-  //     algorithm.evolve();  // evolve the population for one generation
-  //     int cost = algorithm.getBestFitness();
-
-  //     if (cost < best_fitness) {
-  //       best_fitness = cost;
-  //       // printf("%d %d\n", best, generation);
-  //       logfile << "Melhor até agora: " << best_fitness << " "
-  //               << "Geração: " << generation << "\n"
-  //               << "Iteração: " << i << "\n";
-  //     }
-
-  //     if ((++generation) % X_INTVL == 0) {
-  //       algorithm.exchangeElite(X_NUMBER);  // exchange top individuals
-  //     }
-  //   } while (generation < MAX_GENS);
-
-  //   if (best_fitness < best_height) {
-  //     best_height = best_fitness;
-  //     /* update clients to index, layers to index etc... */
-  //     /* remember subchromosome is just a part of the sol. construct sol
-  //      * merges lns_seq with subchromosome*/
-  //     layers_to_index = algorithm.getBestLayersToIndex();
-  //     clients_to_layers = algorithm.getBestClientsToLayers();
-  //     construct_sol(best_sol, algorithm.getBestChromosome(), subchromosome,
-  //                   lns_seq);
-  //     attempts = 0;
-  //   }
-  //   else {
-  //     attempts++;
-  //   }
-  // }
+                     layers_to_index, n);
 
   cout << best_height << "\n";
 
-  unsigned best_swap;
-  std::vector<ranking> best_swap_sol = best_sol;
+  // unsigned num_pieces_per_layer = num_items / log(num_items);
 
-  unsigned num_pieces_per_layer = num_items / log(num_items);
+  // if (num_items <= 40) {
+  //   num_pieces_per_layer = num_items;
+  // }
 
-  if (num_items <= 40) {
-    num_pieces_per_layer = num_items;
-  }
+  // if (num_items >= 200) {
+  //   num_pieces_per_layer = num_items / log2(num_items);
+  // }
 
-  if (num_items >= 200) {
-    num_pieces_per_layer = num_items / log2(num_items);
-  }
-
-  unsigned num_virtual_layers =
-      ceil(static_cast<double>(num_items) / num_pieces_per_layer);
+  // unsigned num_virtual_layers =
+  //     ceil(static_cast<double>(num_items) / num_pieces_per_layer);
 
   unsigned bb = best_height;
-  std::vector<std::vector<ranking>> virtual_layers(num_virtual_layers);
-  height = pack_with_one_layer(best_sol, items, max_width, ub, virtual_layers,
-                               num_pieces_per_layer, true, bb);
+  std::vector<std::vector<ranking>> tmp(2);
+  height =
+      pack_with_one_layer(best_sol, items, max_width, ub, tmp, 5, false, bb);
 
   cout << "h1: " << height << "\n";
 
@@ -383,16 +299,16 @@ int main(int argc, char* argv[])
   }
   cout << "h2: " << best_height << "\n";
 
-  cout << virtual_layers[0].size() << "\n";
-
-  unsigned p2 = 250;
-  double pe2 = 0.15;
-  double pm2 = 0.2;
-  double rhoe2 = 0.55;
-  unsigned MAX_GENS2 = 100;
+  unsigned p2 = 300;
+  double pe2 = 0.2;
+  double pm2 = 0.15;
+  double rhoe2 = 0.7;
+  unsigned MAX_GENS2 = 250;
   unsigned X_INTVL2 = 40;
-  unsigned K2 = 3;
-  unsigned max_improvements = 50;
+  unsigned K2 = 4;
+  unsigned max_improvements = 150;
+
+  int index_plot[num_layers];
 
   params << "Tamanho da população: " << p2 << "\n"
          << "Fração elite: " << pe2 << "\n"
@@ -422,27 +338,20 @@ int main(int argc, char* argv[])
 
   std::chrono::time_point<std::chrono::_V2::system_clock> startiniti;
   std::chrono::time_point<std::chrono::_V2::system_clock> endiniti;
-  for (unsigned i = 0; i < num_virtual_layers; i++) {
+
+  for (unsigned i = 0; i < num_layers; i++) {
     unsigned no_improvement = 0;
     if (i == 0) {
       startiteration = std::chrono::high_resolution_clock::now();
     }
 
-    if (virtual_layers[i].size() == 0) {
+    if (v_layers[i].size() == 0) {
       continue;
     }
 
-    // cout << "first layer " << "\n";
-    // for (unsigned k = 0; k < virtual_layers[i].size(); k++) {
-    //   cout << virtual_layers[i][k].index << " ";
-    // }
+    cout << "size! " << v_layers[i].size() << "\n";
 
-    // cout << "second layer " << "\n";
-    // for (unsigned k = 0; k < virtual_layers[i + 1].size(); k++) {
-    //   cout << virtual_layers[i + 1][k].index << " ";
-    // }
-
-    VirtualLayersDecoder decoder(virtual_layers, num_pieces_per_layer, i, items,
+    VirtualLayersDecoder decoder(v_layers, v_layers[i].size(), i, items,
                                  max_width,
                                  ub);  // initialize the decoder
 
@@ -451,7 +360,7 @@ int main(int argc, char* argv[])
     startiniti = std::chrono::high_resolution_clock::now();
     // initialize the BRKGA-based heuristic
     VLBRKGA<VirtualLayersDecoder, MTRand> algorithm(
-        virtual_layers[i].size(), p2, pe2, pm2, rhoe2, decoder, rng2, K2, MAXT);
+        v_layers[i].size(), p2, pe2, pm2, rhoe2, decoder, rng2, K2, MAXT);
 
     endiniti = std::chrono::high_resolution_clock::now();
     unsigned generation = 0;      // current generation
@@ -487,35 +396,186 @@ int main(int argc, char* argv[])
       endevolution = std::chrono::high_resolution_clock::now();
     } while (generation < MAX_GENS2 && no_improvement < max_improvements);
 
+    startconstructsol = std::chrono::high_resolution_clock::now();
+    std::vector<ranking> sol;
+    construct_vl_sol(sol, algorithm.getBestChromosome(), i, v_layers);
+    endconstructsol = std::chrono::high_resolution_clock::now();
+    best_sol = sol;
     best_fitness = algorithm.getBestFitness();
-    if (best_fitness < best_height) {
-      /* update clients to index, layers to index etc... */
-      /* remember subchromosome is just a part of the sol. construct sol
-       * merges lns_seq with subchromosome*/
-      startconstructsol = std::chrono::high_resolution_clock::now();
-      std::vector<ranking> sol;
-      construct_vl_sol(sol, algorithm.getBestChromosome(), i, virtual_layers);
-
-      endconstructsol = std::chrono::high_resolution_clock::now();
-
-      if (sol != best_sol) {
-        startconstruct = std::chrono::high_resolution_clock::now();
-        best_height = best_fitness;
-        cout << "kk1 " << best_height << "\n";
-        best_sol = sol;
-        std::vector<std::vector<ranking>> copy_virtual_layers(
-            num_virtual_layers);
-        height = pack_with_one_layer(best_sol, items, max_width, ub,
-                                     copy_virtual_layers, num_pieces_per_layer,
-                                     true, best_height);
-        virtual_layers = copy_virtual_layers;
-        endconstruct = std::chrono::high_resolution_clock::now();
-      }
-    }
+    best_height = best_fitness;
+    cout << "kk1 " << best_height << "\n" << flush;
 
     if (i == 0) {
       enditeration = std::chrono::high_resolution_clock::now();
     }
+
+    if (i != 0) {
+      unsigned ls_pieces = 70;
+      std::vector<ranking> ls_seq =
+          slice_layers(v_layers[i], v_layers[i - 1], ls_pieces);
+      std::vector<ranking> best_ls_sol = ls_seq;
+
+      std::vector<std::vector<ranking>> remnd(2);
+      if (v_layers[i - 1].size() > ls_pieces) {
+        remnd[0].insert(remnd[0].end(), v_layers[i - 1].begin(),
+                        v_layers[i - 1].end() - ls_pieces);
+      }
+
+      if (v_layers[i].size() > ls_pieces) {
+        remnd[1].insert(remnd[1].end(), v_layers[i].begin() + ls_pieces,
+                        v_layers[i].end());
+      }
+
+      std::vector<ranking> base;
+      for (int j = 0; j < i - 1; j++) {
+        base.insert(base.end(), v_layers[j].begin(), v_layers[j].end());
+      }
+
+      double T = 5000;
+      vector<ranking> best_full_sol = best_sol;
+      double current_fitness = best_fitness;
+      double best_fit = current_fitness;
+      double max_iterations = 500;
+      double T_min = 0.01;
+      double alpha = 0.995;
+      MTRand ran;
+      MTRand sa;
+
+      for (; T > T_min;) {
+        std::vector<ranking> neighbor = ls_seq;
+        int idx = ran.randInt(neighbor.size() - 1);
+        int idx2 = ran.randInt(neighbor.size() - 1);
+        while (idx2 == idx) {
+          idx2 = ran.randInt(neighbor.size() - 1);
+        }
+        swap(neighbor[idx], neighbor[idx2]);
+        // move_element(neighbor, idx, idx2);
+
+        std::vector<ranking> seq2;
+        seq2.insert(seq2.end(), base.begin(), base.end());
+        seq2.insert(seq2.end(), remnd[0].begin(), remnd[0].end());
+        seq2.insert(seq2.end(), neighbor.begin(), neighbor.end());
+        seq2.insert(seq2.end(), remnd[1].begin(), remnd[1].end());
+
+        unsigned new_fitness = ls_pack(seq2, items, max_width, ub, tmp, 5,
+                                       false, best_height, false);
+
+        int delta = new_fitness - current_fitness;
+        if (delta <= 0 || exp(-delta / T) > sa.rand()) {
+          ls_seq = neighbor;
+          current_fitness = new_fitness;
+
+          if (new_fitness <= best_fit) {
+            best_fit = new_fitness;
+            best_ls_sol = neighbor;
+            best_full_sol = seq2;
+          }
+        }
+
+        T *= alpha;
+      }
+
+      if (best_fit <= best_fitness) {
+        unsigned s1 =
+            min(ls_pieces, static_cast<unsigned>(v_layers[i - 1].size()));
+        unsigned s2 = min(ls_pieces, static_cast<unsigned>(v_layers[i].size()));
+
+        std::copy_n(best_ls_sol.begin(), s1, v_layers[i - 1].end() - s1);
+        std::copy_n(best_ls_sol.begin() + s1, s2, v_layers[i].begin());
+        best_fitness = best_fit;
+        best_sol = best_full_sol;
+        best_height = best_fit;
+      }
+      index_plot[i - 1] = v_layers[i - 1][v_layers[i - 1].size() - 1].index;
+    }
+
+    // if (i != num_layers - 1) {
+    //   unsigned n1 = min(50, static_cast<int>(v_layers[i].size()));
+    //   unsigned n2 = min(20, static_cast<int>(v_layers[i + 1].size()));
+
+    //   std::vector<ranking> seq;
+    //   seq.insert(seq.end(), v_layers[i].end() - n1, v_layers[i].end());
+    //   seq.insert(seq.end(), v_layers[i + 1].begin(),
+    //              v_layers[i + 1].begin() + n2);
+    //   // std::sort(seq.begin(), seq.end(),
+    //   //           [&items](const ranking& a, const ranking& b) {
+    //   //             return sort_lns(a, b, items);
+    //   //           });
+
+    //   cout << "he! \n";
+    //   // for (unsigned i = 0; i < seq.size(); i++) {
+    //   //   cout << seq[i].client << " " << flush;
+    //   //   cout << seq[i].index << "\n" << flush;
+    //   // }
+
+    //   std::vector<ranking> l1 =
+    //       std::vector<ranking>(v_layers[i].begin(), v_layers[i].end() - n1);
+
+    //   unsigned best = best_height;
+
+    //   std::vector<ranking> global_best_solution;
+    //   unsigned global_best_fit = std::numeric_limits<unsigned>::max();
+
+    //   std::vector<ranking> origin;
+    //   std::vector<ranking> best_solution = seq;
+
+    //   for (unsigned j = 0; j < 500; j++) {
+    //     double T = 1000;
+    //     unsigned current_fitness = best;
+    //     unsigned best_fit = current_fitness;
+    //     unsigned max_iterations = 1000;
+    //     double T_min = 0.1;
+    //     double alpha = 0.9;
+    //     MTRand ran;
+
+    //     for (int iter = 0; iter < max_iterations && T > T_min; ++iter) {
+    //       std::vector<ranking> neighbor = seq;
+    //       int idx = ran.randInt(neighbor.size() - 1);
+    //       int idx2 = ran.randInt(neighbor.size() - 1);
+    //       move_element(neighbor, idx, idx2);
+
+    //       std::vector<ranking> seq2;
+    //       seq2.insert(seq2.end(), l1.begin(), l1.end());
+    //       seq2.insert(seq2.end(), neighbor.begin(), neighbor.end());
+    //       seq2.insert(seq2.end(), v_layers[i + 1].begin() + n2,
+    //                   v_layers[i + 1].end());
+
+    //       unsigned new_fitness = pack_with_one_layer(
+    //           seq2, items, max_width, ub, tmp, 5, false, best_height);
+
+    //       int delta = new_fitness - current_fitness;
+    //       if (delta < 0 ||
+    //           (delta < 30) &&
+    //               exp(-delta / T) > static_cast<double>(ran()) / RAND_MAX) {
+    //         seq = neighbor;
+    //         current_fitness = new_fitness;
+
+    //         if (new_fitness < best_fit) {
+    //           best_fit = new_fitness;
+    //           best_solution = neighbor;
+    //         }
+    //       }
+    //     }
+
+    //     if (best_fit < global_best_fit) {
+    //       cout << global_best_fit << " " << best_fit << "\n";
+    //       global_best_fit = best_fit;
+    //       global_best_solution = best_solution;
+    //     }
+    //   }
+    //   best_sol = global_best_solution;
+    //   break;
+    //   int j = 0;
+    //   for (auto it = v_layers[i].end() - n1; it != v_layers[i].end(); ++it) {
+    //     *it = global_best_solution[j];
+    //     j++;
+    //   }
+    //   v_layers[i] = global_best_solution;
+    // }
+  }
+
+  for (unsigned i = 0; i < num_layers; i++) {
+    cout << "i l - " << index_plot[i] << "\n";
   }
 
   auto endpart2 = std::chrono::high_resolution_clock::now();
@@ -552,86 +612,12 @@ int main(int argc, char* argv[])
                                                                 startiniti)
               .count();
 
-  // unsigned no_improvement = 0;
-
-  // while (true) {
-  //   cout << no_improvement << "@\n";
-  //   cout << best_height << "\n";
-
-  //   if (no_improvement >= 20) {
-  //     break;
-  //   }
-
-  //   if (best_swap < best_height) {
-  //     best_height = best_swap;
-  //   }
-
-  //   for (unsigned i = 0; i < num_virtual_layers; i++) {
-  //     if (virtual_layers[i].size() == 0) {
-  //       continue;
-  //     }
-
-  //     VirtualLayersDecoder decoder(virtual_layers, i, items,
-  //     max_width,
-  //                                  ub);  // initialize the decoder
-
-  //     const long unsigned rngSeed = 0;  // seed to the random number
-  //     generator MTRand rng(rngSeed);  // initialize the random number
-  //     generator
-
-  //     // initialize the BRKGA-based heuristic
-  //     VLBRKGA<VirtualLayersDecoder, MTRand> algorithm(
-  //         virtual_layers[i].size(), 200, pe, pm, rhoe, decoder, rng,
-  //         4, MAXT);
-
-  //     unsigned generation = 0;      // current generation
-  //     const unsigned X_NUMBER = 2;  // exchange top 2 best
-
-  //     best_fitness = best_height;
-  //     do {
-  //       algorithm.evolve();  // evolve the population for one
-  //       generation int cost = algorithm.getBestFitness();
-
-  //       if (cost < best_fitness) {
-  //         best_fitness = cost;
-  //         // printf("%d %d\n", best, generation);
-  //         logfile << "Melhor até agora: " << best_fitness << " "
-  //                 << "Geração: " << generation << "\n"
-  //                 << "Iteração: " << i << "\n";
-  //       }
-
-  //       if ((++generation) % X_INTVL == 0) {
-  //         algorithm.exchangeElite(X_NUMBER);  // exchange top
-  //         individuals
-  //       }
-  //     } while (generation < 200);
-
-  //     if (best_fitness < best_height) {
-  //       no_improvement = 0;
-  //       best_height = best_fitness;
-  //       best_swap = best_height;
-  //       cout << "kk1 " << best_height << "\n";
-  //       /* update clients to index, layers to index etc... */
-  //       /* remember subchromosome is just a part of the sol.
-  //       construct sol
-  //        * merges lns_seq with subchromosome*/
-  //       std::vector<ranking> sol;
-  //       construct_vl_sol(sol, algorithm.getBestChromosome(), i,
-  //       virtual_layers); best_sol = sol;
-  //     }
-  //     else {
-  //       no_improvement++;
-  //     }
-  //   }
-  // }
-
   cout << "kk " << best_height << "\n";
 
   // for (int i = 0; i < best_sol.size(); i++) {
   //   cout << best_sol[i].index << " ";
   // }
 
-  // cout << best_height << "\n";
   // double T = 1000;
   // double current_fitness = best_height;
 
@@ -645,27 +631,6 @@ int main(int argc, char* argv[])
   // for (int iter = 0; iter < max_iterations && T > T_min; ++iter) {
   //   // Escolhe um tipo de perturbação aleatório
   //   std::vector<ranking> neighbor = chromosome;
-  //   int i = rand() % neighbor.size();
-
-  //   int perturbation_type = rand() % 3;
-  //   switch (perturbation_type) {
-  //     case 0:  // Swap aleatório
-  //       std::swap(neighbor[i], neighbor[rand() % neighbor.size()]);
-  //       break;
-  //     case 1:  // Swap com vizinho
-  //       std::swap(neighbor[i], neighbor[(i + 1) % neighbor.size()]);
-  //       break;
-  //     case 2:  // Inverter uma sublista aleatória
-  //     {
-  //       int j = rand() % neighbor.size();
-  //       if (i > j) std::swap(i, j);
-  //       std::reverse(neighbor.begin() + i, neighbor.begin() + j);
-  //       break;
-  //     }
-  //     case 3:  // Trocar um valor por um completamente aleatório
-  //       neighbor[i].chromosome = static_cast<double>(rand()) / RAND_MAX;
-  //       break;
-  //   }
 
   //   // Avalia a nova solução
   //   double new_fitness =
@@ -674,7 +639,8 @@ int main(int argc, char* argv[])
 
   //   // Critério de aceitação
   //   double delta = new_fitness - current_fitness;
-  //   if (delta < 0 || exp(-delta / T) > static_cast<double>(rand()) / RAND_MAX) {
+  //   if (delta < 0 || exp(-delta / T) > static_cast<double>(rand()) /
+  //   RAND_MAX) {
   //     chromosome = neighbor;
   //     current_fitness = new_fitness;
 
@@ -705,9 +671,8 @@ int main(int argc, char* argv[])
 
     std::vector<std::vector<ranking>> vl;
     unsigned bh = 0;
-    unsigned dummy = pack_with_one_layer(best_sol, items, max_width, ub, vl,
-                                         num_pieces_per_layer, false, bh,
-                                         debug_sol, &solfile);
+    unsigned dummy = pack_with_one_layer(best_sol, items, max_width, ub, vl, 2,
+                                         false, bh, debug_sol, &solfile);
 
     // else {
     //   unsigned dummy = pack(best_sol, items, max_width, ub,
@@ -717,9 +682,8 @@ int main(int argc, char* argv[])
     // }
   }
 
-  std::cout << "Melhor altura = " << best_height << "\n";
-
-  logfile << "Número de swaps entre camadas = " << swap_num << "\n";
+  std::cout << "\nMelhor altura = " << best_height << "\n";
+  logfile << "\nGrupo de itens por camada = " << group_size_per_layer << "\n";
   logfile << "Largura da faixa = " << max_width << "\n";
   logfile << "Melhor altura = " << best_height << "\n\n";
   logfile << "Lower Bound 1 = " << lb1 << "\n";

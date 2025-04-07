@@ -20,22 +20,11 @@
 #include <stdexcept>
 #include <vector>
 
-typedef struct {
-  std::unordered_map<unsigned, std::vector<unsigned>> clients_to_layers;
-  std::unordered_map<unsigned, unsigned> layers_to_index;
-} packing_layers_info;
-
-typedef struct {
-  std::vector<std::pair<double, unsigned>> fitness;
-  std::vector<std::pair<packing_layers_info, unsigned>> layers_info;
-
-} packing_layers_info_fitness;
+#include "Packing.h"
 
 typedef struct {
   double fitness;
   unsigned chromosome;
-  std::unordered_map<unsigned, std::vector<unsigned>> clients_to_layers;
-  std::unordered_map<unsigned, unsigned> layers_to_index;
 } packing_info;
 
 class Population {
@@ -56,9 +45,6 @@ class Population {
   double getFitness(unsigned i) const;  // Returns the fitness of chromosome i
   const std::vector<double>& getChromosome(
       unsigned i) const;  // Returns i-th best chromosome
-  std::unordered_map<unsigned, std::vector<unsigned>> getClientsToLayers(
-      unsigned i) const;
-  std::unordered_map<unsigned, unsigned> getLayersToIndex(unsigned i) const;
 
  private:
   Population(const Population& other);
@@ -73,10 +59,6 @@ class Population {
 
   void sortFitness();  // Sorts 'fitness' by its first parameter
   void setFitness(unsigned i, double f);  // Sets the fitness of chromosome i
-  void setLayersInfo(
-      unsigned i,
-      std::unordered_map<unsigned, std::vector<unsigned>> clients_to_layers,
-      std::unordered_map<unsigned, unsigned> layers_to_index);
   std::vector<double>& getChromosome(unsigned i);  // Returns a chromosome
 
   double& operator()(unsigned i,
@@ -124,18 +106,6 @@ std::vector<double>& Population::getChromosome(unsigned i)
   return population[chromosome_packing_info[i].chromosome];
 }
 
-std::unordered_map<unsigned, std::vector<unsigned>>
-Population::getClientsToLayers(unsigned i) const
-{
-  return chromosome_packing_info[i].clients_to_layers;
-}
-
-std::unordered_map<unsigned, unsigned> Population::getLayersToIndex(
-    unsigned i) const
-{
-  return chromosome_packing_info[i].layers_to_index;
-}
-
 void Population::setFitness(unsigned i, double f)
 {
   // layers_info_fitness.fitness[i].first = f;
@@ -144,15 +114,6 @@ void Population::setFitness(unsigned i, double f)
   chromosome_packing_info[i].chromosome = i;
   // fitness[i].first = f;
   // fitness[i].second = i;
-}
-
-void Population::setLayersInfo(
-    unsigned i,
-    std::unordered_map<unsigned, std::vector<unsigned>> clients_to_layers,
-    std::unordered_map<unsigned, unsigned> layers_to_index)
-{
-  chromosome_packing_info[i].clients_to_layers = clients_to_layers;
-  chromosome_packing_info[i].layers_to_index = layers_to_index;
 }
 
 void Population::sortFitness()

@@ -5246,3 +5246,51 @@ Tempo de execução: 0s
 
 ---------------------------
 
+Tamanho da população: 300
+Fração elite: 0.15
+Fração mutante: 0.3
+Probabilidade herdar alelo elite: 0.55
+Número de populações independentes: 8
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 250
+Número máximo de iterações sem melhora: 150
+Melhor até agora: 40 Geração: 0
+Iteração: 0
+
+Grupo de itens por camada = 20
+Largura da faixa = 40
+Melhor altura = 40
+
+Lower Bound 1 = 40
+Lower Bound 2 = 36
+Avaliação = 1
+
+Tempo de execução: 3s
+
+---------------------------
+
+Tamanho da população: 300
+Fração elite: 0.2
+Fração mutante: 0.15
+Probabilidade herdar alelo elite: 0.7
+Número de populações independentes: 4
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 250
+Número máximo de iterações sem melhora: 150
+Melhor até agora: 40 Geração: 0
+Iteração: 0
+
+Grupo de itens por camada = 20
+Largura da faixa = 40
+Melhor altura = 40
+
+Lower Bound 1 = 40
+Lower Bound 2 = 36
+Avaliação = 1
+
+Tempo de execução: 0s
+
+---------------------------
+

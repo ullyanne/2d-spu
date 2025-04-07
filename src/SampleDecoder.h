@@ -32,28 +32,28 @@ using namespace std;
 
 class SampleDecoder {
  public:
-  SampleDecoder(const vector<ranking> lns_seq,
-                const vector<unsigned> subchromosome, const vector<item> items,
+  SampleDecoder(const vector<ranking> seq, const vector<unsigned> index_layers,
+                const vector<unsigned> layers_size, const vector<item> items,
                 const int max_width, const int ub)
-      : lns_seq(lns_seq),
-        subchromosome(subchromosome),
+      : seq(seq),
+        index_layers(index_layers),
+        layers_size(layers_size),
         items(items),
         max_width(max_width),
         ub(ub)
   {
   }
   ~SampleDecoder();
-  double decode(
-      const vector<double> &chromosome,
-      std::unordered_map<unsigned, std::vector<unsigned>> &clients_to_layers,
-      std::unordered_map<unsigned, unsigned> &layers_to_index) const;
+  double decode(const vector<double> &chromosome) const;
 
- private:
-  const vector<ranking> lns_seq;
-  const vector<unsigned> subchromosome;
+  const vector<ranking> seq;
+  const vector<unsigned> index_layers;
+  const vector<unsigned> layers_size;
   const vector<item> items;
   const int max_width;
   const int ub;
+
+ private:
 };
 
 #endif
