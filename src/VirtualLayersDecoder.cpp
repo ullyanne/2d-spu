@@ -27,28 +27,16 @@ double VirtualLayersDecoder::decode(const std::vector<double>& chromosome) const
   std::vector<ranking> rank(chromosome.size());
 
   unsigned idx = 0;
-  for (unsigned i = 0; i < virtual_layers[current_layer].size(); i++, idx++) {
+  for (unsigned i = 0; i < chromosome.size(); i++, idx++) {
     rank[idx].chromosome = chromosome[idx];
-    rank[idx].index = virtual_layers[current_layer][i].index;
+    rank[idx].index = i;
   }
 
   std::sort(rank.begin(), rank.end(), sort_rank);
 
-  std::vector<ranking> seq;
-  for (unsigned i = 0; i < virtual_layers.size(); i++) {
-    if (i == current_layer) {
-      seq.insert(seq.end(), rank.begin(), rank.end());
-    }
-    else {
-      seq.insert(seq.end(), virtual_layers[i].begin(), virtual_layers[i].end());
-    }
-  }
 
-  unsigned best_height = 0;
-  std::vector<std::vector<ranking>> copy_change_later;
   strip_height_plus_penalty =
-      pack_with_one_layer(seq, items, max_width, ub, copy_change_later,
-                          num_pieces_per_layer, false, best_height);
+      pack_with_one_layer(rank, items, max_width, ub, false);
 
   // std::vector<ranking> best_solution = seq;
 

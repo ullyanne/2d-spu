@@ -31,12 +31,8 @@ double SampleDecoder::decode(const std::vector<double> &chromosome) const
 
   std::sort(rank.begin(), rank.end(), sort_rank);
 
-  std::vector<std::vector<ranking>> vl;
-  unsigned num_pieces_per_layer;
-  unsigned best_height;
-  
-  unsigned strip_height_plus_penalty = pack_with_one_layer(
-      rank, items, max_width, ub, vl, num_pieces_per_layer, false, best_height);
+  unsigned strip_height_plus_penalty =
+      pack_with_one_layer(rank, items, max_width, ub, false);
 
   return strip_height_plus_penalty;
 }

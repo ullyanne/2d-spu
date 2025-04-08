@@ -366,100 +366,88 @@ void VLBRKGA<VirtualLayersDecoder, RNG>::exchangeElite(unsigned M)
 template <class VirtualLayersDecoder, class RNG>
 inline void VLBRKGA<VirtualLayersDecoder, RNG>::initialize(const unsigned i)
 {
-  std::vector<double> chromosome(n);
-  std::vector<ranking> rank(n);
+  std::vector<std::vector<double>> chromosome_groups(3, std::vector<double>(n));
+  std::vector<std::vector<ranking>> rank_groups(3, std::vector<ranking>(n));
 
-  unsigned idx = 0;
-  for (const auto& item : refDecoder.virtual_layers[refDecoder.current_layer]) {
-    rank[idx].index = item.index;
-    rank[idx].chromosome = static_cast<double>(idx) / (n * 10);
-    idx++;
+  for (unsigned j = 0; j < 3; j++) {
+    encode(rank_groups[j], refDecoder.initial_seqs[j], n);
+    std::sort(
+        rank_groups[j].begin(), rank_groups[j].end(),
+        [](const ranking& a, const ranking& b) { return a.index < b.index; });
   }
 
-  // for (unsigned i = 0;
-  //      i < refDecoder.virtual_layers[refDecoder.current_layer + 1].size();
-  //      i++, idx++) {
-  //   seq[idx].first =
-  //       refDecoder.virtual_layers[refDecoder.current_layer + 1][i].index;
-  //   seq[idx].second = (static_cast<double>(idx) / (n * 10));
-  // }
+  int lims[3];
+  lims[0] = 0.35 * p - 1;
+  lims[1] = lims[0] + (0.3 * p) - 1;
+  lims[2] = lims[1] + (0.3 * p) - 1;
 
-  // std::sort(rank.begin(), rank.end(), [](const ranking& a, const ranking& b)
-  // {
-  //   return a.chromosome < b.chromosome;
-  // });
-
-  // for (unsigned i = 0; i < n; i++) {
-  //   // cout << "seq " << seq[i].first << " " << seq[i].second << "\n";
-  // }
-
-  for (unsigned i = 0; i < n; i++) {
-    chromosome[i] = rank[i].chromosome;
-  }
-
-  // for (unsigned j = 0; j < n; ++j) {
-  //   (*current[i])(0, j) = chromosome[j];
-  // }
-
-  (*current[i])(0) = chromosome;
-
-  std::vector<ranking> newseq;
-  newseq.reserve(refDecoder.items.size());
-
-  for (unsigned j = 0; j < refDecoder.virtual_layers.size(); j++) {
-    if (j == refDecoder.current_layer) {
-      newseq.insert(newseq.end(), rank.begin(), rank.end());
-    }
-    // else if (i == refDecoder.current_layer + 1) {
-    //   continue;
-    // }
-    else {
-      newseq.insert(newseq.end(), refDecoder.virtual_layers[j].begin(),
-                    refDecoder.virtual_layers[j].end());
+  for (unsigned j = 0; j < 3; j++) {
+    for (unsigned k = 0; k < n; ++k) {
+      chromosome_groups[j][k] = rank_groups[j][k].chromosome;
     }
   }
 
-  unsigned bh = 0;
-  std::vector<std::vector<ranking>> vh;
+  (*current[i])(0) = chromosome_groups[0];
+  (*current[i])(1) = chromosome_groups[1];
+  (*current[i])(2) = chromosome_groups[2];
 
-  double fitness = pack_with_one_layer(
-      newseq, refDecoder.items, refDecoder.max_width, refDecoder.ub, vh,
-      refDecoder.num_pieces_per_layer, false, bh);
-
-  current[i]->setFitness(0, fitness);
-
-  // for (unsigned j = 1; j < p; ++j) {
-  //   for (unsigned k = 0; k < n; ++k) {
-  //     (*current[i])(j, k) = refRNG.rand();
-  //   }
-  // }
   MTRand choose_two;
 
+  auto start_build = std::chrono::high_resolution_clock::now();
+  int window = 0.1 * n;
+
+  for (unsigned j = 3; j < p; ++j) {
+    int first_piece = choose_two.randInt(n - 1);
+
+    int s_min = std::max(0, first_piece - window);
+    int s_max = std::min(int(n - 1), first_piece + window);
+
+    int second_piece = s_min + choose_two.randInt(s_max - s_min);
+
+    while (second_piece == first_piece) {
+      second_piece = s_min + choose_two.randInt(s_max - s_min);
+    }
+
+    if (j < lims[0]) {
+      std::swap(chromosome_groups[0][first_piece],
+                chromosome_groups[0][second_piece]);
+      (*current[i])(j) = chromosome_groups[0];
+    }
+    else if (j >= lims[0] && j < lims[1]) {
+      std::swap(chromosome_groups[1][first_piece],
+                chromosome_groups[1][second_piece]);
+      (*current[i])(j) = chromosome_groups[1];
+    }
+    else if (j >= lims[1] && j < lims[2]) {
+      std::swap(chromosome_groups[2][first_piece],
+                chromosome_groups[2][second_piece]);
+      (*current[i])(j) = chromosome_groups[2];
+    }
+    else if (j >= lims[2]) {
+      for (unsigned k = 0; k < n; ++k) {
+        (*current[i])(j, k) = refRNG.rand();
+      }
+    }
+  }
+
+  auto end_build = std::chrono::high_resolution_clock::now();
+
+  auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+      end_build - start_build);
+
+  std::cout << "Tempo decorrido: " << duration.count() << " ms" << std::endl;
 // Decode:
 #ifdef _OPENMP
 #pragma omp parallel for num_threads(MAX_THREADS)
 #endif
-
-  for (unsigned j = 1; j < p; ++j) {
-    unsigned first_piece = choose_two.randInt(n - 1);
-    unsigned second_piece = choose_two.randInt(n - 1);
-
-    while (second_piece == first_piece) {
-      second_piece = choose_two.randInt(n - 1);
-    }
-
-    std::swap(chromosome[first_piece], chromosome[second_piece]);
-
-    (*current[i])(j) = chromosome;
-  }
-
-  for (int j = 1; j < int(p); ++j) {
+  for (int j = 0; j < int(p); ++j) {
     double fitness = refDecoder.decode((*current[i])(j));
 
     current[i]->setFitness(j, fitness);
   }
 
   // Sort:
+
   current[i]->sortFitness();
 }
 

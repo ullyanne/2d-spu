@@ -8525,3 +8525,355 @@ Tempo de execução: 20s
 
 ---------------------------
 
+Tamanho da população: 300
+Fração elite: 0.2
+Fração mutante: 0.15
+Probabilidade herdar alelo elite: 0.7
+Número de populações independentes: 4
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 250
+Número máximo de iterações sem melhora: 150
+Melhor até agora: 189 Geração: 0
+Melhor até agora: 182 Geração: 4
+Melhor até agora: 179 Geração: 11
+Melhor até agora: 176 Geração: 15
+Melhor até agora: 174 Geração: 35
+Melhor até agora: 172 Geração: 185
+Melhor até agora: 171 Geração: 187
+Largura da faixa = 54
+Melhor altura = 171
+
+Lower Bound 1 = 138
+Lower Bound 2 = 126
+Avaliação = 1.23913
+
+Tempo de execução: 19s
+
+---------------------------
+
+Tamanho da população: 300
+Fração elite: 0.2
+Fração mutante: 0.15
+Probabilidade herdar alelo elite: 0.7
+Número de populações independentes: 6
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 250
+Número máximo de iterações sem melhora: 150
+Melhor até agora: 190 Geração: 0
+Melhor até agora: 188 Geração: 2
+Melhor até agora: 184 Geração: 6
+Melhor até agora: 182 Geração: 7
+Melhor até agora: 181 Geração: 13
+Melhor até agora: 177 Geração: 14
+Melhor até agora: 169 Geração: 18
+Melhor até agora: 167 Geração: 33
+Melhor até agora: 166 Geração: 43
+Melhor até agora: 163 Geração: 83
+Largura da faixa = 54
+Melhor altura = 163
+
+Lower Bound 1 = 138
+Lower Bound 2 = 126
+Avaliação = 1.18116
+
+Tempo de execução: 33s
+
+---------------------------
+
+Tamanho da população: 300
+Fração elite: 0.2
+Fração mutante: 0.15
+Probabilidade herdar alelo elite: 0.7
+Número de populações independentes: 6
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 250
+Número máximo de iterações sem melhora: 150
+Melhor até agora: 188 Geração: 0
+Melhor até agora: 185 Geração: 2
+Melhor até agora: 177 Geração: 9
+Melhor até agora: 173 Geração: 16
+Melhor até agora: 172 Geração: 23
+Melhor até agora: 171 Geração: 24
+Melhor até agora: 166 Geração: 29
+Melhor até agora: 164 Geração: 38
+Melhor até agora: 163 Geração: 54
+Melhor até agora: 162 Geração: 66
+Largura da faixa = 54
+Melhor altura = 162
+
+Lower Bound 1 = 138
+Lower Bound 2 = 126
+Avaliação = 1.17391
+
+Tempo de execução: 30s
+
+---------------------------
+
+Tamanho da população: 300
+Fração elite: 0.2
+Fração mutante: 0.15
+Probabilidade herdar alelo elite: 0.7
+Número de populações independentes: 6
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 250
+Número máximo de iterações sem melhora: 150
+Melhor até agora: 196 Geração: 0
+Melhor até agora: 195 Geração: 1
+Melhor até agora: 191 Geração: 3
+Melhor até agora: 185 Geração: 4
+Melhor até agora: 181 Geração: 7
+Melhor até agora: 178 Geração: 12
+Melhor até agora: 173 Geração: 15
+Melhor até agora: 170 Geração: 38
+Melhor até agora: 169 Geração: 48
+Melhor até agora: 166 Geração: 53
+Melhor até agora: 165 Geração: 61
+Largura da faixa = 54
+Melhor altura = 165
+
+Lower Bound 1 = 138
+Lower Bound 2 = 126
+Avaliação = 1.19565
+
+Tempo de execução: 33s
+
+---------------------------
+
+Tamanho da população: 300
+Fração elite: 0.2
+Fração mutante: 0.15
+Probabilidade herdar alelo elite: 0.7
+Número de populações independentes: 6
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 250
+Número máximo de iterações sem melhora: 150
+Melhor até agora: 198 Geração: 0
+Melhor até agora: 190 Geração: 1
+Melhor até agora: 182 Geração: 6
+Melhor até agora: 176 Geração: 9
+Melhor até agora: 175 Geração: 16
+Melhor até agora: 172 Geração: 28
+Melhor até agora: 171 Geração: 37
+Melhor até agora: 170 Geração: 46
+Melhor até agora: 169 Geração: 101
+Largura da faixa = 54
+Melhor altura = 169
+
+Lower Bound 1 = 138
+Lower Bound 2 = 126
+Avaliação = 1.22464
+
+Tempo de execução: 36s
+
+---------------------------
+
+Tamanho da população: 300
+Fração elite: 0.2
+Fração mutante: 0.15
+Probabilidade herdar alelo elite: 0.7
+Número de populações independentes: 6
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 250
+Número máximo de iterações sem melhora: 150
+Melhor até agora: 197 Geração: 0
+Melhor até agora: 194 Geração: 2
+Melhor até agora: 191 Geração: 3
+Melhor até agora: 185 Geração: 4
+Melhor até agora: 184 Geração: 7
+Melhor até agora: 182 Geração: 9
+Melhor até agora: 180 Geração: 11
+Melhor até agora: 176 Geração: 12
+Melhor até agora: 175 Geração: 13
+Melhor até agora: 173 Geração: 14
+Melhor até agora: 171 Geração: 16
+Melhor até agora: 167 Geração: 27
+Melhor até agora: 166 Geração: 120
+Largura da faixa = 54
+Melhor altura = 166
+
+Lower Bound 1 = 138
+Lower Bound 2 = 126
+Avaliação = 1.2029
+
+Tempo de execução: 34s
+
+---------------------------
+
+Tamanho da população: 300
+Fração elite: 0.2
+Fração mutante: 0.15
+Probabilidade herdar alelo elite: 0.7
+Número de populações independentes: 6
+Número de threads: 14
+Trocar os melhores indivíduos a cada 80 gerações
+Número máximo de gerações: 250
+Número máximo de iterações sem melhora: 150
+Melhor até agora: 190 Geração: 0
+Melhor até agora: 183 Geração: 2
+Melhor até agora: 179 Geração: 11
+Melhor até agora: 176 Geração: 14
+Melhor até agora: 175 Geração: 17
+Melhor até agora: 174 Geração: 20
+Melhor até agora: 169 Geração: 24
+Melhor até agora: 168 Geração: 36
+Melhor até agora: 167 Geração: 38
+Melhor até agora: 166 Geração: 46
+Melhor até agora: 165 Geração: 121
+Melhor até agora: 164 Geração: 123
+Melhor até agora: 163 Geração: 239
+Largura da faixa = 54
+Melhor altura = 163
+
+Lower Bound 1 = 138
+Lower Bound 2 = 126
+Avaliação = 1.18116
+
+Tempo de execução: 34s
+
+---------------------------
+
+Tamanho da população: 200
+Fração elite: 0.2
+Fração mutante: 0.15
+Probabilidade herdar alelo elite: 0.7
+Número de populações independentes: 6
+Número de threads: 14
+Trocar os melhores indivíduos a cada 80 gerações
+Número máximo de gerações: 250
+Número máximo de iterações sem melhora: 150
+Melhor até agora: 191 Geração: 0
+Melhor até agora: 189 Geração: 1
+Melhor até agora: 184 Geração: 2
+Melhor até agora: 182 Geração: 5
+Melhor até agora: 181 Geração: 9
+Melhor até agora: 180 Geração: 14
+Melhor até agora: 175 Geração: 15
+Melhor até agora: 174 Geração: 19
+Melhor até agora: 171 Geração: 24
+Melhor até agora: 169 Geração: 36
+Melhor até agora: 168 Geração: 39
+Melhor até agora: 166 Geração: 101
+Largura da faixa = 54
+Melhor altura = 166
+
+Lower Bound 1 = 138
+Lower Bound 2 = 126
+Avaliação = 1.2029
+
+Tempo de execução: 23s
+
+---------------------------
+
+Tamanho da população: 300
+Fração elite: 0.2
+Fração mutante: 0.15
+Probabilidade herdar alelo elite: 0.7
+Número de populações independentes: 6
+Número de threads: 14
+Trocar os melhores indivíduos a cada 80 gerações
+Número máximo de gerações: 200
+Número máximo de iterações sem melhora: 150
+Melhor até agora: 191 Geração: 0
+Melhor até agora: 188 Geração: 2
+Melhor até agora: 182 Geração: 5
+Melhor até agora: 178 Geração: 10
+Melhor até agora: 177 Geração: 15
+Melhor até agora: 175 Geração: 20
+Melhor até agora: 174 Geração: 34
+Melhor até agora: 172 Geração: 35
+Melhor até agora: 171 Geração: 40
+Melhor até agora: 170 Geração: 42
+Melhor até agora: 168 Geração: 43
+Melhor até agora: 167 Geração: 55
+Melhor até agora: 165 Geração: 87
+Melhor até agora: 164 Geração: 95
+Largura da faixa = 54
+Melhor altura = 164
+
+Lower Bound 1 = 138
+Lower Bound 2 = 126
+Avaliação = 1.18841
+
+Tempo de execução: 31s
+
+---------------------------
+
+Tamanho da população: 300
+Fração elite: 0.2
+Fração mutante: 0.15
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 6
+Número de threads: 14
+Trocar os melhores indivíduos a cada 80 gerações
+Número máximo de gerações: 250
+Número máximo de iterações sem melhora: 150
+Melhor até agora: 191 Geração: 0
+Melhor até agora: 188 Geração: 6
+Melhor até agora: 184 Geração: 7
+Melhor até agora: 183 Geração: 9
+Melhor até agora: 182 Geração: 15
+Melhor até agora: 180 Geração: 16
+Melhor até agora: 179 Geração: 21
+Melhor até agora: 177 Geração: 28
+Melhor até agora: 176 Geração: 30
+Melhor até agora: 174 Geração: 31
+Melhor até agora: 173 Geração: 33
+Melhor até agora: 172 Geração: 47
+Melhor até agora: 171 Geração: 49
+Melhor até agora: 170 Geração: 58
+Melhor até agora: 169 Geração: 60
+Melhor até agora: 168 Geração: 68
+Melhor até agora: 167 Geração: 69
+Melhor até agora: 166 Geração: 80
+Melhor até agora: 164 Geração: 82
+Melhor até agora: 163 Geração: 162
+Melhor até agora: 162 Geração: 170
+Melhor até agora: 161 Geração: 187
+Largura da faixa = 54
+Melhor altura = 161
+
+Lower Bound 1 = 138
+Lower Bound 2 = 126
+Avaliação = 1.16667
+
+Tempo de execução: 35s
+
+---------------------------
+
+Tamanho da população: 300
+Fração elite: 0.2
+Fração mutante: 0.15
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 6
+Número de threads: 14
+Trocar os melhores indivíduos a cada 80 gerações
+Número máximo de gerações: 250
+Número máximo de iterações sem melhora: 150
+Melhor até agora: 187 Geração: 0
+Melhor até agora: 178 Geração: 10
+Melhor até agora: 176 Geração: 14
+Melhor até agora: 174 Geração: 15
+Melhor até agora: 173 Geração: 31
+Melhor até agora: 171 Geração: 33
+Melhor até agora: 170 Geração: 50
+Melhor até agora: 169 Geração: 63
+Melhor até agora: 168 Geração: 64
+Melhor até agora: 167 Geração: 75
+Melhor até agora: 164 Geração: 123
+Largura da faixa = 54
+Melhor altura = 164
+
+Lower Bound 1 = 138
+Lower Bound 2 = 126
+Avaliação = 1.18841
+
+Tempo de execução: 35s
+
+---------------------------
+

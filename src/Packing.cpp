@@ -285,30 +285,20 @@ void construct_sol(std::vector<ranking> &full_solution,
 }
 
 void construct_vl_sol(std::vector<ranking> &sol, std::vector<double> chromosome,
-                      unsigned current_layer,
-                      std::vector<std::vector<ranking>> &virtual_layers)
+                      std::vector<item> items)
 {
   std::vector<ranking> rank(chromosome.size());
 
   unsigned idx = 0;
-  for (unsigned i = 0; i < virtual_layers[current_layer].size(); i++, idx++) {
+  for (unsigned i = 0; i < chromosome.size(); i++, idx++) {
     rank[idx].chromosome = chromosome[idx];
-    rank[idx].index = virtual_layers[current_layer][i].index;
-    rank[idx].client = virtual_layers[current_layer][i].client;
+    rank[idx].index = i;
+    rank[idx].client = items[i].client;
   }
 
   std::sort(rank.begin(), rank.end(), sort_rank);
 
-  virtual_layers[current_layer] = rank;
-
-  for (unsigned i = 0; i < virtual_layers.size(); i++) {
-    if (i == current_layer) {
-      sol.insert(sol.end(), rank.begin(), rank.end());
-    }
-    else {
-      sol.insert(sol.end(), virtual_layers[i].begin(), virtual_layers[i].end());
-    }
-  }
+  sol = rank;
 }
 
 void construct_final_sol(std::vector<ranking> &sol,
@@ -438,11 +428,7 @@ void calc_strip_height(unsigned &strip_height, ems_t space,
 unsigned pack_with_one_layer(const std::vector<ranking> &rank,
                              const vector<item> &items,
                              const unsigned &max_width, const unsigned &ub,
-                             std::vector<std::vector<ranking>> &virtual_layers,
-                             const unsigned &pieces_per_layer,
-                             const bool &fill_virtual_layers,
-                             const unsigned &best_height, bool debug_sol,
-                             std::fstream *solfile)
+                             bool debug_sol, std::fstream *solfile)
 {
   // auto start = std::chrono::high_resolution_clock::now();
   vector<flat_set<ems_t, bottom_left_cmp>> layers;
@@ -465,7 +451,6 @@ unsigned pack_with_one_layer(const std::vector<ranking> &rank,
   space.top_point = make_pair(max_width, ub);
   layers[0].insert(space);
 
-  unsigned division_factor = virtual_layers.size();
   unsigned current_virtual_layer = 0;
   unsigned count_pieces_virtual_layer = 0;
 
@@ -484,23 +469,12 @@ unsigned pack_with_one_layer(const std::vector<ranking> &rank,
           fit_item(item, *ems_t, layers[0], clients_verification, ub, &penalty,
                    debug_sol, solfile);
 
-          if (fill_virtual_layers) {
-            ranking item_rank;
-            item_rank.index = item_index;
-            virtual_layers[current_virtual_layer].push_back(item_rank);
-          }
-
           if (debug_sol) {
             *solfile << item_index << "\n" << item.client << "\n";
           }
           fit = true;
           items_placed++;
           count_pieces_virtual_layer++;
-
-          if (count_pieces_virtual_layer == pieces_per_layer) {
-            current_virtual_layer++;
-            count_pieces_virtual_layer = 0;
-          }
 
           break;
         }
@@ -522,6 +496,17 @@ unsigned pack_with_one_layer(const std::vector<ranking> &rank,
   //             .count()
   //      << "ms\n";
   return strip_height + penalty;
+}
+
+void encode(std::vector<ranking> &rank, const std::vector<ranking> &seq,
+            unsigned n)
+{
+  unsigned idx = 0;
+  for (const auto &item : seq) {
+    rank[idx].index = item.index;
+    rank[idx].chromosome = static_cast<double>(idx) / (n * 10);
+    idx++;
+  }
 }
 
 unsigned ls_pack(const std::vector<ranking> &rank, const vector<item> &items,

@@ -1,7 +1,7 @@
 # Macros:
 CPP = g++
 CFLAGS = -g -O0 -fopenmp -Wall
-OBJECTS = SampleDecoder.o samplecode.o Packing.o VirtualLayersDecoder.o
+OBJECTS = samplecode.o Packing.o VirtualLayersDecoder.o
 
 # Targets:
 all: samplecode
@@ -9,8 +9,8 @@ all: samplecode
 samplecode: $(OBJECTS)
 	$(CPP) $(CFLAGS) $(OBJECTS) -o samplecode -lm
 
-SampleDecoder.o: SampleDecoder.cpp SampleDecoder.h
-	$(CPP) $(CFLAGS) -c SampleDecoder.cpp
+# SampleDecoder.o: SampleDecoder.cpp SampleDecoder.h
+# 	$(CPP) $(CFLAGS) -c SampleDecoder.cpp
 
 VirtualLayersDecoder.o: VirtualLayersDecoder.cpp VirtualLayersDecoder.h
 	$(CPP) $(CFLAGS) -c VirtualLayersDecoder.cpp

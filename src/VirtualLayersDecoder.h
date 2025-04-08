@@ -32,24 +32,16 @@ using namespace std;
 
 class VirtualLayersDecoder {
  public:
-  VirtualLayersDecoder(const vector<vector<ranking>> virtual_layers,
-                       const unsigned num_pieces_per_layer,
-                       const unsigned current_layer, const vector<item> items,
-                       const int max_width, const int ub)
-      : virtual_layers(virtual_layers),
-        num_pieces_per_layer(num_pieces_per_layer),
-        current_layer(current_layer),
-        items(items),
-        max_width(max_width),
-        ub(ub)
+  VirtualLayersDecoder(const vector<vector<ranking>> initial_seqs,
+                       const vector<item> items, const int max_width,
+                       const int ub)
+      : initial_seqs(initial_seqs), items(items), max_width(max_width), ub(ub)
   {
   }
   ~VirtualLayersDecoder();
   double decode(const vector<double> &chromosome) const;
 
-  const vector<vector<ranking>> virtual_layers;
-  const unsigned num_pieces_per_layer;
-  const unsigned current_layer;
+  const vector<vector<ranking>> initial_seqs;
   const vector<item> items;
   const int max_width;
   const int ub;

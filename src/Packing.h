@@ -50,12 +50,11 @@ unsigned pack(
 unsigned pack_with_one_layer(const std::vector<ranking> &rank,
                              const std::vector<item> &items,
                              const unsigned &max_width, const unsigned &ub,
-                             std::vector<std::vector<ranking>> &virtual_layers,
-                             const unsigned &pieces_per_layer,
-                             const bool &fill_virtual_layers,
-                             const unsigned &best_height,
                              bool debug_sol = false,
                              std::fstream *solfile = nullptr);
+
+void encode(std::vector<ranking> &rank, const std::vector<ranking> &seq,
+            unsigned n);
 
 unsigned ls_pack(const std::vector<ranking> &rank,
                  const std::vector<item> &items, const unsigned &max_width,
@@ -78,8 +77,7 @@ void construct_sol(std::vector<ranking> &full_solution,
                    std::vector<ranking> lns_seq);
 
 void construct_vl_sol(std::vector<ranking> &sol, std::vector<double> chromosome,
-                      unsigned current_layer,
-                      std::vector<std::vector<ranking>> &virtual_layers);
+                      std::vector<item> items);
 
 void construct_final_sol(std::vector<ranking> &sol,
                          std::vector<double> chromosome,
