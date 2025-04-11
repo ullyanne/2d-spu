@@ -252,11 +252,11 @@ int main(int argc, char* argv[])
   unsigned p2 = 300;
   double pe2 = 0.2;
   double pm2 = 0.15;
-  double rhoe2 = 0.6;
+  double rhoe2 = 0.7;
   unsigned MAX_GENS2 = 250;
-  unsigned X_INTVL2 = 80;
-  unsigned K2 = 6;
-  unsigned max_improvements = 150;
+  unsigned X_INTVL2 = 40;
+  unsigned K2 = 3;
+  unsigned max_improvements = 90;
   unsigned no_improvement = 0;
 
   params << "Tamanho da população: " << p2 << "\n"
@@ -272,8 +272,10 @@ int main(int argc, char* argv[])
 
   logfile << params.str();
 
-  VirtualLayersDecoder decoder(initial_seqs, items, max_width,
-                               ub);  // initialize the decoder
+  MTRand ran;
+
+  VirtualLayersDecoder decoder(initial_seqs, items, max_width, ub,
+                               ran);  // initialize the decoder
 
   const long unsigned rngSeed = 10;  // seed to the random number generator
   MTRand rng2;                       // initialize the random number generator
@@ -328,7 +330,7 @@ int main(int argc, char* argv[])
                                          debug_sol, &solfile);
   }
 
-  std::cout << "\nMelhor altura = " << best_height << "\n";
+  std::cout << "Melhor altura = " << best_height << "\n";
   logfile << "Largura da faixa = " << max_width << "\n";
   logfile << "Melhor altura = " << best_height << "\n\n";
   logfile << "Lower Bound 1 = " << lb1 << "\n";

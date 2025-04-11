@@ -29,5 +29,5 @@ def process_logs(directory):
         print("Nenhuma altura encontrada nos arquivos .log")
 
 if __name__ == "__main__":
-    diretorio_base = "/home/ullyanne/Documents/2spp/logs/bke/T20"
+    diretorio_base = "/home/ullyanne/Documents/2spp/logs/bke/T60"
     process_logs(diretorio_base)

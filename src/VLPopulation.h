@@ -51,8 +51,6 @@ class VLPopulation {
 
   std::vector<std::vector<double>>
       population;  // Population as vectors of prob.
-  std::vector<std::pair<double, unsigned>>
-      fitnessx;  // Fitness (double) of a each chromosome
   std ::vector<vl_packing_info> chromosome_packing_info;
 
   void sortFitness();  // Sorts 'fitness' by its first parameter

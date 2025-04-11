@@ -60,6 +60,7 @@
 #include <stdexcept>
 #include <typeinfo>
 
+#include "Packing.h"
 #include "VLPopulation.h"
 
 template <class VirtualLayersDecoder, class RNG>
@@ -393,7 +394,6 @@ inline void VLBRKGA<VirtualLayersDecoder, RNG>::initialize(const unsigned i)
 
   MTRand choose_two;
 
-  auto start_build = std::chrono::high_resolution_clock::now();
   int window = 0.1 * n;
 
   for (unsigned j = 3; j < p; ++j) {
@@ -430,12 +430,6 @@ inline void VLBRKGA<VirtualLayersDecoder, RNG>::initialize(const unsigned i)
     }
   }
 
-  auto end_build = std::chrono::high_resolution_clock::now();
-
-  auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-      end_build - start_build);
-
-  std::cout << "Tempo decorrido: " << duration.count() << " ms" << std::endl;
 // Decode:
 #ifdef _OPENMP
 #pragma omp parallel for num_threads(MAX_THREADS)
@@ -459,23 +453,59 @@ inline void VLBRKGA<VirtualLayersDecoder, RNG>::evolution(VLPopulation& curr,
   unsigned i = 0;  // Iterate chromosome by chromosome
   unsigned j = 0;  // Iterate allele by allele
 
+  MTRand ran;
+
   // 2. The 'pe' best chromosomes are maintained, so we just copy these into
   // 'current':
-  while (i < pe) {
+
+#ifdef _OPENMP
+#pragma omp parallel for private(j) num_threads(MAX_THREADS)
+#endif
+  for (unsigned k = 0; k < pe; ++k) {
     for (j = 0; j < n; ++j) {
-      next(i, j) = curr(curr.chromosome_packing_info[i].chromosome, j);
+      next(k, j) = curr(curr.chromosome_packing_info[k].chromosome, j);
     }
 
-    next.chromosome_packing_info[i].fitness =
-        curr.chromosome_packing_info[i].fitness;
-    next.chromosome_packing_info[i].chromosome = i;
-    // update_memory(next.population[i]);
+    unsigned fitness = curr.chromosome_packing_info[k].fitness;
 
-    // next.fitness[i].first = curr.fitness[i].first;
-    // next.fitness[i].second = i;
-    ++i;
+    if (ran.randInt(99) < 30) {
+      std::vector<double>& chr = next(k);
+
+      std::vector<ranking> rank(chr.size());
+      for (unsigned i = 0; i < chr.size(); i++) {
+        rank[i].chromosome = chr[i];
+        rank[i].index = i;
+      }
+      std::sort(rank.begin(), rank.end(), sort_rank);
+
+      MTRand r;
+      unsigned new_fitness = refDecoder.local_search(
+          rank, curr.chromosome_packing_info[k].fitness, r);
+
+      if (new_fitness < fitness) {
+        // std::cout << "Old fitness: " << fitness << std::endl;
+        // std::cout << "Improved fitness: " << new_fitness << std::endl;
+
+        fitness = new_fitness;
+
+        std::vector<ranking> new_sol(chr.size());
+        encode(new_sol, rank, chr.size());
+        std::sort(new_sol.begin(), new_sol.end(),
+                  [](const ranking& a, const ranking& b) {
+                    return a.index < b.index;
+                  });
+
+        for (unsigned i = 0; i < new_sol.size(); i++) {
+          chr[i] = new_sol[i].chromosome;
+        }
+      }
+    }
+
+    next.chromosome_packing_info[k].fitness = fitness;
+    next.chromosome_packing_info[k].chromosome = k;
   }
 
+  i = pe;
   // 3. We'll mate 'p - pe - pm' pairs; initially, i = pe, so we need to iterate
   // until i < p - pm:
   while (i < p - pm) {
@@ -504,29 +534,6 @@ inline void VLBRKGA<VirtualLayersDecoder, RNG>::evolution(VLPopulation& curr,
 
   // We'll introduce 'pm' mutants:
   while (i < p) {
-    // if (elite_memory.empty()) {
-
-    // }
-    // else {
-    //   const std::vector<double>& base =
-    //       elite_memory[refRNG.randInt(elite_memory.size() - 1)];
-    //   next.population[i] = base;
-
-    //   for (j = 0; j < n; ++j) {
-    //     if (refRNG.rand() < 0.05) {
-    //       next(i, j) = refRNG.rand();
-    //     }
-    //   }
-
-    //   if (refRNG.rand() < 0.3) {
-    //     two_opt(next.population[i]);
-    //   }
-
-    //   for (j = 0; j < n; ++j) {
-    //     next(i, j) = refRNG.rand();
-    //   }
-    // }
-
     for (j = 0; j < n; ++j) {
       next(i, j) = refRNG.rand();
     }

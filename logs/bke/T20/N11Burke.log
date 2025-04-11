@@ -17923,3 +17923,151 @@ Tempo de execução: 111s
 
 ---------------------------
 
+Tamanho da população: 300
+Fração elite: 0.2
+Fração mutante: 0.15
+Probabilidade herdar alelo elite: 0.6
+Número de populações independentes: 6
+Número de threads: 14
+Trocar os melhores indivíduos a cada 80 gerações
+Número máximo de gerações: 250
+Número máximo de iterações sem melhora: 150
+Melhor até agora: 222 Geração: 0
+Melhor até agora: 221 Geração: 6
+Melhor até agora: 219 Geração: 8
+Melhor até agora: 218 Geração: 10
+Melhor até agora: 214 Geração: 11
+Melhor até agora: 213 Geração: 12
+Melhor até agora: 209 Geração: 14
+Melhor até agora: 208 Geração: 15
+Melhor até agora: 207 Geração: 19
+Melhor até agora: 205 Geração: 23
+Melhor até agora: 204 Geração: 28
+Melhor até agora: 203 Geração: 39
+Melhor até agora: 202 Geração: 46
+Melhor até agora: 201 Geração: 51
+Melhor até agora: 200 Geração: 59
+Melhor até agora: 199 Geração: 94
+Melhor até agora: 198 Geração: 115
+Melhor até agora: 197 Geração: 122
+Melhor até agora: 196 Geração: 174
+Largura da faixa = 70
+Melhor altura = 196
+
+Lower Bound 1 = 150
+Lower Bound 2 = 103
+Avaliação = 1.30667
+
+Tempo de execução: 114s
+
+---------------------------
+
+Tamanho da população: 300
+Fração elite: 0.2
+Fração mutante: 0.15
+Probabilidade herdar alelo elite: 0.7
+Número de populações independentes: 6
+Número de threads: 14
+Trocar os melhores indivíduos a cada 80 gerações
+Número máximo de gerações: 250
+Número máximo de iterações sem melhora: 150
+Melhor até agora: 224 Geração: 0
+Melhor até agora: 222 Geração: 3
+Melhor até agora: 215 Geração: 5
+Melhor até agora: 212 Geração: 7
+Melhor até agora: 209 Geração: 8
+Melhor até agora: 208 Geração: 10
+Melhor até agora: 207 Geração: 15
+Melhor até agora: 205 Geração: 16
+Melhor até agora: 204 Geração: 22
+Melhor até agora: 203 Geração: 24
+Melhor até agora: 202 Geração: 25
+Melhor até agora: 201 Geração: 28
+Melhor até agora: 200 Geração: 33
+Melhor até agora: 199 Geração: 42
+Melhor até agora: 198 Geração: 50
+Melhor até agora: 197 Geração: 60
+Melhor até agora: 196 Geração: 65
+Melhor até agora: 195 Geração: 117
+Melhor até agora: 194 Geração: 134
+Largura da faixa = 70
+Melhor altura = 194
+
+Lower Bound 1 = 150
+Lower Bound 2 = 103
+Avaliação = 1.29333
+
+Tempo de execução: 117s
+
+---------------------------
+
+Tamanho da população: 300
+Fração elite: 0.2
+Fração mutante: 0.15
+Probabilidade herdar alelo elite: 0.7
+Número de populações independentes: 6
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 250
+Número máximo de iterações sem melhora: 50
+Melhor até agora: 216 Geração: 0
+Melhor até agora: 214 Geração: 4
+Melhor até agora: 212 Geração: 5
+Melhor até agora: 210 Geração: 7
+Melhor até agora: 206 Geração: 12
+Melhor até agora: 205 Geração: 16
+Melhor até agora: 204 Geração: 17
+Melhor até agora: 203 Geração: 28
+Melhor até agora: 202 Geração: 35
+Melhor até agora: 200 Geração: 37
+Melhor até agora: 198 Geração: 52
+Melhor até agora: 196 Geração: 95
+Melhor até agora: 195 Geração: 128
+Largura da faixa = 70
+Melhor altura = 195
+
+Lower Bound 1 = 150
+Lower Bound 2 = 103
+Avaliação = 1.3
+
+Tempo de execução: 211s
+
+---------------------------
+
+Tamanho da população: 300
+Fração elite: 0.2
+Fração mutante: 0.15
+Probabilidade herdar alelo elite: 0.7
+Número de populações independentes: 6
+Número de threads: 14
+Trocar os melhores indivíduos a cada 40 gerações
+Número máximo de gerações: 250
+Número máximo de iterações sem melhora: 90
+Melhor até agora: 217 Geração: 0
+Melhor até agora: 216 Geração: 1
+Melhor até agora: 213 Geração: 3
+Melhor até agora: 211 Geração: 12
+Melhor até agora: 210 Geração: 13
+Melhor até agora: 209 Geração: 16
+Melhor até agora: 205 Geração: 17
+Melhor até agora: 203 Geração: 19
+Melhor até agora: 201 Geração: 32
+Melhor até agora: 200 Geração: 49
+Melhor até agora: 199 Geração: 73
+Melhor até agora: 198 Geração: 81
+Melhor até agora: 197 Geração: 117
+Melhor até agora: 196 Geração: 148
+Melhor até agora: 195 Geração: 174
+Melhor até agora: 194 Geração: 207
+Melhor até agora: 193 Geração: 223
+Largura da faixa = 70
+Melhor altura = 193
+
+Lower Bound 1 = 150
+Lower Bound 2 = 103
+Avaliação = 1.28667
+
+Tempo de execução: 319s
+
+---------------------------
+

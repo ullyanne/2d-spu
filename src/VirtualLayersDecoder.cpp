@@ -20,23 +20,76 @@ using namespace std;
 
 VirtualLayersDecoder::~VirtualLayersDecoder() {}
 
+unsigned VirtualLayersDecoder::local_search(std::vector<ranking>& solution,
+                                            unsigned current_cost, MTRand& rng,
+                                            int max_no_improve) const
+{
+  const int n = solution.size();
+  int no_improve = 0;
+
+  int delta = n * 0.1;
+
+  while (no_improve < max_no_improve) {
+    int i = rng.randInt(n - 1);
+    int min_idx = max(0, i - delta);
+    int max_idx = min(n - 1, i + delta);
+
+    int j = min_idx + rng.randInt(max_idx - min_idx);
+
+    while (j == i) {
+      j = min_idx + rng.randInt(max_idx - min_idx);
+    }
+
+    swap(solution[i], solution[j]);
+
+    double new_cost =
+        pack_with_one_layer(solution, items, max_width, ub, false);
+
+    if (new_cost <= current_cost) {
+      current_cost = new_cost;
+      no_improve = 0;
+    }
+    else {
+      swap(solution[i], solution[j]);
+      no_improve++;
+    }
+  }
+
+  return current_cost;
+}
+
 // Runs in \Theta(n \log n):
-double VirtualLayersDecoder::decode(const std::vector<double>& chromosome) const
+double VirtualLayersDecoder::decode(std::vector<double>& chromosome) const
 {
   unsigned strip_height_plus_penalty = 0;
   std::vector<ranking> rank(chromosome.size());
 
-  unsigned idx = 0;
-  for (unsigned i = 0; i < chromosome.size(); i++, idx++) {
-    rank[idx].chromosome = chromosome[idx];
-    rank[idx].index = i;
+  for (unsigned i = 0; i < chromosome.size(); i++) {
+    rank[i].chromosome = chromosome[i];
+    rank[i].index = i;
   }
 
   std::sort(rank.begin(), rank.end(), sort_rank);
 
-
   strip_height_plus_penalty =
       pack_with_one_layer(rank, items, max_width, ub, false);
+
+  // MTRand r;
+  // unsigned new_strip_height = local_search(rank, strip_height_plus_penalty, r);
+
+  // if (new_strip_height < strip_height_plus_penalty) {
+  //   strip_height_plus_penalty = new_strip_height;
+
+  //   std::vector<ranking> new_sol(chromosome.size());
+  //   encode(new_sol, rank, chromosome.size());
+  //   std::sort(
+  //       new_sol.begin(), new_sol.end(),
+  //       [](const ranking& a, const ranking& b) { return a.index < b.index; });
+
+  //   for (unsigned i = 0; i < new_sol.size(); i++) {
+  //     chromosome[i] = new_sol[i].chromosome;
+  //   }
+  // }
 
   // std::vector<ranking> best_solution = seq;
 

@@ -26,6 +26,7 @@
 #include <vector>
 
 #include "Item.h"
+#include "MTRand.h"
 #include "Packing.h"
 
 using namespace std;
@@ -34,17 +35,24 @@ class VirtualLayersDecoder {
  public:
   VirtualLayersDecoder(const vector<vector<ranking>> initial_seqs,
                        const vector<item> items, const int max_width,
-                       const int ub)
-      : initial_seqs(initial_seqs), items(items), max_width(max_width), ub(ub)
+                       const int ub, MTRand& ran)
+      : initial_seqs(initial_seqs),
+        items(items),
+        max_width(max_width),
+        ub(ub),
+        ran(ran)
   {
   }
   ~VirtualLayersDecoder();
-  double decode(const vector<double> &chromosome) const;
+  unsigned local_search(std::vector<ranking>& solution, unsigned current_cost,
+                        MTRand& rng, int max_no_improve = 10) const;
+  double decode(vector<double>& chromosome) const;
 
   const vector<vector<ranking>> initial_seqs;
   const vector<item> items;
   const int max_width;
   const int ub;
+  MTRand ran;
 
  private:
 };
