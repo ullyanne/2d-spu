@@ -8,12 +8,11 @@
 #include <sstream>
 #include <unordered_map>
 
-#include "BRKGA.h"
 #include "MTRand.h"
 #include "Packing.h"
-#include "SampleDecoder.h"
 #include "VLBRKGA.h"
 #include "VirtualLayersDecoder.h"
+#include "random_manager.h"
 
 using namespace std;
 
@@ -48,23 +47,30 @@ bool sort_by_client_and_height_desc(const ranking& a, const ranking& b,
 int main(int argc, char* argv[])
 {
   unsigned num_items;  // size of chromosomes
-  unsigned p = 50;     // size of population
-  double pe = 0.3;     // fraction of population to be the elite-set
-  double pm = 0.7;     // fraction of population to be replaced by mutants
+  unsigned p = 300;    // size of population
+  double pe = 0.2;     // fraction of population to be the elite-set
+  double pm = 0.15;    // fraction of population to be replaced by mutants
   double rhoe =
-      0.80;  // probability that offspring inherit an allele from elite parent
-  unsigned K = 4;          // number of independent populations
-  unsigned MAXT = 14;      // number of threads for parallel decoding
-  unsigned X_INTVL = 600;  // exchange best individuals at every 100 generations
-  unsigned MAX_GENS = 100;  // run for 1000 gens
-  unsigned lns_max_iter = 1000;
+      0.7;  // probability that offspring inherit an allele from elite parent
+  unsigned K = 3;         // number of independent populations
+  unsigned MAXT = 1;      // number of threads for parallel decoding
+  unsigned X_INTVL = 30;  // exchange best individuals at every 100 generations
+  unsigned MAX_GENS = 250;  // run for 1000 gens
   bool debug_sol = false;
 
   int best_fitness = numeric_limits<int>::max();
   int opt;
   string input_filename;
+  unsigned global_seed;
+  unsigned attempts;
+  double i1, i2, i3;
+  double window_init, window_ls;
+  double top_elite;
+  unsigned max_improvements;
+  unsigned time_limit;
 
-  while ((opt = getopt(argc, argv, "p:e:m:o:k:t:f:b:g:l:d")) != -1) {
+  while ((opt = getopt(argc, argv, "p:e:m:o:k:t:f:g:s:a:x:y:z:i:l:v:d")) !=
+         -1) {
     switch (opt) {
       case 'f':
         input_filename = optarg;
@@ -91,24 +97,50 @@ int main(int argc, char* argv[])
         break;
 
       case 't':
-        MAXT = std::stoi(optarg);
-        break;
-
-      case 'b':
-        X_INTVL = std::stoi(optarg);
+        time_limit = std::stoi(optarg);
         break;
 
       case 'g':
         MAX_GENS = std::stoi(optarg);
         break;
 
-      case 'l':
-        lns_max_iter = std::stoi(optarg);
-        break;
-
       case 'd':
         debug_sol = true;
         break;
+
+      case 'x':
+        i1 = std::strtod(optarg, nullptr);
+        break;
+
+      case 'y':
+        i2 = std::strtod(optarg, nullptr);
+        break;
+
+      case 'z':
+        i3 = std::strtod(optarg, nullptr);
+        break;
+
+      case 'i':
+        window_init = std::strtod(optarg, nullptr);
+        break;
+
+      case 'l':
+        window_ls = std::strtod(optarg, nullptr);
+        break;
+
+      case 'v':
+        top_elite = std::strtod(optarg, nullptr);
+        break;
+
+      case 's':
+        global_seed = std::stoi(optarg);
+        set_global_seed(global_seed);
+        break;
+
+      case 'a':
+        attempts = std::stoi(optarg);
+        break;
+
     }
   }
 
@@ -201,7 +233,7 @@ int main(int argc, char* argv[])
 
   std::stringstream params;
 
-  std::cout << filePath.stem().string() << "\n";
+  // std::cout << filePath.stem().string() << "\n";
 
   auto start = std::chrono::high_resolution_clock::now();
 
@@ -228,118 +260,104 @@ int main(int argc, char* argv[])
 
   initial_seqs[2] = seq;
 
-  unordered_map<unsigned, vector<unsigned>> clients_to_layers;
-  unordered_map<unsigned, unsigned> layers_to_index;
-  unsigned best_height;
+  std::vector<std::vector<ranking>> rank_groups(
+      3, std::vector<ranking>(num_items));
 
+  for (unsigned j = 0; j < 3; j++) {
+    encode(rank_groups[j], initial_seqs[j], num_items);
+    std::sort(
+        rank_groups[j].begin(), rank_groups[j].end(),
+        [](const ranking& a, const ranking& b) { return a.index < b.index; });
+  }
+
+  unsigned best_height = numeric_limits<int>::max();
   std::vector<ranking> best_sol = seq;
 
-  unsigned n;
-  best_height =
-      pack(seq, items, max_width, ub, clients_to_layers, layers_to_index, n);
+  VirtualLayersDecoder decoder(rank_groups, items, max_width,
+                               ub);  // initialize the decoder
 
-  cout << best_height << "\n";
-
-  height = pack_with_one_layer(best_sol, items, max_width, ub, false);
-
-  cout << "h1: " << height << "\n";
-
-  if (height < best_height) {
-    best_height = height;
-  }
-  cout << "h2: " << best_height << "\n";
-
-  unsigned p2 = 300;
-  double pe2 = 0.2;
-  double pm2 = 0.15;
-  double rhoe2 = 0.7;
-  unsigned MAX_GENS2 = 250;
-  unsigned X_INTVL2 = 40;
-  unsigned K2 = 3;
-  unsigned max_improvements = 90;
-  unsigned no_improvement = 0;
-
-  params << "Tamanho da população: " << p2 << "\n"
-         << "Fração elite: " << pe2 << "\n"
-         << "Fração mutante: " << pm2 << "\n"
-         << "Probabilidade herdar alelo elite: " << rhoe2 << "\n"
-         << "Número de populações independentes: " << K2 << "\n"
-         << "Número de threads: " << MAXT << "\n"
-         << "Trocar os melhores indivíduos a cada " << X_INTVL2 << " gerações\n"
-         << "Número máximo de gerações: " << MAX_GENS2 << "\n"
-         << "Número máximo de iterações sem melhora: " << max_improvements
-         << "\n";
-
-  logfile << params.str();
-
-  MTRand ran;
-
-  VirtualLayersDecoder decoder(initial_seqs, items, max_width, ub,
-                               ran);  // initialize the decoder
-
-  const long unsigned rngSeed = 10;  // seed to the random number generator
-  MTRand rng2;                       // initialize the random number generator
+  MTRand rng(get_seed(0));  // initialize the random number generator
+  MTRand r_ls(get_seed(1));
+  MTRand r_init(get_seed(2));
+  MTRand r_elite(get_seed(3));
 
   // initialize the BRKGA-based heuristic
   VLBRKGA<VirtualLayersDecoder, MTRand> algorithm(
-      num_items, p2, pe2, pm2, rhoe2, decoder, rng2, K2, MAXT);
+      num_items, p, pe, pm, rhoe, decoder, rng, r_ls, r_init, r_elite, attempts,
+      i1, i2, i3, window_init, window_ls, top_elite, K, MAXT);
 
   unsigned generation = 0;      // current generation
   const unsigned X_NUMBER = 2;  // exchange top 2 best
 
+  //unsigned no_improvement = 0;
+
+  //const auto tl = std::chrono::seconds(time_limit);
+  
+
   best_fitness = best_height;
   do {
     algorithm.evolve();  // evolve the population for one generation
-    int cost = algorithm.getBestFitness();
 
-    if (cost < best_fitness) {
-      best_fitness = cost;
-      no_improvement = 0;
 
-      logfile << "Melhor até agora: " << best_fitness << " "
-              << "Geração: " << generation << "\n";
-    }
-    else {
-      no_improvement++;
-    }
+    // if ((++generation) % X_INTVL == 0) {
+    //   algorithm.exchangeElite(X_NUMBER);  // exchange top individuals
+    // }
 
-    if ((++generation) % X_INTVL2 == 0) {
-      algorithm.exchangeElite(X_NUMBER);  // exchange top individuals
-    }
-  } while (generation < MAX_GENS2 && no_improvement < max_improvements);
+    ++generation;
 
-  std::vector<ranking> sol;
-  construct_vl_sol(sol, algorithm.getBestChromosome(), items);
-  best_sol = sol;
+    //auto now = std::chrono::high_resolution_clock::now();
+  //if (now - start >= tl) {
+    //break;
+  //}
+
+  } while (generation < MAX_GENS);
+
   best_fitness = algorithm.getBestFitness();
-  best_height = best_fitness;
-  std::cout << "kk1 " << best_height << "\n" << flush;
+
+  // std::cout << "kk1 " << best_height << "\n" << flush;
 
   auto end = std::chrono::high_resolution_clock::now();
   auto duration =
-      std::chrono::duration_cast<std::chrono::milliseconds>(end - start)
+      std::chrono::duration_cast<std::chrono::microseconds>(end - start)
           .count();
 
-  debug_sol = true;
-  if (debug_sol) {
-    solfile << max_width << "\n";
+  // std::vector<ranking> sol;
+  // construct_vl_sol(sol, algorithm.getBestChromosome(), items);
+  // best_sol = sol;
+  best_height = best_fitness;
 
-    cout << best_height << "\n";
+  // debug_sol = true;
+  // if (debug_sol) {
+  //   cout << "debugging...\n";
+  //   solfile << max_width << "\n";
 
-    unsigned dummy = pack_with_one_layer(best_sol, items, max_width, ub,
-                                         debug_sol, &solfile);
-  }
+  //   unsigned dummy = pack_with_one_layer(best_sol, items, max_width, ub,
+  //                                        debug_sol, &solfile);
+  // }
 
-  std::cout << "Melhor altura = " << best_height << "\n";
+  params << "Tamanho da população: " << p << "\n"
+         << "Fração elite: " << pe << "\n"
+         << "Fração mutante: " << pm << "\n"
+         << "Probabilidade herdar alelo elite: " << rhoe << "\n"
+         << "Número de populações independentes: " << K << "\n"
+         << "Número de threads: " << MAXT << "\n"
+         << "Número máximo de gerações: " << MAX_GENS << "\n"
+         << "\n";
+
+  logfile << params.str();
+
+  std::cout << best_height << "\n";
+  cout << "Tempo de execução: " << (double)duration / 1000000.0 << "s\n";
+
   logfile << "Largura da faixa = " << max_width << "\n";
   logfile << "Melhor altura = " << best_height << "\n\n";
   logfile << "Lower Bound 1 = " << lb1 << "\n";
   logfile << "Lower Bound 2 = " << lb2 << "\n";
   logfile << "Avaliação = " << (double)best_height / lb << "\n\n";
 
-  logfile << "Tempo de execução: " << duration / 1000 << "s" << "\n\n"
+  logfile << "Tempo de execução: " << (double)duration / 1000000.0 << "s"
+          << "\n\n"
           << "---------------------------" << "\n\n";
 
-  cout << best_height << "\n";
   return 0;
 }

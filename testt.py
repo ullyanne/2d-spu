@@ -124,7 +124,7 @@ def generate_colors(clients):
 
 
 solfile = sys.argv[1]
-file_path = f'/home/ullyanne/Documents/2spp/sol/bke/T60/N{solfile}BurkeSol.txt'
+file_path = f'/home/ullyanne/Documents/2spp/sol/bke/T20/N{solfile}BurkeSol.txt'
 
 print(file_path)
 rectangles_data, fator_x = read_data_from_txt(file_path)

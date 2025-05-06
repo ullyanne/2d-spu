@@ -34,5 +34,5 @@ def process_logs(directory):
             print(f"Nenhum dado encontrado para {categoria}")
 
 if __name__ == "__main__":
-    diretorio_base = "/home/ullyanne/Documents/2spp/logs/2lcvrp"
+    diretorio_base = "/home/ullyanne/Documents/2spp/logs/bke/T20"
     process_logs(diretorio_base)

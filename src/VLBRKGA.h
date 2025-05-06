@@ -62,6 +62,7 @@
 
 #include "Packing.h"
 #include "VLPopulation.h"
+#include "random_manager.h"
 
 template <class VirtualLayersDecoder, class RNG>
 class VLBRKGA {
@@ -85,8 +86,10 @@ class VLBRKGA {
    * const
    */
   VLBRKGA(unsigned n, unsigned p, double pe, double pm, double rhoe,
-          const VirtualLayersDecoder& refDecoder, RNG& refRNG, unsigned K = 1,
-          unsigned MAX_THREADS = 1);
+          const VirtualLayersDecoder& refDecoder, RNG& refRNG, RNG& r_ls,
+          RNG& r_init, RNG& r_elite, unsigned max_ls_attempts, double i1,
+          double i2, double i3, double window_init, double window_ls,
+          double top_elite, unsigned K = 1, unsigned MAX_THREADS = 1);
 
   /**
    * Destructor
@@ -97,6 +100,8 @@ class VLBRKGA {
    * Resets all populations with brand new keys
    */
   void reset();
+
+  void partial_reset();
 
   /**
    * Evolve the current populations following the guidelines of VLBRKGAs
@@ -151,6 +156,18 @@ class VLBRKGA {
 
   // Templates:
   RNG& refRNG;  // reference to the random number generator
+  RNG& r_ls;
+  RNG& r_init;
+  RNG& r_elite;
+
+  double i1;
+  double i2;
+  double i3;
+  double window_init;
+  double window_ls;
+  double top_elite;
+
+  unsigned max_ls_attempts;
   const VirtualLayersDecoder&
       refDecoder;  // reference to the problem-dependent Decoder
 
@@ -162,60 +179,39 @@ class VLBRKGA {
   std::vector<VLPopulation*> previous;  // previous populations
   std::vector<VLPopulation*> current;   // current populations
 
-  // std::deque<std::vector<double>> elite_memory;
-  // const size_t MEMORY_SIZE = 10;
-
-  // void update_memory(const std::vector<double>& chromosome)
-  // {
-  //   if (elite_memory.size() >= MEMORY_SIZE) {
-  //     elite_memory.pop_front();  // Remove de forma eficiente (O(1))
-  //   }
-  //   elite_memory.push_back(chromosome);
-  // }
-
-  // void two_opt(std::vector<double>& chromosome)
-  // {
-  //   unsigned first = refRNG.randInt(chromosome.size() - 1);
-  //   unsigned second = refRNG.randInt(chromosome.size() - 1);
-
-  //   if (first > second) std::swap(first, second);
-
-  //   // Cria um clone para teste
-  //   std::vector<double> new_chromosome = chromosome;
-  //   std::reverse(new_chromosome.begin() + first,
-  //                new_chromosome.begin() + second);
-
-  //   // Calcula a fitness antes e depois da inversão
-  //   double old_fitness = refDecoder.decode(chromosome);
-  //   double new_fitness = refDecoder.decode(new_chromosome);
-
-  //   // Aceita a mudança se melhorar
-  //   if (new_fitness < old_fitness) {
-  //     chromosome = new_chromosome;
-  //   }
-  // }
-
   // Local operations:
-  void initialize(
-      const unsigned i);  // initialize current population 'i' with random keys
+  void initialize(const unsigned i,
+                  const unsigned start = 0);  // initialize current population
+                                              // 'i' with random keys
   void evolution(VLPopulation& curr, VLPopulation& next);
   bool isRepeated(const std::vector<double>& chrA,
                   const std::vector<double>& chrB) const;
 };
 
 template <class VirtualLayersDecoder, class RNG>
-VLBRKGA<VirtualLayersDecoder, RNG>::VLBRKGA(unsigned _n, unsigned _p,
-                                            double _pe, double _pm,
-                                            double _rhoe,
-                                            const VirtualLayersDecoder& decoder,
-                                            RNG& rng, unsigned _K, unsigned MAX)
+VLBRKGA<VirtualLayersDecoder, RNG>::VLBRKGA(
+    unsigned _n, unsigned _p, double _pe, double _pm, double _rhoe,
+    const VirtualLayersDecoder& decoder, RNG& rng, RNG& r_ls, RNG& r_init,
+    RNG& r_elite, unsigned max_ls_attempts, double i1, double i2, double i3,
+    double window_init, double window_ls, double top_elite, unsigned _K,
+    unsigned MAX)
     : n(_n),
       p(_p),
       pe(unsigned(_pe * p)),
       pm(unsigned(_pm * p)),
       rhoe(_rhoe),
       refRNG(rng),
+      r_ls(r_ls),
+      r_init(r_init),
+      r_elite(r_elite),
+      max_ls_attempts(max_ls_attempts),
       refDecoder(decoder),
+      i1(i1),
+      i2(i2),
+      i3(i3),
+      window_init(window_init),
+      window_ls(window_ls),
+      top_elite(top_elite),
       K(_K),
       MAX_THREADS(MAX),
       previous(K, 0),
@@ -310,6 +306,14 @@ void VLBRKGA<VirtualLayersDecoder, RNG>::reset()
 }
 
 template <class VirtualLayersDecoder, class RNG>
+void VLBRKGA<VirtualLayersDecoder, RNG>::partial_reset()
+{
+  for (unsigned i = 0; i < K; ++i) {
+    initialize(i, pe);
+  }
+}
+
+template <class VirtualLayersDecoder, class RNG>
 void VLBRKGA<VirtualLayersDecoder, RNG>::evolve(unsigned generations)
 {
   if (generations == 0) {
@@ -365,26 +369,28 @@ void VLBRKGA<VirtualLayersDecoder, RNG>::exchangeElite(unsigned M)
 }
 
 template <class VirtualLayersDecoder, class RNG>
-inline void VLBRKGA<VirtualLayersDecoder, RNG>::initialize(const unsigned i)
+inline void VLBRKGA<VirtualLayersDecoder, RNG>::initialize(const unsigned i,
+                                                           const unsigned start)
 {
   std::vector<std::vector<double>> chromosome_groups(3, std::vector<double>(n));
-  std::vector<std::vector<ranking>> rank_groups(3, std::vector<ranking>(n));
+  // std::vector<std::vector<ranking>> rank_groups(3, std::vector<ranking>(n));
 
-  for (unsigned j = 0; j < 3; j++) {
-    encode(rank_groups[j], refDecoder.initial_seqs[j], n);
-    std::sort(
-        rank_groups[j].begin(), rank_groups[j].end(),
-        [](const ranking& a, const ranking& b) { return a.index < b.index; });
-  }
+  // for (unsigned j = 0; j < 3; j++) {
+  //   encode(rank_groups[j], refDecoder.initial_seqs[j], n);
+  //   std::sort(
+  //       rank_groups[j].begin(), rank_groups[j].end(),
+  //       [](const ranking& a, const ranking& b) { return a.index < b.index;
+  //       });
+  // }
 
   int lims[3];
-  lims[0] = 0.35 * p - 1;
-  lims[1] = lims[0] + (0.3 * p) - 1;
-  lims[2] = lims[1] + (0.3 * p) - 1;
+  lims[0] = i1 * p - 1;
+  lims[1] = lims[0] + (i2 * p) - 1;
+  lims[2] = lims[1] + (i3 * p) - 1;
 
   for (unsigned j = 0; j < 3; j++) {
     for (unsigned k = 0; k < n; ++k) {
-      chromosome_groups[j][k] = rank_groups[j][k].chromosome;
+      chromosome_groups[j][k] = refDecoder.rank_groups[j][k].chromosome;
     }
   }
 
@@ -392,20 +398,21 @@ inline void VLBRKGA<VirtualLayersDecoder, RNG>::initialize(const unsigned i)
   (*current[i])(1) = chromosome_groups[1];
   (*current[i])(2) = chromosome_groups[2];
 
-  MTRand choose_two;
+  int window = window_init * n;
+  if (window == 0) {
+    window = 1;
+  }
 
-  int window = 0.1 * n;
-
-  for (unsigned j = 3; j < p; ++j) {
-    int first_piece = choose_two.randInt(n - 1);
+  for (unsigned j = start + 3; j < p; ++j) {
+    int first_piece = r_init.randInt(n - 1);
 
     int s_min = std::max(0, first_piece - window);
     int s_max = std::min(int(n - 1), first_piece + window);
 
-    int second_piece = s_min + choose_two.randInt(s_max - s_min);
+    int second_piece = s_min + r_init.randInt(s_max - s_min);
 
     while (second_piece == first_piece) {
-      second_piece = s_min + choose_two.randInt(s_max - s_min);
+      second_piece = s_min + r_init.randInt(s_max - s_min);
     }
 
     if (j < lims[0]) {
@@ -418,15 +425,10 @@ inline void VLBRKGA<VirtualLayersDecoder, RNG>::initialize(const unsigned i)
                 chromosome_groups[1][second_piece]);
       (*current[i])(j) = chromosome_groups[1];
     }
-    else if (j >= lims[1] && j < lims[2]) {
+    else if (j >= lims[1]) {
       std::swap(chromosome_groups[2][first_piece],
                 chromosome_groups[2][second_piece]);
       (*current[i])(j) = chromosome_groups[2];
-    }
-    else if (j >= lims[2]) {
-      for (unsigned k = 0; k < n; ++k) {
-        (*current[i])(j, k) = refRNG.rand();
-      }
     }
   }
 
@@ -434,7 +436,7 @@ inline void VLBRKGA<VirtualLayersDecoder, RNG>::initialize(const unsigned i)
 #ifdef _OPENMP
 #pragma omp parallel for num_threads(MAX_THREADS)
 #endif
-  for (int j = 0; j < int(p); ++j) {
+  for (int j = start; j < int(p); ++j) {
     double fitness = refDecoder.decode((*current[i])(j));
 
     current[i]->setFitness(j, fitness);
@@ -453,14 +455,9 @@ inline void VLBRKGA<VirtualLayersDecoder, RNG>::evolution(VLPopulation& curr,
   unsigned i = 0;  // Iterate chromosome by chromosome
   unsigned j = 0;  // Iterate allele by allele
 
-  MTRand ran;
-
   // 2. The 'pe' best chromosomes are maintained, so we just copy these into
   // 'current':
 
-#ifdef _OPENMP
-#pragma omp parallel for private(j) num_threads(MAX_THREADS)
-#endif
   for (unsigned k = 0; k < pe; ++k) {
     for (j = 0; j < n; ++j) {
       next(k, j) = curr(curr.chromosome_packing_info[k].chromosome, j);
@@ -468,7 +465,8 @@ inline void VLBRKGA<VirtualLayersDecoder, RNG>::evolution(VLPopulation& curr,
 
     unsigned fitness = curr.chromosome_packing_info[k].fitness;
 
-    if (ran.randInt(99) < 30) {
+    double rand_val = r_elite.randDblExc();
+    if (rand_val < top_elite) {
       std::vector<double>& chr = next(k);
 
       std::vector<ranking> rank(chr.size());
@@ -478,14 +476,11 @@ inline void VLBRKGA<VirtualLayersDecoder, RNG>::evolution(VLPopulation& curr,
       }
       std::sort(rank.begin(), rank.end(), sort_rank);
 
-      MTRand r;
-      unsigned new_fitness = refDecoder.local_search(
-          rank, curr.chromosome_packing_info[k].fitness, r);
+      unsigned new_fitness =
+          refDecoder.local_search(rank, curr.chromosome_packing_info[k].fitness,
+                                  r_ls, max_ls_attempts, window_ls);
 
       if (new_fitness < fitness) {
-        // std::cout << "Old fitness: " << fitness << std::endl;
-        // std::cout << "Improved fitness: " << new_fitness << std::endl;
-
         fitness = new_fitness;
 
         std::vector<ranking> new_sol(chr.size());
