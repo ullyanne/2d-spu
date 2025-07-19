@@ -132,7 +132,7 @@ inline bool is_contained(const ems_t &a, const ems_t &b)
 
 bool is_maximal(const ems_t &new_space, flat_set<ems_t, bottom_left_cmp> &layer)
 {
-for (auto space = layer.begin(); space != layer.end(); ) {
+  for (auto space = layer.begin(); space != layer.end();) {
     if (space->bottom_point.second > new_space.top_point.second) {
       break;
     }
@@ -142,14 +142,14 @@ for (auto space = layer.begin(); space != layer.end(); ) {
     }
 
     if (is_contained(*space, new_space)) {
-      space = layer.erase(space); 
-    } else {
+      space = layer.erase(space);
+    }
+    else {
       ++space;
     }
   }
 
   return true;
-
 }
 
 bool is_ems_valid(const ems_t &space, flat_set<ems_t, bottom_left_cmp> &layer)
@@ -445,4 +445,197 @@ void encode(std::vector<ranking> &rank, const std::vector<ranking> &seq,
     rank[idx].chromosome = static_cast<double>(idx) / (n * 10);
     idx++;
   }
+}
+
+//-----------------
+
+inline bool can_item_fit(const item &item, const mos_t &mos)
+{
+  return item.width <= mos.width;
+}
+
+void update_strip_height(unsigned &strip_height, mos_t &mos,
+                         const unsigned &item_height)
+{
+  unsigned height = mos.bottom_point.second + item_height;
+  if (height > strip_height) {
+    strip_height = height;
+  }
+}
+
+bool intersects(const mos_t &mos, int space_bp_x, int space_bp_y,
+                unsigned space_width, const unsigned &item_width,
+                const unsigned &item_height)
+{
+  int item_x1 = space_bp_x;
+  int item_x2 = space_bp_x + item_width;
+  int item_y1 = space_bp_y;
+  int item_y2 = space_bp_y + item_height;
+
+  int mos_x1 = mos.bottom_point.first;
+  int mos_x2 = mos_x1 + mos.width;
+  int mos_y1 = mos.bottom_point.second;
+  int mos_y2 = std::numeric_limits<int>::max();
+
+  return (item_x1 < mos_x2 && item_x2 > mos_x1 && item_y1 < mos_y2 &&
+          item_y2 > mos_y1);
+}
+
+bool is_dominated(const mos_t &p, flat_set<mos_t, dominated_cmp> &layer)
+{
+  // Busca binária: primeiro elemento com x > p.x
+  auto it = std::upper_bound(
+      layer.begin(), layer.end(), p, [](const mos_t &a, const mos_t &b) {
+        if (a.bottom_point.first == b.bottom_point.first)
+          return a.bottom_point.second <
+                 b.bottom_point.second;  // Ordenar por y em caso de empate
+        return a.bottom_point.first < b.bottom_point.first;  // Ordenar por x
+      });
+
+  // Verifica para trás, onde x <= p.x
+  while (it != layer.begin()) {
+    --it;
+    if (it->bottom_point.first == p.bottom_point.first &&
+        it->bottom_point.second <= p.bottom_point.second &&
+        p.width <= it->width) {
+      return true;  // p é dominado por *it
+    }
+    // Se y já for > p.y, os anteriores terão y maiores ainda (porque y
+    // decresce), então podemos parar
+    if (it->bottom_point.second > p.bottom_point.second) break;
+  }
+
+  return false;  // Não dominado
+}
+
+void place_item(const item &item, mos_t &space,
+                flat_set<mos_t, bottom_left_cmp_open_space> &layer,
+                flat_set<mos_t, dominated_cmp> &dominated_sort_layer,
+                const unsigned &ub, unsigned *penalty,
+                FlatSegmentTree &seg_tree, bool debug_sol = false,
+                fstream *solfile = nullptr)
+{
+  int space_bp_x = space.bottom_point.first;
+  int space_bp_y = space.bottom_point.second;
+  unsigned space_width = space.width;
+
+  unsigned item_tp_x = space.bottom_point.first + item.width;
+
+  int min_client = seg_tree.query(space_bp_x, item_tp_x - 1);
+  if (min_client < item.client) {
+    *penalty += item.client - min_client;
+  }
+  seg_tree.update(space_bp_x, item_tp_x - 1, item.client);
+
+  if (debug_sol) {
+    *solfile << space_bp_x << " " << space.bottom_point.second << "\n"
+             << item_tp_x << " " << space.bottom_point.second + item.height
+             << "\n";
+  }
+
+  mos_t old_space = space;
+  layer.erase(space);
+  dominated_sort_layer.erase(old_space);
+
+  std::vector<mos_t> to_process;
+
+  mos_t new_space1 = {{space_bp_x, space_bp_y + item.height}, space_width};
+  to_process.push_back(new_space1);
+
+  if (space_width - item.width > 0) {
+    mos_t new_space2 = {{space_bp_x + item.width, space_bp_y},
+                        space_width - item.width};
+    to_process.push_back(new_space2);
+  }
+
+  for (auto mos = layer.begin(); mos != layer.end();) {
+    if (intersects(*mos, space_bp_x, space_bp_y, space_width, item.width,
+                   item.height)) {
+      int mos_x = mos->bottom_point.first;
+      int mos_y = mos->bottom_point.second;
+      unsigned mos_width = mos->width;
+
+      mos_t old_space = *mos;
+      mos = layer.erase(mos);
+      dominated_sort_layer.erase(old_space);
+
+      if (mos_x < space_bp_x) {
+        mos_t new_space3 = {{mos_x, mos_y}, space_bp_x - mos_x};
+        to_process.push_back(new_space3);
+      }
+
+      if (mos_x + mos_width > item_tp_x) {
+        mos_t new_space4 = {{item_tp_x, mos_y}, mos_x + mos_width - item_tp_x};
+        to_process.push_back(new_space4);
+      }
+
+      mos_t new_space5 = {{mos_x, space_bp_y + item.height}, mos_width};
+      to_process.push_back(new_space5);
+    }
+    else {
+      mos++;
+    }
+  }
+
+  for (auto new_space : to_process) {
+    if (!is_dominated(new_space, dominated_sort_layer)) {
+      layer.insert(new_space);
+      dominated_sort_layer.insert(new_space);
+    }
+  }
+}
+
+unsigned pack(const std::vector<ranking> &rank, const std::vector<item> &items,
+              const unsigned &max_width, const unsigned &ub, bool debug_sol,
+              std::fstream *solfile)
+{
+  flat_set<mos_t, bottom_left_cmp_open_space> layer;
+  flat_set<mos_t, dominated_cmp> dominated_sort_layer;
+
+  unsigned item_index = rank[0].index;
+  item item = items[item_index];
+  unsigned strip_height = 0;
+  long unsigned int items_placed = 0;
+  bool fit;
+  unsigned penalty = 0;
+
+  FlatSegmentTree seg_tree(max_width);
+
+  layer.insert({{0, 0}, max_width});
+  dominated_sort_layer.insert({{0, 0}, max_width});
+
+  unsigned items_count = items.size();
+
+  while (items_placed < items_count) {
+    item_index = rank[items_placed].index;
+
+    item = items[item_index];
+    fit = false;
+
+    if (!layer.empty()) {
+      for (auto mos = layer.begin(); mos != layer.end();) {
+        if (can_item_fit(item, *mos)) {
+          update_strip_height(strip_height, *mos, item.height);
+          place_item(item, *mos, layer, dominated_sort_layer, ub, &penalty,
+                     seg_tree, debug_sol, solfile);
+          if (debug_sol) {
+            *solfile << item_index << "\n" << item.client << "\n";
+          }
+
+          fit = true;
+          items_placed++;
+          break;
+        }
+        else {
+          mos++;
+        }
+      }
+    }
+  }
+
+  if (penalty) {
+    penalty += ub;
+  }
+
+  return strip_height + penalty;
 }

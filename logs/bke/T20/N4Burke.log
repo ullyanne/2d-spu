@@ -15067,3 +15067,22 @@ Tempo de execução: 8.18951s
 
 ---------------------------
 
+Tamanho da população: 392
+Fração elite: 0.2567
+Fração mutante: 0.0202
+Probabilidade herdar alelo elite: 0.6001
+Número de populações independentes: 1
+Número de threads: 1
+Número máximo de gerações: 364
+
+Largura da faixa = 72
+Melhor altura = 94
+
+Lower Bound 1 = 88
+Lower Bound 2 = 72
+Avaliação = 1.06818
+
+Tempo de execução: 57.9108s
+
+---------------------------
+

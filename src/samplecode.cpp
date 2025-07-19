@@ -140,7 +140,6 @@ int main(int argc, char* argv[])
       case 'a':
         attempts = std::stoi(optarg);
         break;
-
     }
   }
 
@@ -282,6 +281,7 @@ int main(int argc, char* argv[])
   MTRand r_elite(get_seed(3));
 
   // initialize the BRKGA-based heuristic
+
   VLBRKGA<VirtualLayersDecoder, MTRand> algorithm(
       num_items, p, pe, pm, rhoe, decoder, rng, r_ls, r_init, r_elite, attempts,
       i1, i2, i3, window_init, window_ls, top_elite, K, MAXT);
@@ -289,15 +289,27 @@ int main(int argc, char* argv[])
   unsigned generation = 0;      // current generation
   const unsigned X_NUMBER = 2;  // exchange top 2 best
 
-  //unsigned no_improvement = 0;
+  // unsigned no_improvement = 0;
 
-  //const auto tl = std::chrono::seconds(time_limit);
-  
+  // const auto tl = std::chrono::seconds(time_limit);
 
   best_fitness = best_height;
   do {
     algorithm.evolve();  // evolve the population for one generation
 
+    // int cost = algorithm.getBestFitness();
+    // if (cost < best_height) {
+    //   best_fitness = cost;
+    //   cout << "Melhor altura: " << best_fitness << "\n";
+    //   // no_improvement = 0;
+    // }
+
+    int cost = algorithm.getBestFitness();
+    if (cost < best_fitness) {
+      best_fitness = cost;
+      logfile << "Melhor até agora: " << best_fitness
+              << " Geração: " << generation << "\n";
+    }
 
     // if ((++generation) % X_INTVL == 0) {
     //   algorithm.exchangeElite(X_NUMBER);  // exchange top individuals
@@ -305,10 +317,10 @@ int main(int argc, char* argv[])
 
     ++generation;
 
-    //auto now = std::chrono::high_resolution_clock::now();
-  //if (now - start >= tl) {
-    //break;
-  //}
+    // auto now = std::chrono::high_resolution_clock::now();
+    // if (now - start >= tl) {
+    // break;
+    //}
 
   } while (generation < MAX_GENS);
 
@@ -321,19 +333,18 @@ int main(int argc, char* argv[])
       std::chrono::duration_cast<std::chrono::microseconds>(end - start)
           .count();
 
-  // std::vector<ranking> sol;
-  // construct_vl_sol(sol, algorithm.getBestChromosome(), items);
-  // best_sol = sol;
+  std::vector<ranking> sol;
+  construct_vl_sol(sol, algorithm.getBestChromosome(), items);
+  best_sol = sol;
   best_height = best_fitness;
 
-  // debug_sol = true;
-  // if (debug_sol) {
-  //   cout << "debugging...\n";
-  //   solfile << max_width << "\n";
+  debug_sol = true;
+  if (debug_sol) {
+    cout << "debugging...\n";
+    solfile << max_width << "\n";
 
-  //   unsigned dummy = pack_with_one_layer(best_sol, items, max_width, ub,
-  //                                        debug_sol, &solfile);
-  // }
+    unsigned dummy = pack(best_sol, items, max_width, ub, debug_sol, &solfile);
+  }
 
   params << "Tamanho da população: " << p << "\n"
          << "Fração elite: " << pe << "\n"

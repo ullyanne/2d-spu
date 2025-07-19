@@ -5,19 +5,29 @@
 # make
 # cd ..
 
-dir="/home/ullyanne/Documents/2spp/instances/"
+dir="/home/ullyanne/Documents/2spp/instances/bke/T20/N9Burke.txt"
 find "$dir" -type f -iname "*.txt" | while read file; do
     echo "Processing: $file"
 
     count=0
-    for i in {1..20}; do
+    for i in {1..1}; do
         # Print a seed to debug
         echo "Starting thread with seed $i for file $file" &
 
         # Executa o comando com o seed
         # src/samplecode -f "$file" -k 1 -p 279 -e 0.6760 -m 0.0039 -o 0.8688 -g 254 -a 14 -x 0.1260 -y 0.2503 -z 0.6237 -i 0.3508 -l 0.1204 -v 0.3320 -r 74 -s "$i" &
 
-        src/samplecode -f "$file" -k 1 -p 392 -e 0.2567 -m 0.0202 -o 0.6001 -g 364 -a 20 -x 0.3186 -y 0.1852 -i 0.2365 -l 0.1399 -v 0.4838 -z 0.4962 -s "$i" &
+        #src/samplecode -f "$file" -k 1 -p 392 -e 0.2567 -m 0.0202 -o 0.6001 -g 364 -a 20 -x 0.3186 -y 0.1852 -i 0.2365 -l 0.1399 -v 0.4838 -z 0.4962 -s "$i" &
+        src/samplecode -f "$file" -k 1 -p 180 -e 0.4295 -m 0.0881 -o 0.9266 -g 358 -a 14 -x 0.2912 -y 0.1242 -i 0.3302 -l 0.1624 -v 0.4106 -z 0.5846 -s "$i" &   
+        
+        
+        
+        
+        
+        
+        
+        
+        
         #src/samplecode -f "$file" -k 1 -p 279 -e 0.6760 -m 0.0039 -o 0.8688 -g 254 -a 14 -x 0.1260 -y 0.2503 -z 0.6237 -i 0.3508 -l 0.1204 -v 0.3320 -r 20 -s "$i" &
 
 
