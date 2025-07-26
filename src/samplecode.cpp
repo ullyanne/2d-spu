@@ -54,8 +54,7 @@ int main(int argc, char* argv[])
       0.7;  // probability that offspring inherit an allele from elite parent
   unsigned K = 3;         // number of independent populations
   unsigned MAXT = 1;      // number of threads for parallel decoding
-  unsigned X_INTVL = 30;  // exchange best individuals at every 100 generations
-  unsigned MAX_GENS = 250;  // run for 1000 gens
+  unsigned X_INTVL = 30;  // exchange best individuals at every 100 generations  // run for 1000 gens
   bool debug_sol = false;
 
   int best_fitness = numeric_limits<int>::max();
@@ -68,8 +67,9 @@ int main(int argc, char* argv[])
   double top_elite;
   unsigned max_improvements;
   unsigned time_limit;
+  unsigned X_NUMBER;
 
-  while ((opt = getopt(argc, argv, "p:e:m:o:k:t:f:g:s:a:x:y:z:i:l:v:d")) !=
+  while ((opt = getopt(argc, argv, "p:g:n:e:m:o:k:t:f:s:a:x:y:z:i:l:v:d")) !=
          -1) {
     switch (opt) {
       case 'f':
@@ -78,6 +78,14 @@ int main(int argc, char* argv[])
 
       case 'p':
         p = std::stoi(optarg);
+        break;
+
+      case 'g':
+        X_INTVL = std::stoi(optarg);
+        break;
+        
+      case 'n':
+        X_NUMBER = std::stoi(optarg);
         break;
 
       case 'e':
@@ -98,10 +106,6 @@ int main(int argc, char* argv[])
 
       case 't':
         time_limit = std::stoi(optarg);
-        break;
-
-      case 'g':
-        MAX_GENS = std::stoi(optarg);
         break;
 
       case 'd':
@@ -195,43 +199,43 @@ int main(int argc, char* argv[])
   lb1 = area / max_width;
   lb = max(lb1, lb2);
 
-  const std::string logs_folder = "logs";
-  const std::string sol_folder = "sol";
+  // const std::string logs_folder = "logs";
+  // const std::string sol_folder = "sol";
 
-  if (!std::filesystem::exists(logs_folder)) {
-    std::filesystem::create_directory(logs_folder);
-  }
+  // if (!std::filesystem::exists(logs_folder)) {
+  //   std::filesystem::create_directory(logs_folder);
+  // }
 
-  if (!std::filesystem::exists(sol_folder)) {
-    std::filesystem::create_directory(sol_folder);
-  }
+  // if (!std::filesystem::exists(sol_folder)) {
+  //   std::filesystem::create_directory(sol_folder);
+  // }
 
-  std::filesystem::path filePath(input_filename);
-  std::filesystem::path solPath(input_filename);
-  std::string parentPathStr = filePath.parent_path().string();
-  std::size_t pos = parentPathStr.find("instances/");
-  std::string relativePath =
-      parentPathStr.substr(pos + std::string("instances/").length());
-  std::filesystem::path logFilePath = std::filesystem::path(logs_folder) /
-                                      relativePath /
-                                      (filePath.stem().string() + ".log");
+  // std::filesystem::path filePath(input_filename);
+  // std::filesystem::path solPath(input_filename);
+  // std::string parentPathStr = filePath.parent_path().string();
+  // std::size_t pos = parentPathStr.find("instances/");
+  // std::string relativePath =
+  //     parentPathStr.substr(pos + std::string("instances/").length());
+  // std::filesystem::path logFilePath = std::filesystem::path(logs_folder) /
+  //                                     relativePath /
+  //                                     (filePath.stem().string() + ".log");
 
-  std::filesystem::path solFilePath = std::filesystem::path(sol_folder) /
-                                      relativePath /
-                                      (filePath.stem().string() + "Sol.txt");
+  // std::filesystem::path solFilePath = std::filesystem::path(sol_folder) /
+  //                                     relativePath /
+  //                                     (filePath.stem().string() + "Sol.txt");
 
-  if (!std::filesystem::exists(logFilePath.parent_path())) {
-    std::filesystem::create_directories(logFilePath.parent_path());
-  }
+  // if (!std::filesystem::exists(logFilePath.parent_path())) {
+  //   std::filesystem::create_directories(logFilePath.parent_path());
+  // }
 
-  if (!std::filesystem::exists(solFilePath.parent_path())) {
-    std::filesystem::create_directories(solFilePath.parent_path());
-  }
+  // if (!std::filesystem::exists(solFilePath.parent_path())) {
+  //   std::filesystem::create_directories(solFilePath.parent_path());
+  // }
 
-  std::fstream logfile(logFilePath, std::ios::app);
-  std::fstream solfile(solFilePath, std::ios::out);
+  // std::fstream logfile(logFilePath, std::ios::app);
+  // std::fstream solfile(solFilePath, std::ios::out);
 
-  std::stringstream params;
+  // std::stringstream params;
 
   // std::cout << filePath.stem().string() << "\n";
 
@@ -287,11 +291,11 @@ int main(int argc, char* argv[])
       i1, i2, i3, window_init, window_ls, top_elite, K, MAXT);
 
   unsigned generation = 0;      // current generation
-  const unsigned X_NUMBER = 2;  // exchange top 2 best
+  //const unsigned X_NUMBER = 2;  // exchange top 2 best
 
   //unsigned no_improvement = 0;
 
-  //const auto tl = std::chrono::seconds(time_limit);
+  const auto tl = std::chrono::seconds(time_limit);
   
 
   best_fitness = best_height;
@@ -299,18 +303,18 @@ int main(int argc, char* argv[])
     algorithm.evolve();  // evolve the population for one generation
 
 
-    // if ((++generation) % X_INTVL == 0) {
-    //   algorithm.exchangeElite(X_NUMBER);  // exchange top individuals
-    // }
+    if ((++generation) % X_INTVL == 0) {
+       algorithm.exchangeElite(X_NUMBER);  // exchange top individuals
+     }
 
     ++generation;
 
-    //auto now = std::chrono::high_resolution_clock::now();
-  //if (now - start >= tl) {
-    //break;
-  //}
+    auto now = std::chrono::high_resolution_clock::now();
+  if (now - start >= tl) {
+    break;
+  }
 
-  } while (generation < MAX_GENS);
+  } while (true);
 
   best_fitness = algorithm.getBestFitness();
 
@@ -324,40 +328,40 @@ int main(int argc, char* argv[])
   // std::vector<ranking> sol;
   // construct_vl_sol(sol, algorithm.getBestChromosome(), items);
   // best_sol = sol;
-  best_height = best_fitness;
+  // best_height = best_fitness;
 
   // debug_sol = true;
   // if (debug_sol) {
-  //   cout << "debugging...\n";
-  //   solfile << max_width << "\n";
+  //    cout << "debugging...\n";
+  //    solfile << max_width << "\n";
 
-  //   unsigned dummy = pack_with_one_layer(best_sol, items, max_width, ub,
-  //                                        debug_sol, &solfile);
-  // }
+  //    unsigned dummy = pack_with_one_layer(best_sol, items, max_width, ub,
+  //                                         debug_sol, &solfile);
+  //  }
 
-  params << "Tamanho da população: " << p << "\n"
-         << "Fração elite: " << pe << "\n"
-         << "Fração mutante: " << pm << "\n"
-         << "Probabilidade herdar alelo elite: " << rhoe << "\n"
-         << "Número de populações independentes: " << K << "\n"
-         << "Número de threads: " << MAXT << "\n"
-         << "Número máximo de gerações: " << MAX_GENS << "\n"
-         << "\n";
+  //params << "Tamanho da população: " << p << "\n"
+         //<< "Fração elite: " << pe << "\n"
+         //<< "Fração mutante: " << pm << "\n"
+         //<< "Probabilidade herdar alelo elite: " << rhoe << "\n"
+         //<< "Número de populações independentes: " << K << "\n"
+         //<< "Troca de informação de " << X_NUMBER << " individuos a cada " << X_INTVL << " gerações\n" 
+         //<< "Número de threads: " << MAXT << "\n"
+         //<< "\n";
 
-  logfile << params.str();
+  //logfile << params.str();
 
   std::cout << best_height << "\n";
-  cout << "Tempo de execução: " << (double)duration / 1000000.0 << "s\n";
+  // cout << "Tempo de execução: " << (double)duration / 1000000.0 << "s\n";
 
-  logfile << "Largura da faixa = " << max_width << "\n";
-  logfile << "Melhor altura = " << best_height << "\n\n";
-  logfile << "Lower Bound 1 = " << lb1 << "\n";
-  logfile << "Lower Bound 2 = " << lb2 << "\n";
-  logfile << "Avaliação = " << (double)best_height / lb << "\n\n";
+  //logfile << "Largura da faixa = " << max_width << "\n";
+  //logfile << "Melhor altura = " << best_height << "\n\n";
+  //logfile << "Lower Bound 1 = " << lb1 << "\n";
+  //logfile << "Lower Bound 2 = " << lb2 << "\n";
+  //logfile << "Avaliação = " << (double)best_height / lb << "\n\n";
 
-  logfile << "Tempo de execução: " << (double)duration / 1000000.0 << "s"
-          << "\n\n"
-          << "---------------------------" << "\n\n";
+  //logfile << "Tempo de execução: " << (double)duration / 1000000.0 << "s"
+          //<< "\n\n"
+          //<< "---------------------------" << "\n\n";
 
   return 0;
 }

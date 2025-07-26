@@ -184,18 +184,18 @@ void calc_diff_process(flat_set<ems_t, bottom_left_cmp> &layer,
 
   // vector<int> diff_proc = {x1, y1, x3, y2, x4, y1, x2, y2,
   //                          x1, y1, x2, y3, x1, y4, x2, y2};
-  for (int i = 0; i <= 12; i += 4) {
+  for (int i = 0; i <= 3; ++i) {
     switch (i) {
       case 0:
         space = {{x1, y1}, {x3, y2}};
         break;
-      case 4:
+      case 1:
         space = {{x4, y1}, {x2, y2}};
         break;
-      case 8:
+      case 2:
         space = {{x1, y1}, {x2, y3}};
         break;
-      case 12:
+      case 3:
         space = {{x1, y4}, {x2, y2}};
         break;
     }
