@@ -46,10 +46,8 @@ unsigned VirtualLayersDecoder::local_search(std::vector<ranking>& solution,
 
     swap(solution[i], solution[j]);
 
-    // double new_cost =
-    //     pack_with_one_layer(solution, items, max_width, ub, false);
-
-    double new_cost = pack(solution, items, max_width, ub, false);
+    double new_cost =
+        pack_with_one_layer(solution, items, max_width, ub, false);
 
     if (new_cost <= current_cost) {
       current_cost = new_cost;
@@ -77,10 +75,8 @@ double VirtualLayersDecoder::decode(std::vector<double>& chromosome) const
 
   std::sort(rank.begin(), rank.end(), sort_rank);
 
-  // strip_height_plus_penalty =
-  //     pack_with_one_layer(rank, items, max_width, ub, false);
-
-  strip_height_plus_penalty = pack(rank, items, max_width, ub, false);
+  strip_height_plus_penalty =
+      pack_with_one_layer(rank, items, max_width, ub, false);
 
   return strip_height_plus_penalty;
 }

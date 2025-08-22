@@ -1,6 +1,6 @@
 # Macros:
 CPP = g++
-CFLAGS = -g -O3 -fopenmp -w
+CFLAGS = -g -O0 -fopenmp -w
 OBJECTS = samplecode.o Packing.o VirtualLayersDecoder.o random_manager.o
 
 # Targets:

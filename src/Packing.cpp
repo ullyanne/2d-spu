@@ -1,16 +1,42 @@
 #include "Packing.h"
 
 #include <algorithm>
-#include <boost/container/flat_set.hpp>
 #include <chrono>
 #include <climits>
 #include <cmath>
 #include <deque>
 #include <fstream>
 #include <optional>
+#include <set>
 
 using namespace std;
-using boost::container::flat_set;
+
+typedef struct {
+  std::pair<int, int> bottom_point;
+  int width;
+} mos_t;
+
+struct bottom_left_cmp_open_space {
+  bool operator()(const mos_t &a, const mos_t &b) const
+  {
+    // Primeiro compara por y (bottom_point.second)
+    if (a.bottom_point.second != b.bottom_point.second) {
+      return a.bottom_point.second < b.bottom_point.second;
+    }
+
+    return a.bottom_point.first < b.bottom_point.first;
+  }
+};
+
+struct dominated_cmp {
+  bool operator()(const mos_t &a, const mos_t &b) const
+  {
+    if (a.bottom_point.first != b.bottom_point.first) {
+      return a.bottom_point.first < b.bottom_point.first;  // Ordena por x
+    }
+    return a.bottom_point.second < b.bottom_point.second;  // Depois por y
+  }
+};
 
 struct FlatSegmentTree {
   int size;
@@ -84,235 +110,26 @@ inline int height(const ems_t &e)
   return e.top_point.second - e.bottom_point.second;
 }
 
-void open_new_layer(vector<flat_set<ems_t, bottom_left_cmp>> &layers,
-                    unsigned &num_layers, unsigned &strip_height,
-                    const int &max_width, const int &item_height)
+inline bool can_item_fit(const item &item, const mos_t &mos)
 {
-  layers.emplace_back();
-  ++num_layers;
-
-  int new_strip_height = strip_height + item_height;
-
-  // ems_t space;
-  // space.bottom_point = make_pair(0, strip_height);
-  // space.top_point = make_pair(max_width, item_height + strip_height);
-
-  // layers[num_layers - 1].insert(space);
-
-  layers.back().insert({{0, strip_height}, {max_width, new_strip_height}});
-
-  strip_height = new_strip_height;
+  return item.width <= mos.width;
 }
 
-inline bool item_can_fit(const item &item, const ems_t &ems)
+bool intersects(const mos_t &mos, int space_bp_x, int space_bp_y,
+                int space_width, const int &item_width, const int &item_height)
 {
-  // int space_width = ems_t.top_point.first - ems_t.bottom_point.first;
-  // int space_height = ems_t.top_point.second - ems_t.bottom_point.second;
+  int item_x1 = space_bp_x;
+  int item_x2 = space_bp_x + (int)item_width;
+  int item_y1 = space_bp_y;
+  int item_y2 = space_bp_y + (int)item_height;
 
-  // if (item.width <= space_width && item.height <= space_height) {
-  //   return true;
-  // }
-  // return false;
-  return item.width <= (width(ems)) && item.height <= (height(ems));
-}
+  int mos_x1 = mos.bottom_point.first;
+  int mos_x2 = mos_x1 + mos.width;
+  int mos_y1 = mos.bottom_point.second;
+  int mos_y2 = std::numeric_limits<int>::max();
 
-inline bool is_a_line(const ems_t &space)
-{
-  return (space.bottom_point.first == space.top_point.first ||
-          space.bottom_point.second == space.top_point.second);
-}
-
-inline bool is_contained(const ems_t &a, const ems_t &b)
-{
-  return (a.top_point.first <= b.top_point.first &&
-          a.top_point.second <= b.top_point.second &&
-          a.bottom_point.first >= b.bottom_point.first &&
-          a.bottom_point.second >= b.bottom_point.second);
-}
-
-bool is_maximal(const ems_t &new_space, flat_set<ems_t, bottom_left_cmp> &layer)
-{
-  for (auto space = layer.begin(); space != layer.end();) {
-    if (space->bottom_point.second > new_space.top_point.second) {
-      break;
-    }
-
-    if (is_contained(new_space, *space)) {
-      return false;
-    }
-
-    if (is_contained(*space, new_space)) {
-      space = layer.erase(space);
-    }
-    else {
-      ++space;
-    }
-  }
-
-  return true;
-}
-
-bool is_ems_valid(const ems_t &space, flat_set<ems_t, bottom_left_cmp> &layer)
-{
-  if (is_a_line(space)) {
-    return false;
-  }
-
-  if (space.bottom_point.second > space.top_point.second) {
-    return false;
-  }
-
-  if (space.bottom_point.first > space.top_point.first) {
-    return false;
-  }
-
-  if (!is_maximal(space, layer)) {
-    return false;
-  }
-
-  return true;
-}
-
-void calc_diff_process(flat_set<ems_t, bottom_left_cmp> &layer,
-                       std::vector<ems_t> &layer_it, ems_t space, const int &x3,
-                       const int &y3, const int &x4, const int &y4)
-{
-  int x1 = space.bottom_point.first;
-  int y1 = space.bottom_point.second;
-  int x2 = space.top_point.first;
-  int y2 = space.top_point.second;
-
-  // vector<int> diff_proc = {x1, y1, x3, y2, x4, y1, x2, y2,
-  //                          x1, y1, x2, y3, x1, y4, x2, y2};
-  for (int i = 0; i <= 12; i += 4) {
-    switch (i) {
-      case 0:
-        space = {{x1, y1}, {x3, y2}};
-        break;
-      case 4:
-        space = {{x4, y1}, {x2, y2}};
-        break;
-      case 8:
-        space = {{x1, y1}, {x2, y3}};
-        break;
-      case 12:
-        space = {{x1, y4}, {x2, y2}};
-        break;
-    }
-
-    // space.bottom_point = make_pair(diff_proc[i], diff_proc[i + 1]);
-    // space.top_point = make_pair(diff_proc[i + 2], diff_proc[i + 3]);
-
-    if (is_ems_valid(space, layer)) {
-      bool intersects_x =
-          !(space.top_point.first <= x3 || space.bottom_point.first >= x4);
-      bool below_piece = space.bottom_point.second < y3;
-      if (intersects_x && below_piece) {
-        continue;
-      }
-
-      layer.insert(space);
-      layer_it.push_back(space);
-    }
-  }
-}
-
-inline bool does_intersect(const int &x3, const int &y3, const int &x4,
-                           const int &y4, const ems_t &space)
-{
-  return (x3 < space.top_point.first && x4 > space.bottom_point.first &&
-          y3 < space.top_point.second && y4 > space.bottom_point.second);
-}
-
-void calculate_item_coordinates(int &x3, int &y3, int &x4, int &y4,
-                                const item &item, const ems_t &space)
-{
-  x3 = space.bottom_point.first;
-  y3 = space.bottom_point.second;
-  x4 = x3 + item.width;
-  y4 = y3 + item.height;
-}
-
-void fit_item(const item &item, ems_t space,
-              flat_set<ems_t, bottom_left_cmp> &layer, const unsigned &ub,
-              unsigned *penalty, FlatSegmentTree &seg_tree,
-              bool debug_sol = false, fstream *solfile = nullptr)
-{
-  // auto start = std::chrono::high_resolution_clock::now();
-  int x3, y3, x4, y4;
-  calculate_item_coordinates(x3, y3, x4, y4, item, space);
-
-  int min_client = seg_tree.query(x3, x4 - 1);
-  if (min_client < item.client) {
-    *penalty += item.client - min_client;
-  }
-  seg_tree.update(x3, x4 - 1, item.client);
-
-  // for (int i = x3; i < x4; i++) {
-  //   if (clients_verification[i] != -1 &&
-  //       clients_verification[i] < item.client) {
-  //     *penalty += item.client - clients_verification[i];
-  //     break;
-  //   }
-  // }
-
-  // std::fill(clients_verification + x3, clients_verification + x4,
-  // item.client);
-
-  if (debug_sol) {
-    *solfile << x3 << " " << y3 << "\n" << x4 << " " << y4 << "\n";
-  }
-
-  layer.erase(space);
-
-  // std::deque<ems_t> to_process(layer.begin(), layer.end());
-  std::vector<ems_t> to_process(layer.begin(), layer.end());
-
-  // auto end = std::chrono::high_resolution_clock::now();
-  // auto duration =
-  //     std::chrono::duration_cast<std::chrono::microseconds>(end - start)
-  //         .count();
-
-  // cout << "Time taken to calculate diff process: " << duration
-  //      << " microseconds\n";
-
-  // start = std::chrono::high_resolution_clock::now();
-  calc_diff_process(layer, to_process, space, x3, y3, x4, y4);
-
-  // end = std::chrono::high_resolution_clock::now();
-  // duration = std::chrono::duration_cast<std::chrono::microseconds>(end -
-  // start)
-  //                .count();
-  // cout << "Time taken to calculate diff process: " << duration
-  //      << " microseconds\n";
-
-  // start = std::chrono::high_resolution_clock::now();
-  while (!to_process.empty()) {
-    // ems_t ems = to_process.front();
-    // to_process.pop_front();
-
-    ems_t ems = to_process.back();
-    to_process.pop_back();
-
-    if (does_intersect(x3, y3, x4, y4, ems)) {
-      ems_t ems_tmp = ems;
-      layer.erase(ems);
-      calc_diff_process(layer, to_process, ems_tmp, x3, y3, x4, y4);
-    }
-    else {
-      bool intersects_x =
-          !(space.top_point.first <= x3 || space.bottom_point.first >= x4);
-      bool below_piece = space.bottom_point.second < y3;
-      if (intersects_x && below_piece) {
-        layer.erase(ems);
-      }
-    }
-  }
-  // end = std::chrono::high_resolution_clock::now();
-  // duration = std::chrono::duration_cast<std::chrono::microseconds>(end -
-  // start)
-  //                .count();
-  // cout << "Time taken to process deque " << duration << " microseconds\n";
+  return (item_x1 < mos_x2 && item_x2 > mos_x1 && item_y1 < mos_y2 &&
+          item_y2 > mos_y1);
 }
 
 bool sort_rank(const ranking &a, const ranking &b)
@@ -355,176 +172,60 @@ void construct_final_sol(std::vector<ranking> &sol,
   sol = rank;
 }
 
-void calc_strip_height(unsigned &strip_height, ems_t space,
-                       const unsigned &item_height)
+int find_mos(const item &item, std::set<mos_t> &slist,
+             FlatSegmentTree &seg_tree)
 {
-  unsigned height = space.bottom_point.second + item_height;
-  if (height > strip_height) {
-    strip_height = height;
-  }
-}
-
-unsigned pack_with_one_layer(const std::vector<ranking> &rank,
-                             const vector<item> &items,
-                             const unsigned &max_width, const unsigned &ub,
-                             bool debug_sol, std::fstream *solfile)
-{
-  vector<flat_set<ems_t, bottom_left_cmp>> layers;
-
-  unsigned item_index = rank[0].index;
-  item item = items[item_index];
-  unsigned strip_height = 0;
-  long unsigned int items_placed = 0;
-  bool fit;
-  unsigned penalty = 0;
-
-  unsigned current_client = item.client;
-
-  FlatSegmentTree seg_tree(max_width);
-
-  // int clients_verification[max_width];
-  // std::fill(clients_verification, clients_verification + max_width, -1);
-
-  layers.push_back(flat_set<ems_t, bottom_left_cmp>());
-  layers[0].insert({{0, 0}, {max_width, ub}});
-
-  unsigned current_virtual_layer = 0;
-
-  while (items_placed < rank.size()) {
-    item_index = rank[items_placed].index;
-
-    item = items[item_index];
-    fit = false;
-
-    if (!layers[0].empty()) {
-      for (auto ems_t = layers[0].begin(); ems_t != layers[0].end();) {
-        if (item_can_fit(item, *ems_t)) {
-          calc_strip_height(strip_height, *ems_t, item.height);
-
-          // auto start = std::chrono::high_resolution_clock::now();
-          fit_item(item, *ems_t, layers[0], ub, &penalty, seg_tree, debug_sol,
-                   solfile);
-
-          // auto end = std::chrono::high_resolution_clock::now();
-
-          // auto duration =
-          //     std::chrono::duration_cast<std::chrono::microseconds>(end -
-          //     start)
-          //         .count();
-
-          // cout << "Time taken to fit item " << item_index << ": " << duration
-          //      << " microseconds" << endl;
-
-          if (debug_sol) {
-            *solfile << item_index << "\n" << item.client << "\n";
-          }
-          fit = true;
-          items_placed++;
-          break;
-        }
-        else {
-          ems_t++;
-        }
-      }
+  for (size_t i = 0; i < slist.size(); i++) {
+    if (can_item_fit(item, slist[i])) {
+      return i;
     }
   }
-
-  if (penalty) {
-    penalty += ub;
-  }
-
-  return strip_height + penalty;
+  return -1;
 }
 
-void encode(std::vector<ranking> &rank, const std::vector<ranking> &seq,
-            unsigned n)
+void update_strip_height(int &strip_height, int &mos_index,
+                         const int &item_height, const std::set<mos_t> &slist)
 {
-  unsigned idx = 0;
-  for (const auto &item : seq) {
-    rank[idx].index = item.index;
-    rank[idx].chromosome = static_cast<double>(idx) / (n * 10);
-    idx++;
-  }
-}
-
-//-----------------
-
-inline bool can_item_fit(const item &item, const mos_t &mos)
-{
-  return item.width <= mos.width;
-}
-
-void update_strip_height(unsigned &strip_height, mos_t &mos,
-                         const unsigned &item_height)
-{
-  unsigned height = mos.bottom_point.second + item_height;
+  mos_t mos = slist[mos_index];
+  int height = mos.bottom_point.second + item_height;
   if (height > strip_height) {
     strip_height = height;
   }
 }
 
-bool intersects(const mos_t &mos, int space_bp_x, int space_bp_y,
-                unsigned space_width, const unsigned &item_width,
-                const unsigned &item_height)
+bool is_dominated(const mos_t &p, const std::vector<mos_t> &layer)
 {
-  int item_x1 = space_bp_x;
-  int item_x2 = space_bp_x + item_width;
-  int item_y1 = space_bp_y;
-  int item_y2 = space_bp_y + item_height;
-
-  int mos_x1 = mos.bottom_point.first;
-  int mos_x2 = mos_x1 + mos.width;
-  int mos_y1 = mos.bottom_point.second;
-  int mos_y2 = std::numeric_limits<int>::max();
-
-  return (item_x1 < mos_x2 && item_x2 > mos_x1 && item_y1 < mos_y2 &&
-          item_y2 > mos_y1);
-}
-
-bool is_dominated(const mos_t &p, flat_set<mos_t, dominated_cmp> &layer)
-{
-  // Busca binária: primeiro elemento com x > p.x
-  auto it = std::upper_bound(
+  // Get the range of MOS with same x
+  auto range = std::equal_range(
       layer.begin(), layer.end(), p, [](const mos_t &a, const mos_t &b) {
-        if (a.bottom_point.first == b.bottom_point.first)
-          return a.bottom_point.second <
-                 b.bottom_point.second;  // Ordenar por y em caso de empate
-        return a.bottom_point.first < b.bottom_point.first;  // Ordenar por x
+        return a.bottom_point.first < b.bottom_point.first;  // compare only x
       });
 
-  // Verifica para trás, onde x <= p.x
-  while (it != layer.begin()) {
-    --it;
-    if (it->bottom_point.first == p.bottom_point.first &&
-        it->bottom_point.second <= p.bottom_point.second &&
-        p.width <= it->width) {
-      return true;  // p é dominado por *it
+  for (auto it = range.first; it != range.second; ++it) {
+    if (it->bottom_point.second <= p.bottom_point.second &&
+        it->width >= p.width) {
+      return true;  // p is dominated
     }
-    // Se y já for > p.y, os anteriores terão y maiores ainda (porque y
-    // decresce), então podemos parar
-    if (it->bottom_point.second > p.bottom_point.second) break;
   }
-
-  return false;  // Não dominado
+  return false;
 }
 
-void place_item(const item &item, mos_t &space,
-                flat_set<mos_t, bottom_left_cmp_open_space> &layer,
-                flat_set<mos_t, dominated_cmp> &dominated_sort_layer,
-                const unsigned &ub, unsigned *penalty,
-                FlatSegmentTree &seg_tree, bool debug_sol = false,
+void place_item(const item &item, int &mos_index, std::vector<mos_t> &slist,
+                FlatSegmentTree &seg_tree, int *penalty, bool debug_sol = false,
                 fstream *solfile = nullptr)
 {
+  mos_t space = slist[mos_index];
+  int space_width = space.width;
+  int item_tp_x = space.bottom_point.first + item.width;
   int space_bp_x = space.bottom_point.first;
   int space_bp_y = space.bottom_point.second;
-  unsigned space_width = space.width;
-
-  unsigned item_tp_x = space.bottom_point.first + item.width;
 
   int min_client = seg_tree.query(space_bp_x, item_tp_x - 1);
+
   if (min_client < item.client) {
     *penalty += item.client - min_client;
   }
+
   seg_tree.update(space_bp_x, item_tp_x - 1, item.client);
 
   if (debug_sol) {
@@ -533,9 +234,7 @@ void place_item(const item &item, mos_t &space,
              << "\n";
   }
 
-  mos_t old_space = space;
-  layer.erase(space);
-  dominated_sort_layer.erase(old_space);
+  slist.erase(slist.begin() + mos_index);
 
   std::vector<mos_t> to_process;
 
@@ -548,16 +247,15 @@ void place_item(const item &item, mos_t &space,
     to_process.push_back(new_space2);
   }
 
-  for (auto mos = layer.begin(); mos != layer.end();) {
+  for (auto mos = slist.begin(); mos != slist.end();) {
     if (intersects(*mos, space_bp_x, space_bp_y, space_width, item.width,
                    item.height)) {
       int mos_x = mos->bottom_point.first;
       int mos_y = mos->bottom_point.second;
-      unsigned mos_width = mos->width;
+      int mos_width = mos->width;
 
       mos_t old_space = *mos;
-      mos = layer.erase(mos);
-      dominated_sort_layer.erase(old_space);
+      mos = slist.erase(mos);
 
       if (mos_x < space_bp_x) {
         mos_t new_space3 = {{mos_x, mos_y}, space_bp_x - mos_x};
@@ -577,59 +275,54 @@ void place_item(const item &item, mos_t &space,
     }
   }
 
+  std::vector<mos_t> slistByX = slist;
+  std::sort(slistByX.begin(), slistByX.end(), dominated_cmp());
+
   for (auto new_space : to_process) {
-    if (!is_dominated(new_space, dominated_sort_layer)) {
-      layer.insert(new_space);
-      dominated_sort_layer.insert(new_space);
+    if (!is_dominated(new_space, slistByX)) {
+      slist.push_back(new_space);
+      slistByX.push_back(new_space);
+      std::sort(slistByX.begin(), slistByX.end(), dominated_cmp());
     }
   }
+
+  std::sort(slist.begin(), slist.end(), bottom_left_cmp_open_space());
 }
 
-unsigned pack(const std::vector<ranking> &rank, const std::vector<item> &items,
-              const unsigned &max_width, const unsigned &ub, bool debug_sol,
-              std::fstream *solfile)
+int pack_with_one_layer(const std::vector<ranking> &rank,
+                        const vector<item> &items, const int &max_width,
+                        const int &ub, bool debug_sol, std::fstream *solfile)
 {
-  flat_set<mos_t, bottom_left_cmp_open_space> layer;
-  flat_set<mos_t, dominated_cmp> dominated_sort_layer;
-
-  unsigned item_index = rank[0].index;
-  item item = items[item_index];
-  unsigned strip_height = 0;
-  long unsigned int items_placed = 0;
-  bool fit;
-  unsigned penalty = 0;
-
+  set<mos_t> slist = {{{0, 0}, max_width}};
   FlatSegmentTree seg_tree(max_width);
 
-  layer.insert({{0, 0}, max_width});
-  dominated_sort_layer.insert({{0, 0}, max_width});
+  int item_index = rank[0].index;
+  item item = items[item_index];
 
-  unsigned items_count = items.size();
+  int strip_height = 0;
+  long int items_placed = 0;
+  int penalty = 0;
 
-  while (items_placed < items_count) {
+  int current_client = item.client;
+
+  while (items_placed < rank.size()) {
     item_index = rank[items_placed].index;
 
     item = items[item_index];
-    fit = false;
 
-    if (!layer.empty()) {
-      for (auto mos = layer.begin(); mos != layer.end();) {
-        if (can_item_fit(item, *mos)) {
-          update_strip_height(strip_height, *mos, item.height);
-          place_item(item, *mos, layer, dominated_sort_layer, ub, &penalty,
-                     seg_tree, debug_sol, solfile);
-          if (debug_sol) {
-            *solfile << item_index << "\n" << item.client << "\n";
-          }
+    if (!slist.empty()) {
+      int mos_index = find_mos(item, slist, seg_tree);
 
-          fit = true;
-          items_placed++;
-          break;
-        }
-        else {
-          mos++;
-        }
+      if (mos_index == -1) {
+        return ub + strip_height;
       }
+
+      update_strip_height(strip_height, mos_index, item.height, slist);
+
+      place_item(item, mos_index, slist, seg_tree, &penalty, debug_sol,
+                 solfile);
+
+      items_placed++;
     }
   }
 
@@ -638,4 +331,15 @@ unsigned pack(const std::vector<ranking> &rank, const std::vector<item> &items,
   }
 
   return strip_height + penalty;
+}
+
+void encode(std::vector<ranking> &rank, const std::vector<ranking> &seq,
+            unsigned n)
+{
+  unsigned idx = 0;
+  for (const auto &item : seq) {
+    rank[idx].index = item.index;
+    rank[idx].chromosome = static_cast<double>(idx) / (n * 10);
+    idx++;
+  }
 }
