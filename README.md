@@ -43,7 +43,9 @@ BRKGA-RLS-PARAMS [required]:
 
 ## How to debug 🐞
 
-<img src="imgs/debug_tool.jpg" alt="Texto Alternativo" width="45%" height="auto" style="display: block; margin: 0 auto;">
+<div align="center">
+  <img src="imgs/debug_tool.jpg" alt="Texto Alternativo" width="45%">
+</div>
 
 An auxiliary Python tool was developed to help debug the strip packing layout solution. It plots the arranged items on the strip and their maximum width to visualize the generated solutions.
 
