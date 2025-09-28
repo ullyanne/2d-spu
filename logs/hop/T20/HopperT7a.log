@@ -1,31 +1,29 @@
-Tamanho da população: 297
-Fração elite: 0.55
-Fração mutante: 0.0174
-Probabilidade herdar alelo elite: 0.7678
-Número de populações independentes: 1
+Tamanho da população: 475
+Fração elite: 0.2121
+Fração mutante: 0.0442
+Probabilidade herdar alelo elite: 0.6514
+Número de populações independentes: 3
+Troca de informação de 4 individuos a cada 241 gerações
 Número de threads: 1
-Trocar os melhores indivíduos a cada 30 gerações
-Número máximo de gerações: 279
 
 Largura da faixa = 97
-Melhor altura = 469
+Melhor altura = 463
 
 Lower Bound 1 = 412
 Lower Bound 2 = 97
-Avaliação = 1.13835
+Avaliação = 1.12379
 
-Tempo de execução: 27.9785s
+Tempo de execução: 60.0035s
 
 ---------------------------
 
-Tamanho da população: 297
-Fração elite: 0.55
-Fração mutante: 0.0174
-Probabilidade herdar alelo elite: 0.7678
-Número de populações independentes: 1
+Tamanho da população: 475
+Fração elite: 0.2121
+Fração mutante: 0.0442
+Probabilidade herdar alelo elite: 0.6514
+Número de populações independentes: 3
+Troca de informação de 4 individuos a cada 241 gerações
 Número de threads: 1
-Trocar os melhores indivíduos a cada 30 gerações
-Número máximo de gerações: 279
 
 Largura da faixa = 97
 Melhor altura = 466
@@ -34,18 +32,17 @@ Lower Bound 1 = 412
 Lower Bound 2 = 97
 Avaliação = 1.13107
 
-Tempo de execução: 28.2002s
+Tempo de execução: 60.3294s
 
 ---------------------------
 
-Tamanho da população: 297
-Fração elite: 0.55
-Fração mutante: 0.0174
-Probabilidade herdar alelo elite: 0.7678
-Número de populações independentes: 1
+Tamanho da população: 475
+Fração elite: 0.2121
+Fração mutante: 0.0442
+Probabilidade herdar alelo elite: 0.6514
+Número de populações independentes: 3
+Troca de informação de 4 individuos a cada 241 gerações
 Número de threads: 1
-Trocar os melhores indivíduos a cada 30 gerações
-Número máximo de gerações: 279
 
 Largura da faixa = 97
 Melhor altura = 467
@@ -54,58 +51,17 @@ Lower Bound 1 = 412
 Lower Bound 2 = 97
 Avaliação = 1.1335
 
-Tempo de execução: 28.7856s
+Tempo de execução: 60.3652s
 
 ---------------------------
 
-Tamanho da população: 297
-Fração elite: 0.55
-Fração mutante: 0.0174
-Probabilidade herdar alelo elite: 0.7678
-Número de populações independentes: 1
+Tamanho da população: 475
+Fração elite: 0.2121
+Fração mutante: 0.0442
+Probabilidade herdar alelo elite: 0.6514
+Número de populações independentes: 3
+Troca de informação de 4 individuos a cada 241 gerações
 Número de threads: 1
-Trocar os melhores indivíduos a cada 30 gerações
-Número máximo de gerações: 279
-
-Largura da faixa = 97
-Melhor altura = 465
-
-Lower Bound 1 = 412
-Lower Bound 2 = 97
-Avaliação = 1.12864
-
-Tempo de execução: 27.9724s
-
----------------------------
-
-Tamanho da população: 297
-Fração elite: 0.55
-Fração mutante: 0.0174
-Probabilidade herdar alelo elite: 0.7678
-Número de populações independentes: 1
-Número de threads: 1
-Trocar os melhores indivíduos a cada 30 gerações
-Número máximo de gerações: 279
-
-Largura da faixa = 97
-Melhor altura = 468
-
-Lower Bound 1 = 412
-Lower Bound 2 = 97
-Avaliação = 1.13592
-
-Tempo de execução: 28.2589s
-
----------------------------
-
-Tamanho da população: 297
-Fração elite: 0.55
-Fração mutante: 0.0174
-Probabilidade herdar alelo elite: 0.7678
-Número de populações independentes: 1
-Número de threads: 1
-Trocar os melhores indivíduos a cada 30 gerações
-Número máximo de gerações: 279
 
 Largura da faixa = 97
 Melhor altura = 466
@@ -114,18 +70,93 @@ Lower Bound 1 = 412
 Lower Bound 2 = 97
 Avaliação = 1.13107
 
-Tempo de execução: 28.6288s
+Tempo de execução: 60.0556s
 
 ---------------------------
 
-Tamanho da população: 297
-Fração elite: 0.55
-Fração mutante: 0.0174
-Probabilidade herdar alelo elite: 0.7678
-Número de populações independentes: 1
+Tamanho da população: 475
+Fração elite: 0.2121
+Fração mutante: 0.0442
+Probabilidade herdar alelo elite: 0.6514
+Número de populações independentes: 3
+Troca de informação de 4 individuos a cada 241 gerações
 Número de threads: 1
-Trocar os melhores indivíduos a cada 30 gerações
-Número máximo de gerações: 279
+
+Largura da faixa = 97
+Melhor altura = 468
+
+Lower Bound 1 = 412
+Lower Bound 2 = 97
+Avaliação = 1.13592
+
+Tempo de execução: 60.2474s
+
+---------------------------
+
+Tamanho da população: 475
+Fração elite: 0.2121
+Fração mutante: 0.0442
+Probabilidade herdar alelo elite: 0.6514
+Número de populações independentes: 3
+Troca de informação de 4 individuos a cada 241 gerações
+Número de threads: 1
+
+Largura da faixa = 97
+Melhor altura = 467
+
+Lower Bound 1 = 412
+Lower Bound 2 = 97
+Avaliação = 1.1335
+
+Tempo de execução: 60.3851s
+
+---------------------------
+
+Tamanho da população: 475
+Fração elite: 0.2121
+Fração mutante: 0.0442
+Probabilidade herdar alelo elite: 0.6514
+Número de populações independentes: 3
+Troca de informação de 4 individuos a cada 241 gerações
+Número de threads: 1
+
+Largura da faixa = 97
+Melhor altura = 466
+
+Lower Bound 1 = 412
+Lower Bound 2 = 97
+Avaliação = 1.13107
+
+Tempo de execução: 60.0019s
+
+---------------------------
+
+Tamanho da população: 475
+Fração elite: 0.2121
+Fração mutante: 0.0442
+Probabilidade herdar alelo elite: 0.6514
+Número de populações independentes: 3
+Troca de informação de 4 individuos a cada 241 gerações
+Número de threads: 1
+
+Largura da faixa = 97
+Melhor altura = 467
+
+Lower Bound 1 = 412
+Lower Bound 2 = 97
+Avaliação = 1.1335
+
+Tempo de execução: 60.2346s
+
+---------------------------
+
+Tamanho da população: 475
+Fração elite: 0.2121
+Fração mutante: 0.0442
+Probabilidade herdar alelo elite: 0.6514
+Número de populações independentes: 3
+Troca de informação de 4 individuos a cada 241 gerações
+Número de threads: 1
 
 Largura da faixa = 97
 Melhor altura = 465
@@ -134,38 +165,17 @@ Lower Bound 1 = 412
 Lower Bound 2 = 97
 Avaliação = 1.12864
 
-Tempo de execução: 28.1463s
+Tempo de execução: 60.3051s
 
 ---------------------------
 
-Tamanho da população: 297
-Fração elite: 0.55
-Fração mutante: 0.0174
-Probabilidade herdar alelo elite: 0.7678
-Número de populações independentes: 1
+Tamanho da população: 475
+Fração elite: 0.2121
+Fração mutante: 0.0442
+Probabilidade herdar alelo elite: 0.6514
+Número de populações independentes: 3
+Troca de informação de 4 individuos a cada 241 gerações
 Número de threads: 1
-Trocar os melhores indivíduos a cada 30 gerações
-Número máximo de gerações: 279
-
-Largura da faixa = 97
-Melhor altura = 469
-
-Lower Bound 1 = 412
-Lower Bound 2 = 97
-Avaliação = 1.13835
-
-Tempo de execução: 28.2324s
-
----------------------------
-
-Tamanho da população: 297
-Fração elite: 0.55
-Fração mutante: 0.0174
-Probabilidade herdar alelo elite: 0.7678
-Número de populações independentes: 1
-Número de threads: 1
-Trocar os melhores indivíduos a cada 30 gerações
-Número máximo de gerações: 279
 
 Largura da faixa = 97
 Melhor altura = 468
@@ -174,78 +184,55 @@ Lower Bound 1 = 412
 Lower Bound 2 = 97
 Avaliação = 1.13592
 
-Tempo de execução: 28.3759s
+Tempo de execução: 60.038s
 
 ---------------------------
 
-Tamanho da população: 297
-Fração elite: 0.55
-Fração mutante: 0.0174
-Probabilidade herdar alelo elite: 0.7678
-Número de populações independentes: 1
+Tamanho da população: 475
+Fração elite: 0.2121
+Fração mutante: 0.0442
+Probabilidade herdar alelo elite: 0.6514
+Número de populações independentes: 3
+Troca de informação de 4 individuos a cada 241 gerações
 Número de threads: 1
-Trocar os melhores indivíduos a cada 30 gerações
-Número máximo de gerações: 279
 
 Largura da faixa = 97
-Melhor altura = 469
+Melhor altura = 465
 
 Lower Bound 1 = 412
 Lower Bound 2 = 97
-Avaliação = 1.13835
+Avaliação = 1.12864
 
-Tempo de execução: 27.4757s
+Tempo de execução: 60.2472s
 
 ---------------------------
 
-Tamanho da população: 297
-Fração elite: 0.55
-Fração mutante: 0.0174
-Probabilidade herdar alelo elite: 0.7678
-Número de populações independentes: 1
+Tamanho da população: 475
+Fração elite: 0.2121
+Fração mutante: 0.0442
+Probabilidade herdar alelo elite: 0.6514
+Número de populações independentes: 3
+Troca de informação de 4 individuos a cada 241 gerações
 Número de threads: 1
-Trocar os melhores indivíduos a cada 30 gerações
-Número máximo de gerações: 279
 
 Largura da faixa = 97
-Melhor altura = 468
+Melhor altura = 461
 
 Lower Bound 1 = 412
 Lower Bound 2 = 97
-Avaliação = 1.13592
+Avaliação = 1.11893
 
-Tempo de execução: 27.5556s
-
----------------------------
-
-Tamanho da população: 297
-Fração elite: 0.55
-Fração mutante: 0.0174
-Probabilidade herdar alelo elite: 0.7678
-Número de populações independentes: 1
-Número de threads: 1
-Trocar os melhores indivíduos a cada 30 gerações
-Número máximo de gerações: 279
-
-Largura da faixa = 97
-Melhor altura = 471
-
-Lower Bound 1 = 412
-Lower Bound 2 = 97
-Avaliação = 1.1432
-
-Tempo de execução: 27.5651s
+Tempo de execução: 60.3568s
 
 ---------------------------
 
-Tamanho da população: 297
-Fração elite: 0.55
-Fração mutante: 0.0174
-Probabilidade herdar alelo elite: 0.7678
-Número de populações independentes: 1
+Tamanho da população: 475
+Fração elite: 0.2121
+Fração mutante: 0.0442
+Probabilidade herdar alelo elite: 0.6514
+Número de populações independentes: 3
+Troca de informação de 4 individuos a cada 241 gerações
 Número de threads: 1
-Trocar os melhores indivíduos a cada 30 gerações
-Número máximo de gerações: 279
 
 Largura da faixa = 97
 Melhor altura = 468
@@ -254,58 +241,36 @@ Lower Bound 1 = 412
 Lower Bound 2 = 97
 Avaliação = 1.13592
 
-Tempo de execução: 28.0584s
+Tempo de execução: 60.0961s
 
 ---------------------------
 
-Tamanho da população: 297
-Fração elite: 0.55
-Fração mutante: 0.0174
-Probabilidade herdar alelo elite: 0.7678
-Número de populações independentes: 1
+Tamanho da população: 475
+Fração elite: 0.2121
+Fração mutante: 0.0442
+Probabilidade herdar alelo elite: 0.6514
+Número de populações independentes: 3
+Troca de informação de 4 individuos a cada 241 gerações
 Número de threads: 1
-Trocar os melhores indivíduos a cada 30 gerações
-Número máximo de gerações: 279
 
 Largura da faixa = 97
-Melhor altura = 469
+Melhor altura = 462
 
 Lower Bound 1 = 412
 Lower Bound 2 = 97
-Avaliação = 1.13835
+Avaliação = 1.12136
 
-Tempo de execução: 28.2444s
-
----------------------------
-
-Tamanho da população: 297
-Fração elite: 0.55
-Fração mutante: 0.0174
-Probabilidade herdar alelo elite: 0.7678
-Número de populações independentes: 1
-Número de threads: 1
-Trocar os melhores indivíduos a cada 30 gerações
-Número máximo de gerações: 279
-
-Largura da faixa = 97
-Melhor altura = 470
-
-Lower Bound 1 = 412
-Lower Bound 2 = 97
-Avaliação = 1.14078
-
-Tempo de execução: 28.4412s
+Tempo de execução: 60.2751s
 
 ---------------------------
 
-Tamanho da população: 297
-Fração elite: 0.55
-Fração mutante: 0.0174
-Probabilidade herdar alelo elite: 0.7678
-Número de populações independentes: 1
+Tamanho da população: 475
+Fração elite: 0.2121
+Fração mutante: 0.0442
+Probabilidade herdar alelo elite: 0.6514
+Número de populações independentes: 3
+Troca de informação de 4 individuos a cada 241 gerações
 Número de threads: 1
-Trocar os melhores indivíduos a cada 30 gerações
-Número máximo de gerações: 279
 
 Largura da faixa = 97
 Melhor altura = 464
@@ -314,87 +279,99 @@ Lower Bound 1 = 412
 Lower Bound 2 = 97
 Avaliação = 1.12621
 
-Tempo de execução: 27.7801s
+Tempo de execução: 60.3234s
 
 ---------------------------
 
-Tamanho da população: 297
-Fração elite: 0.55
-Fração mutante: 0.0174
-Probabilidade herdar alelo elite: 0.7678
-Número de populações independentes: 1
+Tamanho da população: 475
+Fração elite: 0.2121
+Fração mutante: 0.0442
+Probabilidade herdar alelo elite: 0.6514
+Número de populações independentes: 3
+Troca de informação de 4 individuos a cada 241 gerações
 Número de threads: 1
-Trocar os melhores indivíduos a cada 30 gerações
-Número máximo de gerações: 279
 
 Largura da faixa = 97
-Melhor altura = 468
+Melhor altura = 467
 
 Lower Bound 1 = 412
 Lower Bound 2 = 97
-Avaliação = 1.13592
+Avaliação = 1.1335
 
-Tempo de execução: 27.7834s
+Tempo de execução: 60.0877s
 
 ---------------------------
 
-Tamanho da população: 297
-Fração elite: 0.55
-Fração mutante: 0.0174
-Probabilidade herdar alelo elite: 0.7678
-Número de populações independentes: 1
+Tamanho da população: 475
+Fração elite: 0.2121
+Fração mutante: 0.0442
+Probabilidade herdar alelo elite: 0.6514
+Número de populações independentes: 3
+Troca de informação de 4 individuos a cada 241 gerações
 Número de threads: 1
-Trocar os melhores indivíduos a cada 30 gerações
-Número máximo de gerações: 279
 
 Largura da faixa = 97
-Melhor altura = 468
+Melhor altura = 465
 
 Lower Bound 1 = 412
 Lower Bound 2 = 97
-Avaliação = 1.13592
+Avaliação = 1.12864
 
-Tempo de execução: 27.8893s
+Tempo de execução: 60.2137s
 
 ---------------------------
 
-Tamanho da população: 297
-Fração elite: 0.55
-Fração mutante: 0.0174
-Probabilidade herdar alelo elite: 0.7678
-Número de populações independentes: 1
+Tamanho da população: 475
+Fração elite: 0.2121
+Fração mutante: 0.0442
+Probabilidade herdar alelo elite: 0.6514
+Número de populações independentes: 3
+Troca de informação de 4 individuos a cada 241 gerações
 Número de threads: 1
-Trocar os melhores indivíduos a cada 30 gerações
-Número máximo de gerações: 279
 
 Largura da faixa = 97
-Melhor altura = 468
+Melhor altura = 465
 
 Lower Bound 1 = 412
 Lower Bound 2 = 97
-Avaliação = 1.13592
+Avaliação = 1.12864
 
-Tempo de execução: 27.5129s
+Tempo de execução: 60.4012s
 
 ---------------------------
 
-Tamanho da população: 297
-Fração elite: 0.55
-Fração mutante: 0.0174
-Probabilidade herdar alelo elite: 0.7678
-Número de populações independentes: 1
+Tamanho da população: 475
+Fração elite: 0.2121
+Fração mutante: 0.0442
+Probabilidade herdar alelo elite: 0.6514
+Número de populações independentes: 3
+Troca de informação de 4 individuos a cada 241 gerações
 Número de threads: 1
-Trocar os melhores indivíduos a cada 30 gerações
-Número máximo de gerações: 279
 
 Largura da faixa = 97
-Melhor altura = 470
+Melhor altura = 467
 
 Lower Bound 1 = 412
 Lower Bound 2 = 97
-Avaliação = 1.14078
+Avaliação = 1.1335
 
-Tempo de execução: 27.907s
+Tempo de execução: 60.0107s
 
 ---------------------------
 
+Tamanho da população: 475
+Fração elite: 0.2121
+Fração mutante: 0.0442
+Probabilidade herdar alelo elite: 0.6514
+Número de populações independentes: 3
+Troca de informação de 4 individuos a cada 241 gerações
+Número de threads: 1
+
+Largura da faixa = 97
+Melhor altura = 464
+
+Lower Bound 1 = 412
+Lower Bound 2 = 97
+Avaliação = 1.12621
+
+Tempo de execução: 60.1226s

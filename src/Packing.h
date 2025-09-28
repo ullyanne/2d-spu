@@ -39,22 +39,16 @@ struct bottom_left_cmp {
   }
 };
 
-unsigned pack_with_one_layer(const std::vector<ranking> &rank,
-                             const std::vector<item> &items,
-                             const unsigned &max_width, const unsigned &ub,
-                             bool debug_sol = false,
-                             std::fstream *solfile = nullptr);
+unsigned pack(const std::vector<ranking> &rank, const std::vector<item> &items,
+              const unsigned &max_width, const unsigned &ub,
+              bool debug_sol = false, std::fstream *solfile = nullptr);
 
 void encode(std::vector<ranking> &rank, const std::vector<ranking> &seq,
             unsigned n);
 
 bool sort_rank(const ranking &a, const ranking &b);
 
-void construct_vl_sol(std::vector<ranking> &sol, std::vector<double> chromosome,
-                      std::vector<item> items);
-
-void construct_final_sol(std::vector<ranking> &sol,
-                         std::vector<double> chromosome,
-                         std::vector<ranking> seq);
+void construct_sol(std::vector<ranking> &sol, std::vector<double> chromosome,
+                   std::vector<item> items);
 
 #endif  // PACKING_H

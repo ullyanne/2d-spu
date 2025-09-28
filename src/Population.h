@@ -20,8 +20,6 @@
 #include <stdexcept>
 #include <vector>
 
-#include "Packing.h"
-
 typedef struct {
   double fitness;
   unsigned chromosome;
@@ -53,8 +51,6 @@ class Population {
 
   std::vector<std::vector<double>>
       population;  // Population as vectors of prob.
-  std::vector<std::pair<double, unsigned>>
-      fitnessx;  // Fitness (double) of a each chromosome
   std ::vector<packing_info> chromosome_packing_info;
 
   void sortFitness();  // Sorts 'fitness' by its first parameter
@@ -108,12 +104,8 @@ std::vector<double>& Population::getChromosome(unsigned i)
 
 void Population::setFitness(unsigned i, double f)
 {
-  // layers_info_fitness.fitness[i].first = f;
-  // layers_info_fitness.fitness[i].second = i;
   chromosome_packing_info[i].fitness = f;
   chromosome_packing_info[i].chromosome = i;
-  // fitness[i].first = f;
-  // fitness[i].second = i;
 }
 
 void Population::sortFitness()
