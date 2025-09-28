@@ -1,20 +1,26 @@
 # Macros:
 CPP = g++
-CFLAGS = -O3 -fopenmp -Wall
-OBJECTS = SampleDecoder.o samplecode.o 
+CFLAGS = -g -O3 -w
+OBJECTS = brkgarls.o Packing.o Decoder.o random_manager.o
 
 # Targets:
-all: samplecode
+all: brkgarls
 
-samplecode: $(OBJECTS)
-	$(CPP) $(CFLAGS) $(OBJECTS) -o samplecode -lm
-        
-SampleDecoder.o: SampleDecoder.cpp SampleDecoder.h
-	$(CPP) $(CFLAGS) -c SampleDecoder.cpp
+brkgarls: $(OBJECTS)
+	$(CPP) $(CFLAGS) $(OBJECTS) -o brkgarls -lm
 
-samplecode.o: samplecode.cpp 
-	$(CPP) $(CFLAGS) -c samplecode.cpp
+Decoder.o: Decoder.cpp Decoder.h
+	$(CPP) $(CFLAGS) -c Decoder.cpp
+
+brkgarls.o: brkgarls.cpp
+	$(CPP) $(CFLAGS) -c brkgarls.cpp
+
+Packing.o: Packing.cpp Packing.h
+	$(CPP) $(CFLAGS) -c -g Packing.cpp
+
+random_manager.o : random_manager.cpp random_manager.h
+	$(CPP) $(CFLAGS) -c random_manager.cpp
 
 # Remove:
 clean:
-	rm -f samplecode $(OBJECTS)
+	rm -f brkgarls $(OBJECTS)
