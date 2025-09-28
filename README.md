@@ -60,8 +60,7 @@ $ ./debug.py solution_file_path
 
 ## Metrics
 
-Get evaluation metrics ($\bar{rg}_{\mathrm{min}}$, $\bar{rg}_{\mathrm{avg}}$, $\bar{rg}_{\mathrm{max}}$) from 20 runs for each package of instances.
-
+Get evaluation metrics (r̄ḡ_min, r̄ḡ_avg, r̄ḡ_max) from 20 runs for each package of instances.
 
 ```console
 $ ./metrics.py package_name_in_logs_folder
