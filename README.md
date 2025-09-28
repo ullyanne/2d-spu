@@ -51,8 +51,8 @@ An auxiliary Python tool was developed to help debug the strip packing layout so
 
 **Visualization Details:**
 * Numbers on the items indicate their position in the item vector.
-* Items from the same client share the same color.
-* The color palette maps client classes: **Higher classes** are closer to **red**, and **lower classes** are closer to **violet**.
+* Items from the same customer share the same color.
+* The color palette maps customer classes: **Higher classes** are closer to **red**, and **lower classes** are closer to **violet**.
 
 ```console
 $ ./debug.py solution_file_path
